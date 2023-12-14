@@ -4,14 +4,14 @@ from django.core.validators import validate_email
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 
-class CitizenManager(BaseUserManager):
+class UserManager(BaseUserManager):
     def email_validator(self, email):
         try:
             validate_email(email)
         except ValidationError:
             raise ValueError(_("Ingresar un correo electrónico válido"))
 
-    def create_citizen(self, email, firstname, lastname, dni, rol, birthdate, password, address, phone):
+    def create_citizen(self, email, firstname, lastname, dni, role, birthdate, password, address, phone):
         if email:
             email = self.normalize_email(email)
             self.email_validator(email)
@@ -27,7 +27,7 @@ class CitizenManager(BaseUserManager):
             firstname=firstname,
             lastname=lastname,
             dni=dni,
-            rol=rol,
+            role=role,
             birthdate=birthdate,
             address=address,
             phone=phone
@@ -35,8 +35,6 @@ class CitizenManager(BaseUserManager):
         citizen.set_password(password)
         citizen.save(using=self._db)
         return citizen
-    
-    
     
 class PoliceManager(BaseUserManager):
     def email_validator(self, email):

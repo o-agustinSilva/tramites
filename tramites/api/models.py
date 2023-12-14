@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.hashers import make_password
-from .manager import CitizenManager, PoliceManager
+from rest_framework_simplejwt.tokens import RefreshToken
+from .manager import UserManager, PoliceManager
 
 class Usuarios(AbstractBaseUser, PermissionsMixin):
     ROLES = (
@@ -15,6 +16,14 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     role      = models.CharField(max_length=13, choices=ROLES)
     birthdate = models.DateField(default="2000-06-10")
 
+     # Campos adicionales para ciudadano
+    address = models.CharField(max_length=60, null=True, blank=True)
+    phone = models.CharField(max_length=16, null=True, blank=True)
+
+    # Campos adicionales para policía
+    hierarchy = models.CharField(max_length=30, null=True, blank=True)
+    dependence = models.ForeignKey("Dependence", on_delete=models.CASCADE, null=True, blank=True)
+
     # Campos necesarios para el modelo User base de django
     email           = models.EmailField(max_length=255, unique=True, verbose_name=("Correo electrónico"))
     firstname       = models.CharField(max_length=100, verbose_name=("Nombre"))
@@ -22,12 +31,12 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     is_staff        = models.BooleanField(default=False)
     is_superuser    = models.BooleanField(default=False)
     is_verified     = models.BooleanField(default=False)
-    is_active       = models.BooleanField(default=False)
+    is_active       = models.BooleanField(default=True)
     date_joined     = models.DateTimeField(auto_now_add=True)
     last_login      = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["firstname", "lastname"]
+    REQUIRED_FIELDS = ["first_name", "last_name"]
 
     # Funciones del modelo
     def __str__(self):
@@ -38,23 +47,14 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
         return f"{self.firstname} {self.lastname}"
     
     def tokens(self):
-        pass
+        refresh = RefreshToken.for_user(self)
+        return {
+            'refresh':str(refresh),
+            'access':str(refresh.access_token),
+        }
 
-class Citizen(models.Model):
-    usuario = models.OneToOneField(Usuarios, on_delete=models.CASCADE, primary_key=True, default=1)
-    address = models.CharField(max_length=60, null=False)
-    phone = models.CharField(max_length=16, null=False)
-
-    # Redefino el manager
-    objects = CitizenManager()
-
-class Police(models.Model):
-    usuario = models.OneToOneField(Usuarios, on_delete=models.CASCADE, primary_key=True, default=1)
-    hierarchy   = models.CharField(max_length=30, null=False)
-    dependence  = models.ForeignKey("Dependence", on_delete=models.CASCADE)
-
-    # Redefino el manager
-    objects = PoliceManager()
+        # Redefino el manager
+    objects = UserManager()
 
 class Dependence(models.Model):
     name    = models.CharField(max_length=25, null=False)
@@ -99,3 +99,10 @@ class Requirements(models.Model):
 
     def __str__(self):
         return self.name
+
+class OneTimePasswords(models.Model):
+    usuario = models.OneToOneField(Usuarios, on_delete=models.CASCADE)
+    code = models.CharField(max_length=6, unique=True)
+
+    def __str__(self):
+        return f"{self.user.firstname}-passcode"
