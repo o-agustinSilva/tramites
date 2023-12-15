@@ -16,8 +16,7 @@ def send_code_to_user(email):
     print(otp_code)
 
     usuario = Usuarios.objects.get(email=email)
-    current_site  = "myAuth.com"
-    email_body = f"Hola {usuario.firstname}, gracias por utilizar nuestros servicios, este es el código para finalizar el registro de su cuenta \n {otp_code}"
+    email_body = f"Hola {usuario.get_full_name}, gracias por utilizar nuestros servicios, este es el código para finalizar el registro de su cuenta \n{otp_code}"
     from_email = settings.DEFAULT_FROM_EMAIL
 
     OneTimePasswords.objects.create(usuario=usuario, code=otp_code)
