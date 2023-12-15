@@ -8,6 +8,8 @@ from django.contrib.sites.shortcuts import get_current_site
 from api.models import Usuarios
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
+from rest_framework.exceptions import ValidationError
 
 class ListUsersSerializer(serializers.ModelSerializer):
     class Meta:
@@ -137,4 +139,21 @@ class SetNewPasswordSerializer(serializers.Serializer):
         except Exception as e:
             raise AuthenticationFailed("El link de cambio de clave es inválido o ha expirado", 401)
 
+class LogoutUserSerializer(serializers.Serializer):
+    refresh_token=serializers.CharField()
 
+    default_error_message = {
+        'bad_token': ('El token es inválido o ha expirado')
+    }
+
+    def validate(self, attrs):
+        self.token = attrs.get('refresh_token')
+
+        return attrs
+
+    def save(self, **kwargs):
+        try:
+            token=RefreshToken(self.token)
+            token.blacklist()
+        except TokenError:
+            raise ValidationError(self.error_messages.get('bad_token', 'Token is expired or invalid'))

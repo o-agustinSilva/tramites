@@ -5,7 +5,7 @@ from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from api.models import OneTimePasswords, Usuarios
 from api.utils import send_code_to_user
-from api.serializers import UserRegisterSerializer, LoginSerializer, ListUsersSerializer, PasswordResetRequestSerializer, SetNewPasswordSerializer
+from api.serializers import UserRegisterSerializer, LoginSerializer, ListUsersSerializer, PasswordResetRequestSerializer, SetNewPasswordSerializer, LogoutUserSerializer
 from rest_framework import status, serializers
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -108,3 +108,13 @@ class SetNewPassword(GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response({'message':'Se cambió la contraseña exitosamente'}, status=status.HTTP_200_OK)
+    
+class LogoutUserView(GenericAPIView): 
+    serializer_class = LogoutUserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'message':'¡Gracias por utilizar nuestros servicios!'}, status=status.HTTP_204_NO_CONTENT)

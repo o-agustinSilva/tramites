@@ -155,3 +155,6 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ('Bearer',),
 }
 
+# GOOGLE API
+GOOGLE_CLIENT_ID = '582170721127-nm5je0sh2su7nsp0tfcuhpdufds24pui.apps.googleusercontent.com'
+GOOGLE_CLIENTE_SECRET = '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'
