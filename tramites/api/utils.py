@@ -2,6 +2,8 @@ import random
 from django.conf import settings
 from api.models import Usuarios, OneTimePasswords
 from django.core.mail import EmailMessage
+from datetime import timedelta
+from django.utils import timezone
 
 # Cambiar por django-otp
 def generateOtp():
@@ -13,15 +15,19 @@ def generateOtp():
 def send_code_to_user(email):
     Subject     = "Confirmación de cuenta"
     otp_code    = generateOtp()
-    print(otp_code)
+
+    # Fecha de expiración
+    expiration_time = timezone.now() + timedelta(minutes=1)
+    print(f"OTP: {otp_code}\nExpiración: {expiration_time}")
+
 
     usuario = Usuarios.objects.get(email=email)
     email_body = f"Hola {usuario.get_full_name}, gracias por utilizar nuestros servicios, este es el código para finalizar el registro de su cuenta \n{otp_code}"
     from_email = settings.DEFAULT_FROM_EMAIL
 
-    OneTimePasswords.objects.create(usuario=usuario, code=otp_code)
+    OneTimePasswords.objects.create(usuario=usuario, code=otp_code, expiration=expiration_time)
     send_email = EmailMessage(subject=Subject, body=email_body, from_email = from_email, to=[email])
-    send_email.send(fail_silently=True)
+    # send_email.send(fail_silently=True)
 
 def send_normal_email(data):
     email = EmailMessage(

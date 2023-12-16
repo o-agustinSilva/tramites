@@ -103,8 +103,9 @@ class Requirements(models.Model):
         return self.name
 
 class OneTimePasswords(models.Model):
-    usuario = models.OneToOneField(Usuarios, on_delete=models.CASCADE)
-    code = models.CharField(max_length=6, unique=True)
-
+    usuario     = models.OneToOneField(Usuarios, on_delete=models.CASCADE)
+    code        = models.CharField(max_length=6, unique=True)
+    expiration  = models.DateTimeField(null=False)
+                                    
     def __str__(self):
-        return f"{self.user.firstname}-passcode"
+        return f"{self.usuario.email}-passcode"

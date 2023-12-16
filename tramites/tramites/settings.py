@@ -158,3 +158,6 @@ SIMPLE_JWT = {
 # GOOGLE API
 GOOGLE_CLIENT_ID = '582170721127-nm5je0sh2su7nsp0tfcuhpdufds24pui.apps.googleusercontent.com'
 GOOGLE_CLIENTE_SECRET = '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'
+
+# OTP
+OTP_MAX_TRIES = config('OTP_MAX_TRIES')

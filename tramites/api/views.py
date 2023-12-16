@@ -1,3 +1,4 @@
+from django.utils import timezone
 from urllib import response
 from django.shortcuts import render
 from django.utils.http import urlsafe_base64_decode
@@ -5,7 +6,7 @@ from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from api.models import OneTimePasswords, Usuarios
 from api.utils import send_code_to_user
-from api.serializers import UserRegisterSerializer, LoginSerializer, ListUsersSerializer, PasswordResetRequestSerializer, SetNewPasswordSerializer, LogoutUserSerializer
+from api.serializers import UserRegisterSerializer, LoginSerializer, ListUsersSerializer, PasswordResetRequestSerializer, SetNewPasswordSerializer, LogoutUserSerializer, ResendOtpSerializer
 from rest_framework import status, serializers
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -50,6 +51,11 @@ class VerifyUserEmail(GenericAPIView):
             passcode = request.data.get('otp')
             user_code_obj = OneTimePasswords.objects.get(code=passcode) 
             usuario = user_code_obj.usuario
+            expiration = user_code_obj.expiration
+
+            if timezone.now() > expiration:
+                return Response({'message':'El código OTP ha expirado, por favor intentelo de nuevo.'}, status=status.HTTP_204_NO_CONTENT)
+            
             if not usuario.is_verified: # Si el usuario no está verificado, lo verifica y devuelve un 200, caso contrario un 204
                 usuario.is_verified = True
                 usuario.save()
@@ -63,6 +69,36 @@ class VerifyUserEmail(GenericAPIView):
         
         except OneTimePasswords.DoesNotExist:
             return Response({'message': 'passcode not provided'}, status=status.HTTP_404_NOT_FOUND)
+
+class ResendOtp(GenericAPIView): 
+    serializer_class = ResendOtpSerializer
+
+    def post(self, request):
+        user_data = request.data 
+        serializer = self.serializer_class(data=user_data)
+            
+        if serializer.is_valid(raise_exception=True):
+            user = serializer.data
+
+            # Elimino el código asociado al usuario en el modelo OTP
+            user_data = Usuarios.objects.get(email=user['email'])
+
+            if user_data.is_verified:
+                return Response({'message': 'El correo electrónico ya fue validado'}, status=status.HTTP_404_NOT_FOUND)
+            
+            otp_obj = OneTimePasswords.objects.filter(usuario=user_data.id)
+            if otp_obj:
+                otp_obj.delete()
+
+            # Reenvio código a usuario
+            send_code_to_user(user['email'])
+
+            return Response({
+                'data': user,
+                'message':f'Se reenvió el código al correo {user['email']}'
+            }, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginUserView(GenericAPIView):
     serializer_class=LoginSerializer

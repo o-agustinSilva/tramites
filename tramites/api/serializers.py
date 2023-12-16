@@ -46,7 +46,20 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         )
 
         return usuario
+
+class ResendOtpSerializer(serializers.Serializer):
+    email = serializers.EmailField(max_length=155, min_length=6)
     
+    def validate(self, attrs):
+        email = attrs.get('email')
+
+        # Si el usuario existe, continuo con el reenvio del OTP, caso contrario devuelvo un error 
+        user = Usuarios.objects.filter(email=email).first()
+        if not user:
+            raise serializers.ValidationError("No existe el usuario")
+        
+        return attrs
+
 class LoginSerializer(serializers.ModelSerializer):
     email         = serializers.EmailField(max_length=155, min_length=6)
     password      = serializers.CharField(max_length=68, write_only=True)
