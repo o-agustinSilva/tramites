@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.tokens import RefreshToken
-from .manager import UserManager, PoliceManager
+from .manager import UserManager
 
 AUTH_PROVIDERS ={'email':'email', 'google':'google'}
 
