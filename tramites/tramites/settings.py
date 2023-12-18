@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'social_accounts',
     'api',
 ]
 
@@ -157,8 +158,9 @@ SIMPLE_JWT = {
 }
 
 # GOOGLE API
-GOOGLE_CLIENT_ID = '582170721127-nm5je0sh2su7nsp0tfcuhpdufds24pui.apps.googleusercontent.com'
-GOOGLE_CLIENTE_SECRET = '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'
+GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = config('GOOGLE_CLIENT_SECRET')
+SOCIAL_AUTH_PASSWORD = config('SOCIAL_PASSWORD')
 
 # OTP
 OTP_MAX_TRIES = config('OTP_MAX_TRIES')
