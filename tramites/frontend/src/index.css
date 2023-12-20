@@ -1,0 +1,179 @@
+/* ======================================
+  ESTILOS GENERALES APLICADOS A ETIQUETAS
+========================================= */
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: #fbfbfb;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #1b1a1a;
+  text-decoration: none;
+}
+
+/* ======================================
+    ESTILOS GENERALES APLICADOS A CLASES
+========================================= */
+.buttonPrimary {
+  text-decoration: none;
+  color: #f8f4fc !important;
+  width: 190px;
+  height: 35px;
+  align-items: left;
+  background: #0894c4;
+  transition: all 0.3s ease 0s;
+  border-radius: 12px !important;
+  border: none;
+}
+
+.buttonPrimary:hover {
+    background: rgb(1, 82, 102);
+}
+
+.smallText {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-group small {
+  color: #1b1a1a !important;
+}
+
+.form-group {
+  text-align: left;
+  padding: 7px;
+}
+
+#header {
+  background-color: #e8edf7 !important;
+}
+
+#footer {
+  background-color: #e8edf7 !important;
+}
+
+/* ================================
+    ESTILOS APLICADOS AL HEADER
+=================================== */
+/* #header a {
+  text-decoration: none;
+  color: #1b1a1a;
+}
+
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 10%;
+  background-color: #e8edf7 !important;
+  border: #c9c7c7 1px solid;
+  box-shadow: 0 1px 40px rgba(0, 0, 0, 0.13);
+}
+
+.dropdown-item {
+  color: #1b1a1a !important;
+}
+
+#navbarScroll a {
+  transition: all 0.3s ease 0s;
+}
+
+#navbarScroll a:hover {
+  color: rgb(44, 135, 196);
+}
+
+#mainLoginButton {
+  padding: 9px 25px;
+  background: rgba(0, 135, 169, 1);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+  min-width: 150px;
+} */
+
+/* ======================================
+    ESTILOS PARA EL LOGIN DEL USUARIO
+========================================= */
+#login-container {
+  background: linear-gradient(270deg, rgba(8,107,132,1) 0%, rgba(11, 63, 77, 0.788) 100%);
+  height: 700px;
+  border-radius: 100% 0% 100% 0% / 0% 0% 100% 100%;
+}
+
+#login-box {
+  margin-top: 7%;
+  background-color: #e8edf7;
+  width: 400px;
+  height: 440px;
+  border-radius: 15px;
+  text-align: center;
+  display: block !important;
+  border: #c9c7c7 1px solid;
+  box-shadow: 0 1px 40px rgba(0, 0, 0, 0.253);
+}
+
+#loginTitle {
+  color: #1b1a1a !important;
+  padding: 10px;
+  font-size: 30px;
+}
+
+.loginForm label {
+  display: block;
+  margin: 10px 0;
+  /* Espaciado vertical entre elementos */
+  color: #1b1a1a;
+}
+
+.loginForm input,
+.loginForm input[type="submit"] {
+  display: block;
+  margin: 10px 0;
+  /* Espaciado vertical entre elementos */
+}
+
+.loginForm label {
+  text-align: left;
+}
+
+#forgotPassword a {
+  transition: all 0.3s ease 0s;
+}
+
+#forgotPassword a:hover {
+  color: rgb(44, 135, 196) !important;
+}
+
+#createAccount a {
+  transition: all 0.3s ease 0s;
+}
+
+#createAccount a:hover {
+  color: rgb(44, 135, 196) !important;
+}
+
+.smallText {
+  display: flex;
+  justify-content: space-between;
+}
+
+#createAccount {
+  text-align: right !important;
+}
+
+#login-box button {
+  margin-top: 50px;
+  width: 190px;
+  align-items: left;
+  background: #0894c4;
+  transition: all 0.3s ease 0s;
+  border: none;
+}
+
+#login-box button:hover {
+  background: rgb(1, 82, 102);
+}
