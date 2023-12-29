@@ -49,7 +49,7 @@ function Header() {
         <MDBCollapse navbar open={openBasic}>
           <MDBNavbarNav className="justify-content-center mb-2 mb-lg-0">
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current="page" href="#">
+              <MDBNavbarLink active aria-current="page" href="/">
                 Inicio
               </MDBNavbarLink>
             </MDBNavbarItem>

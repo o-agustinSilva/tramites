@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import {MDBIcon} from 'mdb-react-ui-kit';
 
 function Login() {
     return (
         <div id="login-container">
+            <MDBIcon fas icon="user-edit" width="100px"  />
             <Container className="d-flex justify-content-center">
                 <div className="container-fluid" id="login-box">
                     <h2 id="loginTitle">Iniciar sesión</h2>
@@ -29,7 +31,7 @@ function Login() {
                             </div>
                         </div>
 
-                        <Link to="/dashboard">
+                        <Link to="/perfil">
                             <button type="submit" className="buttonPrimary">Continuar</button>
                         </Link>      
                     </form>

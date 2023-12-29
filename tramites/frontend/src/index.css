@@ -49,6 +49,7 @@ a {
 
 #header {
   background-color: #e8edf7 !important;
+  
 }
 
 #footer {
@@ -116,6 +117,8 @@ a {
   box-shadow: 0 1px 40px rgba(0, 0, 0, 0.253);
 }
 
+
+
 #loginTitle {
   color: #1b1a1a !important;
   padding: 10px;
@@ -176,4 +179,178 @@ a {
 
 #login-box button:hover {
   background: rgb(1, 82, 102);
+}
+
+/* Estilos para la pantalla de perfil*/
+.profileContainer {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 720px;
+}
+
+#profileImg {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+}
+
+#profileName {
+  font-size: 35px;
+}
+
+.profileBox {
+  background-color: #24252A;
+  border-radius: 25px;
+  text-align: center;
+  width: 500px;
+}
+
+.boxRow {
+  padding: 20px;
+}
+
+.optionTitle {
+  color: #060606;
+  font-size: 26px;
+  margin: 5px;
+}
+
+.optionButton {
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease 0s;
+}
+
+.optionButton:hover {
+  background: #b5b5b552;
+}
+
+@media (max-width: 575px) {
+  .optionButton {
+      margin-top: 5px;
+  }
+}
+
+.colProfile1{
+  margin-right:10px;
+}
+.colProfile2{
+  margin-left:20px;
+}
+/* ESTILOS PARA EL COMPONENTE EDITAR PERFIL*/
+
+.containerEdit{
+  margin-top: 150px;
+  margin-bottom: 50px;
+}
+
+.inputEdit{
+  margin-left: 20px;
+  border-radius: 10px;
+ 
+}
+.form-group small {
+  color: #FAFAFA !important;
+}
+
+.form-group {
+  text-align: left;
+
+}
+
+.butonEdit{
+  padding-top: 20px;
+}
+
+/*ESTILOS PARA LA PAGINA DE INICIO*/
+.fondoInicio{
+  background-image: url("../src/img/imgFondo.jpeg");
+  background-size: cover;
+  background-position: center;
+  height: 50vh;
+  }
+
+  #titulo-inicio{
+    color: rgb(13, 150, 192);
+    padding-top: 150px;
+    padding-right: 50px;
+  }
+ 
+  .linea{
+    width: 50%;
+    border-top: 2px solid #333; 
+    margin: 0 auto; /* Centra la línea horizontalmente */
+
+  }
+/*ESTILOS PARA LA PAGINA DE SOLICITAR UN TRAMITE*/
+
+#infoTramite {
+  padding: 50px;
+  margin: 20px;
+  border-radius: 25px;
+  background-color: #e8edf7;
+  color: rgb(57, 56, 56);
+}
+
+.labelRequest{
+  color:rgb(57, 56, 56);
+  font-size: 20px;
+
+}
+
+.labelCheck{
+ padding-right: 20px;
+ padding-top: 20px;
+}
+
+.inputRequest{
+  border-radius: 30px;
+}
+.btn-request{
+  margin-top: 20px;
+  margin-right: 150px;
+  margin-left: 40px;
+}
+
+.numeroSelector{
+  width: 100px;
+  margin-left: 50px;
+}
+
+#liTramite{
+  padding-top: 30px;
+}
+
+#h3Doc{
+  padding-left: 30px;
+}
+
+.iconButton{
+  padding-right : 10px;
+
+}
+.btDoc{
+  font-size: 15px;
+}
+
+/*ESTILOS DE PANTALLA MEDIO DE PAGO*/
+
+.imgPago{
+   width: 200px;
+   height: 100px;
+   border-radius: 50px;
+   
+}
+
+.h1Pago{
+   padding-top: 30px;
+  padding-right: 150px;
+
+}
+
+.imgLogo{
+  width: 300px;
+  height: 120px;
+  padding-right: 10px;
+
 }
