@@ -27,6 +27,7 @@ a {
   transition: all 0.3s ease 0s;
   border-radius: 12px !important;
   border: none;
+  font-size: 15px;
 }
 
 .buttonPrimary:hover {
@@ -47,68 +48,39 @@ a {
   padding: 7px;
 }
 
-#header {
-  background-color: #e8edf7 !important;
-}
-
-#footer {
-  background-color: #e8edf7 !important;
+.custom-input {
+  background-color: white !important;
 }
 
 /* ================================
     ESTILOS APLICADOS AL HEADER
 =================================== */
-/* #header a {
-  text-decoration: none;
-  color: #1b1a1a;
-}
 
 #header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px 10%;
   background-color: #e8edf7 !important;
-  border: #c9c7c7 1px solid;
-  box-shadow: 0 1px 40px rgba(0, 0, 0, 0.13);
 }
 
-.dropdown-item {
-  color: #1b1a1a !important;
-}
+/* ================================
+    ESTILOS APLICADOS AL FOOTER
+=================================== */
 
-#navbarScroll a {
-  transition: all 0.3s ease 0s;
+#footer {
+  background-color: #e8edf7 !important;
 }
-
-#navbarScroll a:hover {
-  color: rgb(44, 135, 196);
-}
-
-#mainLoginButton {
-  padding: 9px 25px;
-  background: rgba(0, 135, 169, 1);
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease 0s;
-  min-width: 150px;
-} */
 
 /* ======================================
     ESTILOS PARA EL LOGIN DEL USUARIO
 ========================================= */
 #login-container {
   background: linear-gradient(270deg, rgba(8,107,132,1) 0%, rgba(11, 63, 77, 0.788) 100%);
-  height: 700px;
+  background-color: rgba(8,107,132,1);
   border-radius: 100% 0% 100% 0% / 0% 0% 100% 100%;
 }
 
 #login-box {
-  margin-top: 7%;
+  margin: 10%;
   background-color: #e8edf7;
   width: 400px;
-  height: 440px;
   border-radius: 15px;
   text-align: center;
   display: block !important;
@@ -125,7 +97,6 @@ a {
 .loginForm label {
   display: block;
   margin: 10px 0;
-  /* Espaciado vertical entre elementos */
   color: #1b1a1a;
 }
 
@@ -133,7 +104,6 @@ a {
 .loginForm input[type="submit"] {
   display: block;
   margin: 10px 0;
-  /* Espaciado vertical entre elementos */
 }
 
 .loginForm label {
@@ -176,4 +146,63 @@ a {
 
 #login-box button:hover {
   background: rgb(1, 82, 102);
+}
+
+/* ======================================
+   ESTILOS PARA EL REGISTRO DE USUARIOS
+========================================= */
+#signup-container {
+  background: linear-gradient(270deg, rgba(8,107,132,1) 0%, rgba(11, 63, 77, 0.788) 100%);
+  background-color: rgba(8,107,132,1);
+  border-radius: 100% 0% 100% 0% / 0% 0% 100% 100%;
+}
+
+#signup-card {
+  margin: 7% !important;
+  background-color: #e8edf7;
+  border-radius: 15px;
+  width: 800px;
+  margin: 30px;
+}
+
+/* ======================================
+  ESTILOS PARA LA CONFIRMACIÓN DE CUENTA
+========================================= */
+#otp-container {
+  background: linear-gradient(270deg, rgba(8,107,132,1) 0%, rgba(11, 63, 77, 0.788) 100%);
+  background-color: rgba(8,107,132,1);
+  height: 600px;
+  border-radius: 100% 0% 100% 0% / 0% 0% 100% 100%;
+}
+
+#otp-card {
+  margin-top: 10% !important;
+  background-color: #e8edf7;
+  border-radius: 15px;
+  width: 600px;
+  margin: 30px;
+  padding: 20px;
+  text-align: center !important;
+  color: black;
+}
+
+/* ======================================
+      ESTILOS PARA EL CAMBIO DE CLAVE
+========================================= */
+
+#forgetpassword-container {
+  background: linear-gradient(270deg, rgba(8,107,132,1) 0%, rgba(11, 63, 77, 0.788) 100%);
+  background-color: rgba(8,107,132,1);
+  height: 600px;
+  border-radius: 100% 0% 100% 0% / 0% 0% 100% 100%;
+}
+
+#forgetpassword-card {
+  margin-top: 150px !important;
+  background-color: #e8edf7;
+  border-radius: 15px;
+  width: 700px;
+  margin: 30px;
+  text-align: center;
+  color: black;
 }

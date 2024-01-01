@@ -22,7 +22,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Usuarios
-        fields = ['email', 'firstname', 'lastname', 'password', 'password_confirmation', 'dni', 'role', 'birthdate', 'address', 'phone']
+        fields = ['email', 'firstname', 'lastname', 'password', 'password_confirmation', 'number', 'role', 'birthdate', 'address', 'phone', 'document_type', 'genre']
 
     def validate(self, attrs):
         password = attrs.get('password', '')
@@ -45,12 +45,14 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             email = validated_data['email'],
             firstname = validated_data.get('firstname'),
             lastname = validated_data.get('lastname'),
-            dni = validated_data.get('dni'),
+            number = validated_data.get('number'),
             role = validated_data.get('role'),
             birthdate = validated_data.get('birthdate'),
             password = validated_data.get('password'),
             address = validated_data.get('address'),
             phone = validated_data.get('phone'),
+            document_type = validated_data.get('document_type'),
+            genre = validated_data.get('genre'),
         )
         return usuario
 
@@ -178,4 +180,4 @@ class LogoutUserSerializer(serializers.Serializer):
             token = RefreshToken(self.token)
             token.blacklist()
         except TokenError:
-            raise ValidationError(self.error_messages.get('bad_token', 'Token is expired or invalid'))
+            raise ValidationError(self.error_messages.get('bad_token', 'El token es inválido o ha expirado'))

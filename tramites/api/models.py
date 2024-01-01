@@ -12,18 +12,34 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
         ('administrator', 'Administrador')
     )
 
+    GENRES = (
+        ('male', 'Hombre'),
+        ('female', 'Mujer')
+    )
+
+    DOCUMENT_TYPE = (
+        ('DNI', 'DNI'),
+        ('LC', 'LC'),
+        ('LE', 'LE'),
+        ('PASAPORTE', 'PASAPORTE'),
+        ('CDI', 'CDI'),
+        ('CUIL', 'CUIL'),
+        ('CUIT', 'CUIT'),
+    )
+
     # Campos personalizados
-    dni       = models.IntegerField()
+    number       = models.IntegerField()
+    document_type = models.CharField(max_length=9, choices=DOCUMENT_TYPE)
     role      = models.CharField(max_length=13, choices=ROLES)
     birthdate = models.DateField(default="2000-06-10")
 
      # Campos adicionales para ciudadano
     address = models.CharField(max_length=60, null=True, blank=True)
-    phone = models.CharField(max_length=16, null=True, blank=True)
+    phone   = models.CharField(max_length=16, null=True, blank=True)
 
     # Campos adicionales para policía
-    hierarchy = models.CharField(max_length=30, null=True, blank=True)
-    dependence = models.ForeignKey("Dependence", on_delete=models.CASCADE, null=True, blank=True)
+    hierarchy   = models.CharField(max_length=30, null=True, blank=True)
+    dependence  = models.ForeignKey("Dependence", on_delete=models.CASCADE, null=True, blank=True)
 
     # Campos necesarios para el modelo User base de django
     email           = models.EmailField(max_length=255, unique=True, verbose_name=("Correo electrónico"))
@@ -35,7 +51,9 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     is_active       = models.BooleanField(default=True)
     date_joined     = models.DateTimeField(auto_now_add=True)
     last_login      = models.DateTimeField(auto_now=True)
-    auth_provider = models.CharField(max_length=50, default=AUTH_PROVIDERS.get("email"))
+    auth_provider   = models.CharField(max_length=50, default=AUTH_PROVIDERS.get("email"))
+    genre           = models.CharField(max_length=6, choices=GENRES)
+    
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name"]
 

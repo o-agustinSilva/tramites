@@ -1,4 +1,3 @@
-
 from django.utils import timezone
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
@@ -65,7 +64,7 @@ class VerifyUserEmail(GenericAPIView):
             }, status=status.HTTP_204_NO_CONTENT) 
         
         except OneTimePasswords.DoesNotExist:
-            return Response({'message': 'El código no existe o no es válido'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'message': 'El código introducido no es válido, por favor intentelo de nuevo'}, status=status.HTTP_404_NOT_FOUND)
 
 class ResendOtp(GenericAPIView): 
     serializer_class = ResendOtpSerializer
@@ -153,4 +152,4 @@ class LogoutUserView(GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response({'message':'¡Gracias por utilizar nuestros servicios!'}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'message':'¡Gracias por utilizar nuestros servicios!'}, status=status.HTTP_200_OK)

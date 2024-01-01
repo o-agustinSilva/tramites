@@ -15,7 +15,6 @@ import {
   MDBNavbarNav,
   MDBNavbarItem,
   MDBNavbarLink,
-  MDBBtn,
   MDBDropdown,
   MDBDropdownToggle,
   MDBDropdownMenu,
@@ -72,9 +71,11 @@ function Header() {
           </MDBNavbarNav>
 
           <form className="d-flex input-group w-auto">
-            <Button className="buttonPrimary" variant="outline-success">
-              Iniciar sesi&oacute;n
-            </Button>
+            <Link to="/login">
+              <Button className="buttonPrimary" variant="outline-success">
+                Iniciar sesi&oacute;n
+              </Button>
+            </Link>
           </form>
         </MDBCollapse>
       </MDBContainer>

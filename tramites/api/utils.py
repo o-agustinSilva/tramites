@@ -22,7 +22,7 @@ def generateOtp():
 def send_code_to_user(email):
     subject     = "Confirmación de cuenta"
     otp_code    = generateOtp()
-
+    
     # Considerar agregar prevención de header injection https://docs.djangoproject.com/en/5.0/topics/email/#preventing-header-injection
     expiration_time = timezone.now() + timedelta(minutes=10)
     print(f"OTP: {otp_code}\nExpiración: {expiration_time}") # Sacar cuando se implemente los correos
