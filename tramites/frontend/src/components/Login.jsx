@@ -30,6 +30,7 @@ function Login() {
       const user = {
         fullname: response.fullname,
         email: response.email,
+      
       };
 
       if (res.status === 200) {
@@ -39,6 +40,7 @@ function Login() {
           JSON.stringify(response.refresh_token)
         );
         localStorage.setItem("user", JSON.stringify(user));
+        
         navigate("/dashboard");
       } else {
         toast.error(response);

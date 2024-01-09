@@ -56,7 +56,7 @@ export function TableTramites() {
         </Col>
       </Row>
       
-      <Link to='/perfil'>
+      <Link to='/dashboard'>
       <MDBBtn rounded className='mx-2' color='info'>
         Volver
       </MDBBtn>

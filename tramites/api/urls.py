@@ -3,6 +3,7 @@ from api.views import RegisterUserView, VerifyUserEmail, LoginUserView, ListUser
 from rest_framework_simplejwt.views import (TokenRefreshView)
 from unicodedata import name
 
+
 urlpatterns = [
     path('users/', ListUsersView.as_view(), name='list-users'),
     path('register/', RegisterUserView.as_view(), name='register'),

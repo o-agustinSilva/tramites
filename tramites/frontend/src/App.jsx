@@ -17,6 +17,8 @@ import { InicioPage } from "./pages/InicioPage";
 import { RequestTramitePage } from "./pages/RequestTramitePage";
 import { MedioPagoPage } from "./pages/MedioPagoPage";
 import "./App.css";
+import { AdminPage } from './pages/AdminPage';
+
 
 // Resto del código...
 
@@ -42,6 +44,8 @@ function App() {
           <Route path="/misTramites" element={<MisTramitesPage />} />
           <Route path="/requestTramite" element={<RequestTramitePage />} />
           <Route path="/pago" element={<MedioPagoPage />} />
+          <Route path="/admi" element={<AdminPage />} />
+     
         </Routes>
       </Router>
     </>

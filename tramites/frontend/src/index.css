@@ -389,3 +389,20 @@ a {
   height: 120px;
   padding-right: 10px;
 }
+
+/*ESTILOS DE TABS*/
+.baseTab{
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.baseTab:hover{
+  background-color: #0894c4;
+  color: white;
+}
+
+.activeTab{
+  background-color: #0894c4;
+  color: white;
+}
+
