@@ -27,7 +27,7 @@ export function AdminTab() {
             className={activeTab == "1" ? "activeTab baseTab" : "baseTab mx-3"}
             onClick={() => cambiarTab("1")}
           >
-            <MDBIcon fas icon="user-friends" size="1x" className="mx-2" />
+            <MDBIcon fas tabIndex="-1" icon="user-friends" size="1x" className="mx-2" />
             Gestion de Usuarios
           </NavLink>
 
@@ -243,11 +243,11 @@ export function AdminTab() {
             </MDBTableBody>
           </MDBTable>
           <MDBBtn color="success" rounded size="sm" className="mx-3">
-            <MDBIcon fas icon="plus-circle" size="2x" className="mx-3" />
+            <MDBIcon fas icon="plus-circle" size="1x" className="mx-3" />
             Nuevo Tramite 
           </MDBBtn>
           <MDBBtn color="primary" rounded size="sm" className="mx-3">
-          <MDBIcon fas icon="home" size="2x" className="mx-3" />
+          <MDBIcon fas icon="home" size="1x" className="mx-3" />
             Volver 
           </MDBBtn>
         </TabPane>

@@ -328,43 +328,10 @@ a {
   color: rgb(57, 56, 56);
 }
 
-.labelRequest{
-  color:rgb(57, 56, 56);
-  font-size: 20px;
-
-}
-
-.labelCheck{
- padding-right: 20px;
- padding-top: 20px;
-}
-
-.inputRequest{
-  border-radius: 30px;
-}
-.btn-request{
-  margin-top: 20px;
-  margin-right: 150px;
-  margin-left: 40px;
-}
-
-.numeroSelector{
-  width: 100px;
-  margin-left: 50px;
-}
-
-#liTramite{
-  padding-top: 30px;
-}
-
 #h3Doc{
   padding-left: 30px;
 }
 
-.iconButton{
-  padding-right : 10px;
-
-}
 .btDoc{
   font-size: 15px;
 }
@@ -374,7 +341,7 @@ a {
 .imgPago{
    width: 200px;
    height: 100px;
-   border-radius: 50px;
+   border-radius: 30px;
    
 }
 
@@ -405,4 +372,9 @@ a {
   background-color: #0894c4;
   color: white;
 }
+/**ESTILOS PARA LA CARDS*/
+.card{
 
+  background-color: rgb(194, 200, 201);
+ 
+}
