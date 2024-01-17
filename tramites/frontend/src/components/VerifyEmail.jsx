@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import OtpInput from "react-otp-input";
-import { toast } from "react-toastify";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { MDBBtn } from "mdb-react-ui-kit";
+
 
 function VerifyEmail({ email }) {
   const [otp, setOtp] = useState("");
@@ -16,7 +18,7 @@ function VerifyEmail({ email }) {
     e.preventDefault();
     try {
       const res = await axios.post("http://localhost:8000/api/verify-email/", {
-        'otp': otp,
+        otp: otp,
       });
       const response = res.data;
 
@@ -32,10 +34,30 @@ function VerifyEmail({ email }) {
     }
   };
 
+  const handleResend = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:8000/api/resend-otp/", {
+        email: email,
+      });
+      const response = res.data;
+
+      if (res.status === 200) {
+        toast.success(response.message);
+      } else if (res.status === 204) {
+        toast.error(
+          "El código expiró o el correo electrónico ya se encuentra verificado"
+        );
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <div id="otp-container">
       <Container className="d-flex justify-content-center align-items-center">
-        <div id="otp-card" className="px-4">
+        <div id="otp-card" className="p-4">
           <Row>
             <Col md={12} className="mt-2">
               <h4>Verificar correo electrónico</h4>
@@ -70,14 +92,24 @@ function VerifyEmail({ email }) {
               </Col>
             </Row>
 
-            <Row>
+            <Row className="d-flex mt-3">
+              <div className="d-grid gap-2">
+                <MDBBtn type="submit" color="success">
+                  Confirmar
+                </MDBBtn>
+              </div>
+            </Row>
+
+            <Row className="d-flex mt-2">
               <Col
                 md={12}
-                className="d-flex justify-content-center text-align-center mt-2"
               >
-                <button type="submit" className="buttonPrimary">
-                  Confirmar
-                </button>
+                <p>
+                  ¿No te llegó el código?
+                  <a href="#" onClick={handleResend}>
+                    <b> Reenviar</b>
+                  </a>
+                </p>
               </Col>
             </Row>
           </Form>

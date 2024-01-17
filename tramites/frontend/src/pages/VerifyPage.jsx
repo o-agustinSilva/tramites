@@ -7,12 +7,12 @@ import Footer from "../components/Footer";
 export function VerifyPage() {
   // Obtengo el correo que recibo como parámetro
   const location = useLocation();
-  const email = location.state.email;
+  const email = location.state?.email;
 
   return (
     <div>
       <Header />
-      <VerifyEmail email={email} />
+      <VerifyEmail email={email || ''} />
       <Footer />
     </div>
   );

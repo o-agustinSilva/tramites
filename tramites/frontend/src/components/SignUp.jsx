@@ -81,11 +81,11 @@ function SignUp() {
   return (
     <div id="signup-container">
       <Container className="d-flex justify-content-center">
-        <div id="signup-card" className="px-4">
+        <div id="signup-card" className="p-4">
           <Row>
             <Col
               md="12"
-              className="d-flex justify-content-center text-align-center mt-2"
+              className="d-flex justify-content-center text-align-center"
             >
               <h2 id="signup-title">Crea tu cuenta</h2>
             </Col>
@@ -119,7 +119,6 @@ function SignUp() {
             <Row>
               <Col md="6" className="mb-3">
                 <Form.Select
-                  aria-label="Default select example"
                   name="document_type"
                   value={formdata.document_type}
                   onChange={handleFormData}
@@ -247,16 +246,13 @@ function SignUp() {
               </Col>
             </Row>
             
-            <Row>
-              <Col
-                md={12}
-                className="d-flex justify-content-center text-align-center mb-3"
-              >
-                <button type="submit" className="buttonPrimary">
-                  Registrarse
-                </button>
-              </Col>
-            </Row>
+            <Row className="d-flex mt-3">
+            <div className="d-grid gap-2">
+              <MDBBtn type="submit" color="success">
+                Registrarse
+              </MDBBtn>
+            </div>
+          </Row>
           </form>
         </div>
       </Container>

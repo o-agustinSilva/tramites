@@ -9,7 +9,7 @@ import Col from "react-bootstrap/Col";
 import { MDBIcon } from "mdb-react-ui-kit";
 import { MDBBtn } from "mdb-react-ui-kit";
 
-export function ProfileBox() {
+export function PROFILE_Tramites() {
   const navigate = useNavigate();
   const refresh = JSON.parse(localStorage.getItem("refresh_token"));
   
@@ -30,63 +30,10 @@ export function ProfileBox() {
 
   return (
     <div>
-      <Container fluid className="container text-center my-5">
+      <Container className="mt-5">
         <Row>
-          <Col sm={12} xl={5} className="colProfile1">
-            <h1>Opciones</h1>
-
-            <Row className="boxRow">
-              <Col>
-                <MDBIcon fas icon="edit" size="3x" />
-              </Col>
-
-              <Col>
-                <a>
-                  <h1 className="optionTitle">Cambiar Contraseña</h1>
-                </a>
-              </Col>
-              <Col>
-                <MDBBtn outline rounded className="mx-2" color="info">
-                  Editar
-                </MDBBtn>
-              </Col>
-            </Row>
-
-            <Row className="boxRow">
-              <Col>
-                <MDBIcon fas icon="file-alt" size="3x" />
-              </Col>
-
-              <Col>
-                <h1 className="optionTitle">Nuevo Tramite</h1>
-              </Col>
-              <Col>
-                <Link to='/'>
-                  <MDBBtn outline rounded className="mx-2" color="success">
-                    Nuevo
-                  </MDBBtn>
-                </Link>
-              </Col>
-            </Row>
-
-            <Row className="boxRow">
-              <Col>
-                <MDBIcon fas icon="times-circle" size="3x" />
-              </Col>
-
-              <Col>
-                <h1 className="optionTitle">Cerrar Sesión</h1>
-              </Col>
-              <Col>
-                  <MDBBtn outline rounded className="mx-2" color="danger" onClick={handleLogout}>
-                    Cerrar
-                  </MDBBtn>
-              </Col>
-            </Row>
-          </Col>
-
-          <Col sm={12} xl={6} className="colProfile2">
-            <h1>Mis Tramites</h1>
+          <Col sm={12} xl={12} className="colProfile2">
+            <h1>Mis trámites</h1>
             <Row>
               <Col>
                 <div className="d-none d-sm-block">
@@ -143,4 +90,4 @@ export function ProfileBox() {
   );
 }
 
-export default ProfileBox;
+export default PROFILE_Tramites;

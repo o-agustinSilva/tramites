@@ -54,6 +54,7 @@ class VerifyUserEmail(GenericAPIView):
             
             if not usuario.is_verified: # Si el usuario no está verificado, lo verifica y devuelve un 200, caso contrario un 204
                 usuario.is_verified = True
+                usuario.reset_attempts()
                 usuario.save()
                 return Response({
                     'message': 'El correo electrónico fue verificado exitosamente'
@@ -82,12 +83,17 @@ class ResendOtp(GenericAPIView):
             if user_data.is_verified:
                 return Response({'message': 'El correo electrónico ya fue validado'}, status=status.HTTP_204_NO_CONTENT)
             
+            # Si el usuario superó los 6 intentos y no pasó el tiempo de espera suficiente, devuelvo un error
+            if (user_data.password_reset_attempts > 3 and user_data.enough_time_passed()):
+                return Response({'message': 'Se excedieron los intentos disponibles, intente de nuevo más tarde'}, status=status.HTTP_401_UNAUTHORIZED)
+
             # Elimino el código asociado al usuario en el modelo OTP
             otp_obj = OneTimePasswords.objects.filter(usuario=user_data.id)
             if otp_obj:
                 otp_obj.delete()
 
-            # Reenvio código a usuario
+            # Reenvio código a usuario 
+            user_data.increment_reset_attempts()
             send_code_to_user(user['email'])
             return Response({
                 'data': user,
@@ -117,9 +123,14 @@ class PasswordResetRequestView(GenericAPIView):
     serializer_class = PasswordResetRequestSerializer
     
     def post(self, request):
-        serializer = self.serializer_class(data=request.data, context={'request':request})
-        serializer.is_valid(raise_exception=True)
-        return Response({'message': 'Se envió un link a tu correo electrónico para confirmar el cambio de contraseña'}, status=status.HTTP_200_OK)
+        try:
+            serializer = self.serializer_class(data=request.data, context={'request': request})
+            serializer.is_valid(raise_exception=True)
+            return Response({'message': 'Se envió un link a tu correo electrónico para confirmar el cambio de contraseña'}, status=status.HTTP_200_OK)
+        except serializers.ValidationError as e:
+            error_detail = e.detail.get('email', ['Error desconocido'])[0]
+            print(str(error_detail))
+            return Response({'error': str(error_detail)}, status=status.HTTP_400_BAD_REQUEST)
 
 class PasswordResetConfirm(GenericAPIView):
     def get(self, request, uidb64, token):

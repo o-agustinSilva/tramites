@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.utils import timezone
 from .manager import UserManager
 
 AUTH_PROVIDERS ={'email':'email', 'google':'google'}
@@ -53,7 +54,11 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     last_login      = models.DateTimeField(auto_now=True)
     auth_provider   = models.CharField(max_length=50, default=AUTH_PROVIDERS.get("email"))
     genre           = models.CharField(max_length=6, choices=GENRES)
-    
+
+    # Campos para limitar el spam de correos
+    password_reset_attempts = models.IntegerField(default=0) 
+    last_reset_attempt = models.DateTimeField(null=True, blank=True)
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name"]
 
@@ -72,7 +77,23 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
             'access':str(refresh.access_token),
         }
 
-        # Redefino el manager
+    def increment_reset_attempts(self):
+        self.password_reset_attempts += 1
+        self.last_reset_attempt = timezone.localtime(timezone.now())
+        self.save()
+
+    def reset_attempts(self):
+        self.password_reset_attempts = 0
+        self.last_reset_attempt = None
+        self.save()
+
+    def enough_time_passed(self):
+        if self.last_reset_attempt is None:
+            return True
+        
+        return ((timezone.localtime(timezone.now()) - self.last_reset_attempt).seconds < 3600)
+    
+    # Redefino el manager
     objects = UserManager()
 
 class Dependence(models.Model):
@@ -125,4 +146,4 @@ class OneTimePasswords(models.Model):
     expiration  = models.DateTimeField(null=False)
                                     
     def __str__(self):
-        return f"{self.usuario.email}-passcode"
+        return f"\n{self.usuario.email} - passcode \n{self.expiration}"

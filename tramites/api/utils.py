@@ -24,7 +24,7 @@ def send_code_to_user(email):
     otp_code    = generateOtp()
     
     # Considerar agregar prevención de header injection https://docs.djangoproject.com/en/5.0/topics/email/#preventing-header-injection
-    expiration_time = timezone.now() + timedelta(minutes=10)
+    expiration_time = timezone.localtime(timezone.now()) + relativedelta(minutes=10)
     print(f"OTP: {otp_code}\nExpiración: {expiration_time}") # Sacar cuando se implemente los correos
     usuario = Usuarios.objects.get(email=email) 
     # Variables que se reflejarian en el template del correo
@@ -48,7 +48,7 @@ def send_code_to_user(email):
         to = [email],
     )
     message.attach_alternative(html_message, "text/html")
-   #  message.send(fail_silently=True)
+    message.send(fail_silently=True)
 
 def send_normal_email(data):
     email = EmailMessage(
@@ -57,7 +57,7 @@ def send_normal_email(data):
         from_email = settings.EMAIL_HOST_USER,
         to = [data['to_email']]
     )
-    # email.send()
+    email.send()
 
 # =========================================================================
 

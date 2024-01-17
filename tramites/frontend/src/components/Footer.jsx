@@ -32,7 +32,7 @@ export default function App() {
               </p>
               <p>
                 <MDBIcon icon="envelope" className="me-3" />
-                jefaturapolicia@tierradelfuego.gov.ar
+                policia@tierradelfuego.gov.ar
               </p>
               <p>
                 <MDBIcon icon="phone" className="me-3" />+54 2901 421-773

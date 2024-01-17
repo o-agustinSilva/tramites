@@ -5,26 +5,23 @@ import axiosInstance from "../utils/axiosInstance";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ProfileImage from "../components/ProfileImage";
-import ProfileBox from "../components/ProfilBox";
-import EditProfil from "../components/EditProfil";
+import PROFILE_Tramites from "../components/PROFILE_Tramites";
+import PROFILE_PersonalInfo from "../components/PROFILE_PersonalInfo";
+import PROFILE_PhoneNumber from "../components/PROFILE_PhoneNumber";
+import PROFILE_Email from "../components/PROFILE_Email";
+import PROFILE_Password from "../components/PROFILE_Password";
 
 export function PerfilPage() {    
-    const jwt = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user"));
-    const navigate = useNavigate();
-  
-    useEffect(() => {
-      if (jwt === null && !user) {
-        navigate("/login");
-      } 
-    }, [jwt, user]);
+
   
     return ( 
         <div>
             <Header/>
              <ProfileImage/>
-             <ProfileBox/>
-             <EditProfil/>
+             <PROFILE_PersonalInfo/>
+             <PROFILE_PhoneNumber/>
+             <PROFILE_Email/>
+             <PROFILE_Password/>
             <Footer/>
         </div>
     )

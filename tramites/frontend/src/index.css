@@ -14,6 +14,10 @@ a {
   text-decoration: none;
 }
 
+h2 {
+  font-size: 30px;
+}
+
 /* ======================================
     ESTILOS GENERALES APLICADOS A CLASES
 ========================================= */
@@ -96,29 +100,12 @@ a {
   box-shadow: 0 1px 40px rgba(0, 0, 0, 0.253);
 }
 
-
-
 #loginTitle {
   color: #1b1a1a !important;
   padding: 10px;
   font-size: 30px;
 }
 
-.loginForm label {
-  display: block;
-  margin: 10px 0;
-  color: #1b1a1a;
-}
-
-.loginForm input,
-.loginForm input[type="submit"] {
-  display: block;
-  margin: 10px 0;
-}
-
-.loginForm label {
-  text-align: left;
-}
 
 #forgotPassword a {
   transition: all 0.3s ease 0s;
@@ -136,26 +123,12 @@ a {
   color: rgb(44, 135, 196) !important;
 }
 
-.smallText {
-  display: flex;
-  justify-content: space-between;
+#forgotPassword {
+  text-align: left !important;
 }
 
 #createAccount {
   text-align: right !important;
-}
-
-#login-box button {
-  margin-top: 50px;
-  width: 190px;
-  align-items: left;
-  background: #0894c4;
-  transition: all 0.3s ease 0s;
-  border: none;
-}
-
-#login-box button:hover {
-  background: rgb(1, 82, 102);
 }
 
 /* ======================================
@@ -171,10 +144,14 @@ a {
   margin: 7% !important;
   background-color: #e8edf7;
   border-radius: 15px;
-  width: 800px;
+  width: 700px;
   margin: 30px;
 }
 
+#signup-title {
+  color: #1b1a1a !important;
+  font-size: 30px;
+}
 /* ======================================
   ESTILOS PARA LA CONFIRMACIÓN DE CUENTA
 ========================================= */
@@ -211,27 +188,40 @@ a {
   margin-top: 150px !important;
   background-color: #e8edf7;
   border-radius: 15px;
-  width: 700px;
+  width: 500px;
   margin: 30px;
   text-align: center;
   color: black;
 }
 
-/* Estilos para la pantalla de perfil*/
-.profileContainer {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  width: 720px;
+/* ======================================
+    ESTILOS PARA LA PANTALLA DEL PERFIL
+========================================= */
+
+#profileMain {
+  background: rgba(8, 107, 132, 1);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.253);
 }
 
+#editprofileMain {
+  padding: 20px;
+  background: #e8edf7;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.253);
+}
+
+/* Estilos para la pantalla de perfil*/
+
 #profileImg {
-  width: 170px;
-  height: 170px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
 }
 
 #profileName {
-  font-size: 35px;
+  color: white;
+  overflow: auto;
 }
 
 .profileBox {
@@ -241,61 +231,19 @@ a {
   width: 500px;
 }
 
-.boxRow {
-  padding: 20px;
+/* ======================================
+    ESTILOS PARA LAS TABLAS DE TRÁMITES
+========================================= */
+.table-responsive {
+  border-radius: 12px !important;
+  border: 1px solid #1b1a1a3c;
+}
+.table-header {
+  background: rgba(8, 107, 132, 1);
 }
 
-.optionTitle {
-  color: #060606;
-  font-size: 26px;
-  margin: 5px;
-}
-
-.optionButton {
-  text-decoration: none;
-  border-radius: 8px;
-  transition: all 0.3s ease 0s;
-}
-
-.optionButton:hover {
-  background: #b5b5b552;
-}
-
-@media (max-width: 575px) {
-  .optionButton {
-      margin-top: 5px;
-  }
-}
-
-.colProfile1{
-  margin-right:10px;
-}
-.colProfile2{
-  margin-left:20px;
-}
-/* ESTILOS PARA EL COMPONENTE EDITAR PERFIL*/
-
-.containerEdit{
-  margin-top: 150px;
-  margin-bottom: 50px;
-}
-
-.inputEdit{
-  margin-left: 20px;
-  border-radius: 10px;
- 
-}
-.form-group small {
-  color: #FAFAFA !important;
-}
-
-.form-group {
-  text-align: left;
-
-}
-
-.butonEdit{
-  padding-top: 20px;
+th {
+  color: #FFFFFF !important;
 }
 
 /*ESTILOS PARA LA PAGINA DE INICIO*/

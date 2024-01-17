@@ -1,11 +1,7 @@
 import React, { Component, useState } from "react";
 import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import HEADER_Dropdown from "./HEADER_Dropdown";
 import { Link } from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
 import {
   MDBContainer,
   MDBNavbar,
@@ -23,6 +19,7 @@ import {
 } from "mdb-react-ui-kit";
 
 function Header() {
+  const user = localStorage.getItem("user");
   const [openBasic, setOpenBasic] = useState(false);
 
   return (
@@ -53,7 +50,7 @@ function Header() {
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink href="#">Iniciar un trámite</MDBNavbarLink>
+              <MDBNavbarLink href="/dashboard">Iniciar un trámite</MDBNavbarLink>
             </MDBNavbarItem>
 
             <MDBNavbarItem>
@@ -71,11 +68,15 @@ function Header() {
           </MDBNavbarNav>
 
           <form className="d-flex input-group w-auto">
-            <Link to="/login">
-              <Button className="buttonPrimary" variant="outline-success">
-                Iniciar sesi&oacute;n
-              </Button>
-            </Link>
+            {user ? (
+              <HEADER_Dropdown/>
+            ) : (
+              <Link to="/login">
+                <Button className="buttonPrimary" variant="outline-success">
+                  Iniciar sesión
+                </Button>
+              </Link>
+            )}
           </form>
         </MDBCollapse>
       </MDBContainer>

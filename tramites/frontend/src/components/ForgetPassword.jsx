@@ -1,77 +1,77 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const ForgetPassword = () => {
+  const [email, setEmail] = useState("");
 
-  const handlePost = (e) => {
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-  }
+
+    if (!email) {
+      toast.error("Correo electrónico no válido");
+    }
+
+    try {
+      const res = await axios.post("http://localhost:8000/api/password-reset/", { email: email });
+      const response = res.data;
+
+      if (res.status === 200) {
+        toast.success(response.message);
+      }
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
+  };
+
   return (
-    <div id="forgetpassword-container"> 
+    <div id="forgetpassword-container">
       <Container className="d-flex justify-content-center">
-        <div id="forgetpassword-card" className="px-4">
+        <div id="forgetpassword-card" className="p-4">
           <Row>
-            <Col
-              md="12"
-              className="d-flex justify-content-center text-align-center mt-2"
-            >
-              <h3>Cambio de clave</h3>
+            <Col md={12}>
+              <h2>Recuperación de cuenta</h2>
             </Col>
           </Row>
-          <form className="signup-form" onSubmit={handlePost}>
-           <Row>
-            <Col md="12" className="mb-3">
-            <MDBInput
-                  label="Contraseña"
-                  id="password"
-                  type="password"
-                  className="custom-input"
-                />
-            </Col>
-           </Row>
-           <Row>
-            <Col md="12" className="mb-3">
-            <MDBInput
-                  label="Nueva contraseña"
-                  id="newPassword"
-                  type="password"
-                  className="custom-input"
-                />
-            </Col>
-           </Row>
-           <Row>
-            <Col md="12" className="mb-3">
-            <MDBInput
-                  label="Confirmar contraseña"
-                  id="confirmPassword"
-                  type="password"
-                  className="custom-input"
-                />
-            </Col>
-           </Row>
 
-           <Row>
-              <Col
-                md={12}
-                className="d-flex justify-content-center text-align-center mt-2"
-              >
-                <Link to="/dashboard">
-                  <button type="submit" className="buttonPrimary">
-                    Confirmar
-                  </button>
-                </Link>
+          <Form onSubmit={handleSubmit}>
+            <Row className="d-flex mt-3">
+              <Col md={12}>
+                <MDBInput
+                  label="Correo electrónico"
+                  id="email"
+                  type="email"
+                  className="custom-input"
+                  name="email"
+                  value={email}
+                  onChange={handleEmail}
+                  autoComplete="off"
+                ></MDBInput>
               </Col>
             </Row>
-          </form>
+            <Row className="d-flex mt-3">
+              <div className="d-grid gap-2">
+                <MDBBtn type="submit" color="success">
+                  Enviar
+                </MDBBtn>
+              </div>
+            </Row>
+
+
+          </Form>
         </div>
       </Container>
     </div>
-  )
-}
+  );
+};
 
-export default ForgetPassword
+export default ForgetPassword;

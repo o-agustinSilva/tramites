@@ -1,5 +1,6 @@
 from api.models import Usuarios
 from api.utils import send_normal_email, has_required_age
+from django.conf import settings
 from django.contrib.auth import authenticate
 from django.urls import reverse
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -10,6 +11,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from rest_framework.exceptions import ValidationError
+from django.utils import timezone
 
 class ListUsersSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,8 +29,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         password = attrs.get('password', '')
         password_confirmation = attrs.get('password_confirmation', '')
-        user_birthdate = attrs.get('birthdate', ''
-                                   )
+        user_birthdate = attrs.get('birthdate', '')
+
         # Corrobora que las dos contraseñas (pw and confirm pw) coincidan
         if password != password_confirmation:
             raise serializers.ValidationError("Las contraseñas deben coincidir")
@@ -56,7 +58,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         )
         return usuario
 
-# Serializer definido únicamente para ofrecer interfaz visual por medio del navegador
 class VerifyEmailSerializer(serializers.Serializer):
     otp = serializers.CharField()
 
@@ -78,26 +79,29 @@ class LoginSerializer(serializers.ModelSerializer):
     fullname      = serializers.CharField(max_length=255, read_only=True)
     access_token  = serializers.CharField(max_length=255, read_only=True)
     refresh_token = serializers.CharField(max_length=255, read_only=True)
+    role          = serializers.CharField(max_length=20, read_only=True)
 
     class Meta:
         model = Usuarios
-        fields = ['email', 'password', 'fullname', 'access_token', 'refresh_token']
+        fields = ['email', 'password', 'fullname', 'access_token', 'refresh_token', 'role']
 
     def validate(self, attrs):
         email       = attrs.get('email')
         password    = attrs.get('password')
         request     = self.context.get('request')
 
+
         user = authenticate(request, email=email, password=password)
         if not user: # Si falló la autenticación, el correo o contraseña no son correctos
             raise AuthenticationFailed("El correo electrónico o contraseña no son correctos")
         if not user.is_verified: # Si no falló la autenticación pero el usuario no está verificado
             raise AuthenticationFailed("El correo electrónico no se encuentra verificado")
-
+        
         tokens = user.tokens() # Utilizo la función definida en el modelo para obtener token de acceso y actualización
         return {
             'email':user.email,
             'fullname':user.get_full_name,
+            'role':user.role,
             "access_token":str(tokens.get('access')),
             "refresh_token":str(tokens.get('refresh'))
         }
@@ -109,28 +113,35 @@ class PasswordResetRequestSerializer(serializers.Serializer):
         fields = ['email']
 
     def validate(self, attrs):
-        email = attrs.get('email')
-        # Si el usuario existe, obtengo los datos necesarios para crear el link de cambio de clave
-        if Usuarios.objects.filter(email=email).exists():
-            user    = Usuarios.objects.get(email=email) 
-            uidb64  = urlsafe_base64_encode(smart_bytes(user.id))
-            token   = PasswordResetTokenGenerator().make_token(user)
-            request = self.context.get('request')
+        email   = attrs.get('email')
+        user    = Usuarios.objects.filter(email=email).first()
 
-            current_site    = get_current_site(request).domain
-            relative_link   = reverse('password-reset-confirm', kwargs={'uidb64':uidb64, 'token':token})
-            abslink = f"http://{current_site}{relative_link}" # Crea el link de cambio de clave
+        # Si el usuario no existe, devuelvo error
+        if not user:
+            raise serializers.ValidationError({"email": "Este correo electrónico no está registrado."})
 
-            # Se envia un correo electrónico al usuario
-            email_body = f"Para cambiar tu contraseña clickea el siguiente link \n {abslink}"
-            data = {
-                'email_body': email_body,
-                'email_subject': "Cambio de contraseña",
-                'to_email': user.email
-            }
-            print(data)
-            # Descomentar una vez implementado el correo con su template
-            # send_normal_email(data)
+        # Si superó los intentos máximos permitidos, devuelvo error, va a poder intentar cuando haya pasado un determinado tiempo o cuando haya cambiado la clave
+        if (user.password_reset_attempts > 3 and user.enough_time_passed):
+            raise serializers.ValidationError({"email": "Se excedieron los intentos disponibles, intente de nuevo más tarde"})
+
+        user.increment_reset_attempts()
+        uidb64  = urlsafe_base64_encode(smart_bytes(user.id))
+        token   = PasswordResetTokenGenerator().make_token(user)
+         
+        # Crea el link de cambio de clave
+        frontend_base_url   = getattr(settings, 'FRONTEND_BASE_URL', 'http://localhost:8000') 
+        abslink = f"{frontend_base_url}/password-reset-confirm/{uidb64}/{token}"
+
+        # Se envia un correo electrónico al usuario
+        email_body = f"Para cambiar tu contraseña clickea el siguiente link \n {abslink}"
+        data = {
+            'email_body': email_body,
+            'email_subject': "Cambio de contraseña",
+            'to_email': user.email
+        }
+        print(data)
+        # Descomentar una vez implementado el correo con su template
+        # send_normal_email(data)
         return super().validate(attrs)
 
 class SetNewPasswordSerializer(serializers.Serializer):
@@ -160,13 +171,14 @@ class SetNewPasswordSerializer(serializers.Serializer):
                 raise AuthenticationFailed("Las contraseñas deben coincidir")
             
             user.set_password(password)
+            user.reset_attempts()
             user.save()
             return user
         except Exception as e:
             raise AuthenticationFailed("El link de cambio de clave es inválido o ha expirado", 401)
 
 class LogoutUserSerializer(serializers.Serializer):
-    refresh_token=serializers.CharField()
+    refresh_token = serializers.CharField()
     default_error_message = {
         'bad_token': ('El token es inválido o ha expirado')
     }
