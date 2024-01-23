@@ -13,8 +13,11 @@ import { MisTramitesPage } from "./pages/MisTramitesPage";
 import { InicioPage } from "./pages/InicioPage";
 import { RequestTramitePage } from "./pages/RequestTramitePage";
 import { MedioPagoPage } from "./pages/MedioPagoPage";
+import { TramitePage } from "./pages/TramitePage";
 import PersistLogin from './components/PersistLogin';
 import "./App.css";
+import { AdminPage } from './pages/AdminPage';
+
 
 const ROLES = {
   'User': 'citizen',
@@ -25,7 +28,6 @@ const ROLES = {
 function App() {
   return (
     <>
-      <Router>
         <ToastContainer
           position="bottom-center"
           autoClose={8000}
@@ -40,6 +42,7 @@ function App() {
           <Route path="/forget-password" element={<ForgetPasswordPage />} />
           <Route path="/otp/verify" element={<VerifyPage />} />
           <Route path="/password-reset-confirm/:uid/:token" element={<ConfirmPasswordPage />} />
+          
 
           {/* Rutas protegidas */}
           <Route element={<PersistLogin />}>
@@ -47,18 +50,19 @@ function App() {
               <Route path="/dashboard" element={<PerfilPage />} />
               <Route path="/misTramites" element={<MisTramitesPage />} />
               <Route path="/requestTramite" element={<RequestTramitePage />} />
-
+              <Route path="/admin" element={<AdminPage />} />
+              <Route path="/tramite" element={<TramitePage />} />
             </Route>
 
             {/* Rutas que precisan rol de policia/administrador */}
             <Route element={<RequireAuth allowedRoles={[ROLES.Editor]} />} >
               <Route path="/pago" element={<MedioPagoPage />} />
+              
             </Route>
           </Route>
           {/* Catch all */}
 
         </Routes>
-      </Router>
     </>
   );
 }

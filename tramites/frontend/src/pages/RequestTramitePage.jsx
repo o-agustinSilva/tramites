@@ -7,7 +7,7 @@ import Documentacion from "../components/Documentacion";
 
 export function RequestTramitePage() {    
     return ( 
-        <div>
+        <div className="App">
             <Header/>
              <InfoTramite/>
              <RequestTramite/>  

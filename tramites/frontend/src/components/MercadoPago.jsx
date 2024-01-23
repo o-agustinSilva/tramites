@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 export function MercadoPago() {
   return (
     <Container fluid className=" my-4">
-      <Row>
+      <Row className="mx-5">
         <Col xl={2} sm={2}  className="d-flex justify-content-star">
           <img src="../../src/img/mercadopago.jpg" className="imgPago" />
         </Col>

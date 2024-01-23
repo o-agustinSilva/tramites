@@ -5,7 +5,7 @@ import ConfirmPassword from "../components/ConfirmPassword";
 
  export function ConfirmPasswordPage() {    
     return ( 
-        <div>
+        <div className="App">
             <Header/>
             <ConfirmPassword/>
             <Footer/>

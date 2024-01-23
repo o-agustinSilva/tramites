@@ -10,7 +10,7 @@ export function VerifyPage() {
   const email = location.state?.email;
 
   return (
-    <div>
+    <div className="App">
       <Header />
       <VerifyEmail email={email || ''} />
       <Footer />

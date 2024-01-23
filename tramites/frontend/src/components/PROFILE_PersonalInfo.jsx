@@ -7,9 +7,8 @@ import { MDBIcon, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 
 export function PROFILE_PersonalInfo() {
   return (
-    <Container className="mt-5">
+    <Container className="mt-3">
       <div id="editprofileMain" className="m-3">
-
         <Row className="mb-3">
           <Col md={12} className="d-flex justify-content-start align-items-center">
             <MDBIcon fas icon="user-edit" size="2x" />

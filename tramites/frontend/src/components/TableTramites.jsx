@@ -1,67 +1,49 @@
-import React from "react";
-import Row from "react-bootstrap/Container";
-import Col from "react-bootstrap/Container";
+import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
-import { MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from "mdb-react-ui-kit";
-import { Link } from "react-router-dom";
+import { TabContent, TabPane, Nav, NavItem, NavLink } from "react-bootstrap";
+import { MDBIcon } from "mdb-react-ui-kit";
+import TRAMITES_ListTramites from "./TRAMITES_ListTramites";
 
 export function TableTramites() {
+  const [activeTab, setActiveTab] = useState("1");
+
+  const cambiarTab = (numeroTab) => {
+    if (activeTab !== numeroTab) {
+      setActiveTab(numeroTab);
+    }
+  };
+
   return (
-    <Container className="mt-5">
-      <h3>Mis trámites</h3>
-      <div className="table-responsive">
-        <MDBTable hover className="table">
-          <MDBTableHead>
-            <tr className="table-header">
-              <th scope="col">Documento</th>
-              <th scope="col">Codigo</th>
-              <th scope="col">Dependencia</th>
-              <th scope="col">Fecha de Inicio</th>
-              <th scope="col">PDF</th>
-              <th scope="col">Comprobante</th>
-            </tr>
-          </MDBTableHead>
-          <MDBTableBody>
-            <tr>
-              <td>Certificado de Recidencia</td>
-              <td>025</td>
-              <td>Investigaciones</td>
-              <td>25/01/2023</td>
-              <td>PDF</td>
-              <td>COMPROBANTE</td>
-            </tr>
-            <tr>
-              <td>Certificado de Domicilio</td>
-              <td>040</td>
-              <td>Comisaria 1ra</td>
-              <td>08/04/2023</td>
-              <td>PDF</td>
-              <td>COMPROBANTE</td>
-            </tr>
-            <tr>
-              <td>Certificado de Extravio</td>
-              <td>280</td>
-              <td>Comisaria 3ra</td>
-              <td>04/04/2023</td>
-              <td>PDF</td>
-              <td>COMPROBANTE</td>
-            </tr>
-          </MDBTableBody>
-        </MDBTable>
-      </div>
+    <Container className="my-4">
+      <Nav tabs="true" defaultActiveKey="1">
+        <NavItem className="d-flex flex-row text-aling-center">
+          <NavLink
+            className={activeTab == "1" ? "activeTab baseTab" : "baseTab"}
+            onClick={() => cambiarTab("1")}
+            style={{borderRadius:"10px"}}>
+            <MDBIcon fas tabIndex="-1" icon="user-friends" size="1x" className="mx-2" />
+            Trámites pendientes
+          </NavLink>
+          <NavLink
+            className={`${activeTab === "2" ? "activeTab baseTab" : "baseTab"} mx-3`}
+            onClick={() => cambiarTab("2")}
+            style={{borderRadius:"10px"}}>
+            <MDBIcon fas icon="copy" size="1x" className="mx-2" />
+            Trámites finalizados
+          </NavLink>
 
-      <Row className="mt-3">
-        <Col>
-          <Link to='/dashboard'>
-            <MDBBtn rounded className='mx-2' color='info'>
-              Volver
-            </MDBBtn>
-          </Link>
-        </Col>
-      </Row>
+        </NavItem>
+      </Nav>
 
+      <TabContent className="my-4">
+        <TabPane eventKey="1" active={activeTab === "1"}>
+          <TRAMITES_ListTramites status="pendiente"/>
+        </TabPane>
 
-
+        <TabPane eventKey="2" active={activeTab === "2"}>
+        <TRAMITES_ListTramites status="finalizado" />
+        </TabPane>
+      </TabContent>
     </Container>
   );
 }

@@ -1,7 +1,5 @@
 import React from 'react'
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import SplitButton from 'react-bootstrap/SplitButton';
+import { MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem, MDBIcon } from 'mdb-react-ui-kit';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "../utils/axiosInstance";
@@ -18,7 +16,6 @@ const HEADER_Dropdown = () => {
         if (res.status === 200) {
             localStorage.removeItem("token");
             localStorage.removeItem("refresh_token");
-            localStorage.removeItem("access");
             localStorage.removeItem("user");
             navigate("/login");
             toast.warn("logout successful");
@@ -26,20 +23,28 @@ const HEADER_Dropdown = () => {
     };
 
     return (
-        <div className="mb-2">
-            <DropdownButton
-                id="loginDropdown"
-                variant="info"
-                title="Perfil"
-            >
+        <MDBDropdown group>
+            <MDBDropdownToggle size='lg' tag='a' className='btn btn-primary d-flex align-items-center'>
+                <MDBIcon far icon="user-circle" size='2x' style={{ marginRight: '10px' }} />
+                <span>Mi perfil</span>
+            </MDBDropdownToggle>
+            <MDBDropdownMenu>
+                <MDBDropdownItem link href="/dashboard">
+                    <MDBIcon fas icon="user-alt" style={{ marginRight: '8px' }} />
+                    Cuenta
+                </MDBDropdownItem>
+                <MDBDropdownItem link href="/misTramites">
+                    <MDBIcon fas icon="file-alt" style={{ marginRight: '8px' }} />
+                    Mis trámites
+                </MDBDropdownItem>
+                <MDBDropdownItem divider />
 
-                <Dropdown.Item eventKey="1">Action</Dropdown.Item>
-                <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
-                <Dropdown.Item eventKey="3">Something else here</Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item eventKey="4" onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
-            </DropdownButton>
-        </div>
+                <MDBDropdownItem id="dropdownLogout" link onClick={handleLogout}>
+                    <MDBIcon fas icon="sign-out-alt" style={{ marginRight: '8px' }} />
+                    Cerrar sesión
+                </MDBDropdownItem>
+            </MDBDropdownMenu>
+        </MDBDropdown>
     )
 }
 

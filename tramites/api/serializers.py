@@ -193,3 +193,6 @@ class LogoutUserSerializer(serializers.Serializer):
             token.blacklist()
         except TokenError:
             raise ValidationError(self.error_messages.get('bad_token', 'El token es inválido o ha expirado'))
+
+class RolesSerializer(serializers.Serializer):
+    roles = serializers.ListField(child=serializers.CharField(max_length=15), required=False)

@@ -2,14 +2,22 @@ import React, { Component } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { MDBIcon } from "mdb-react-ui-kit";
-import { MDBBtn } from "mdb-react-ui-kit";
+
+import {
+  MDBInput,
+  MDBInputGroup,
+  MDBCheckbox,
+  MDBBtn,
+  MDBIcon,
+} from "mdb-react-ui-kit";
+import Form from "react-bootstrap/Form";
+
 import { Link } from "react-router-dom";
 
 export function RequestTramite() {
   return (
     <div>
-      <Container>
+      <Container fluid>
         <Row className="tramite-form">
           <Col className="d-flex flex-column align-items-center">
             <MDBIcon fas icon="user-edit" size="3x" />
@@ -19,60 +27,139 @@ export function RequestTramite() {
           <Row>
             <Col id="infoTramite">
               <form>
-                <ul>
-                  <li>
-                    <label className="labelRequest">Nombre: </label>
-                    <input className="inputRequest form-control" />
-                  </li>
-                  <li>
-                    <label className="labelRequest">Apellido: </label>
-                    <input className="inputRequest form-control" />
-                  </li>
-                  <li>
-                    <label className="labelRequest">D.N.I N°: </label>
-                    <input className="inputRequest form-control" />
-                  </li>
-                  <li>
-                    <label className="labelRequest">Dirección: </label>
-                    <input className="inputRequest form-control" />
-                  </li>
-                  <li>
-                    <label className="labelRequest">Telefono: </label>
-                    <input className="inputRequest form-control" />
-                  </li>
-                  <li>
-                    <label className="labelRequest">Fecha de Nacimiento</label>
-                    <input className="inputRequest form-control" />
-                  </li>
-                  <li>
-                    <label className="labelRequest">Correo Electronico: </label>
-                    <input className="inputRequest form-control" />
-                  </li>
-                </ul>
                 <Row>
-                  <Col xl={6} sm={12} className="my-2">
-                    <MDBBtn>
+                  <Col d="6" className="mb-3">
+                    <MDBInput
+                      label="Nombre"
+                      id="form1"
+                      type="text"
+                      className="custom-input"
+                    />
+                  </Col>
+
+                  <Col d="6" className="mb-3">
+                    <MDBInput
+                      label="Apellido"
+                      id="form1"
+                      type="text"
+                      className="custom-input"
+                    />
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md="6" className="mb-3">
+                    <Form.Select
+                      aria-label="Default select example"
+                      name="document_type"
+                    >
+                      <option value="" disabled>
+                        Seleccione tipo de documento
+                      </option>
+                      <option value="DNI">DNI</option>
+                      <option value="TWO">Two</option>
+                      <option value="3">Three</option>
+                    </Form.Select>
+                  </Col>
+                  <Col md="6" className="mb-3">
+                    <MDBInput
+                      label="Número"
+                      id="dni"
+                      type="text"
+                      className="custom-input"
+                      name="number"
+                    />
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md="8" className="mb-3">
+                    <MDBInput
+                      label="Direccion: calle"
+                      id="calle"
+                      type="text"
+                      className="custom-input"
+                      name="direccion"
+                    />
+                  </Col>
+
+                  <Col md="2" className="mb-3">
+                    <MDBInput
+                      label="Número"
+                      id="numero"
+                      type="text"
+                      className="custom-input"
+                      name="namber"
+                    />
+                  </Col>
+
+                  <Col md="2" className="mb-3">
+                    <MDBInput
+                      label="Piso-Dpto"
+                      id="piso/dpto"
+                      type="text"
+                      className="custom-input"
+                      name="namber"
+                    />
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md="6" className="mb-3">
+                    <MDBInput
+                      label="Telefono"
+                      id="telefono"
+                      type="text"
+                      className="custom-input"
+                      name="number"
+                    />
+                  </Col>
+
+                  <Col md="6" className="mb-3">
+                    <MDBInput
+                      label="Fecha de Nacimiento"
+                      id="fecha"
+                      type="text"
+                      className="custom-input"
+                      name="fecha"
+                    />
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md="6" className="mb-3">
+                    <MDBInputGroup noWrap textBefore="@">
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="Correo Electonico"
+                      />
+                    </MDBInputGroup>
+                  </Col>
+                </Row>
+
+                <Row className="my-3 mb-1">
+                  <Col className="d-flex justify-content-end">
+                    <MDBBtn className="mx-3" color="success">
+                      {" "}
                       <MDBIcon
                         fas
-                        icon="check-circle"
-                        className="mx-2 btDoc"
+                        icon="thumbs-up"
                         size="2x"
+                        className="mx-2"
                       />
                       Validar Datos
                     </MDBBtn>
-                  </Col>
-                  <Col xl={6} sm={12} className="my-2">
-                    <Link to="/perfil">
-                      <MDBBtn color="danger">
-                        <MDBIcon
-                          fas
-                          icon="times-circle"
-                          className="mx-2 btDoc"
-                          size="2x"
-                        />
-                        Modificar Datos
-                      </MDBBtn>
-                    </Link>
+                    <MDBBtn color="danger">
+                      {" "}
+                      <MDBIcon
+                        fas
+                        icon="thumbs-down"
+                        className="mx-2"
+                        size="2x"
+                      />
+                      Modificar Datos
+                    </MDBBtn>
                   </Col>
                 </Row>
               </form>
@@ -80,106 +167,107 @@ export function RequestTramite() {
 
             <Col id="infoTramite">
               <form>
-                <ul>
-                  <li id="liTramite">
-                    <label className="labelRequest">
-                      Padre: Nombre y Apellido
-                    </label>
-                    <input className="inputRequest form-control" />
-                  </li>
+                <Row>
+                  <Col className="mb-3">
+                    <MDBInput
+                      label="Padre: Nombre y Apellido"
+                      id="form1"
+                      type="text"
+                      className="custom-input"
+                    />
+                  </Col>
+                </Row>
 
-                  <li className="d-flex flex-row">
-                    <label className="labelRequest labelCheck">¿Vive?</label>
-                    <div className="form-check labelCheck">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexRadioDefault1"
-                      >
-                        Si
-                      </label>
-                    </div>
+                <Row>
+                  <Col md="2">
+                    <p>¿Vive?</p>
+                  </Col>
 
-                    <div className="form-check labelCheck">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexRadioDefault1"
-                      >
-                        No
-                      </label>
-                    </div>
-                  </li>
+                  <Col>
+                    <MDBCheckbox
+                      name="inlineCheck"
+                      id="inlineCheckbox1"
+                      value="option1"
+                      label="Si"
+                      inline
+                    />
+                    <MDBCheckbox
+                      name="inlineCheck"
+                      id="inlineCheckbox2"
+                      value="option2"
+                      label="No"
+                      inline
+                    />
+                  </Col>
+                </Row>
 
-                  <li id="liTramite">
-                    <label className="labelRequest">
-                      Madre: Nombre y Apellido
-                    </label>
-                    <input className="inputRequest form-control" />
-                  </li>
+                <Row>
+                  <Col className="mb-3">
+                    <MDBInput
+                      label="Madre: Nombre y Apellido"
+                      id="form1"
+                      type="text"
+                      className="custom-input"
+                    />
+                  </Col>
+                </Row>
 
-                  <li className="d-flex flex-row">
-                    <label className="labelRequest labelCheck">¿Vive?</label>
-                    <div className="form-check labelCheck">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexRadioDefault1"
-                      >
-                        Si
-                      </label>
-                    </div>
+                <Row>
+                  <Col md="2">
+                    <p>¿Vive?</p>
+                  </Col>
 
-                    <div className="form-check labelCheck">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexRadioDefault1"
-                      >
-                        No
-                      </label>
-                    </div>
-                  </li>
+                  <Col>
+                    <MDBCheckbox
+                      name="inlineCheck"
+                      id="inlineCheckbox1"
+                      value="option1"
+                      label="Si"
+                      inline
+                    />
+                    <MDBCheckbox
+                      name="inlineCheck"
+                      id="inlineCheckbox2"
+                      value="option2"
+                      label="No"
+                      inline
+                    />
+                  </Col>
+                </Row>
 
-                  <li id="liTramite">
-                    <label className="labelRequest">Hijos N°</label>
-                    <select className="numeroSelector" name="numero">
-                      <option value="1">0</option>
+                <Row className="my-4">
+                  <Col md="2">
+                    <p>Hijos N°</p>
+                  </Col>
+
+                  <Col xl={6}>
+                    <select
+                      className="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option selected>0</option>
                       <option value="1">1</option>
                       <option value="2">2</option>
                       <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
+                      <option value="1">4</option>
+                      <option value="2">5</option>
+                      <option value="3">6</option>
                     </select>
-                  </li>
+                  </Col>
+                  
+                  <Row className="my-4">
+                  <Col className="mb-3">
+                    <MDBInput
+                      label="Entidad que lo solicita"
+                      id="form1"
+                      type="text"
+                      className="custom-input"
+                    />
+                  </Col>
+                  </Row>
+                
 
-                  <li id="liTramite">
-                    <label className="labelRequest">
-                      Entidad que lo solicita
-                    </label>
-                    <input className="inputRequest form-control" />
-                  </li>
-                </ul>
+                </Row>
               </form>
             </Col>
           </Row>

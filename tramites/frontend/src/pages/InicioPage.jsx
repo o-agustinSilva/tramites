@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import Inicio from "../components/Inicio";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Card from "../components/Card";
+import Cards2 from "../components/Cards2";
+
 export function InicioPage() {    
     return ( 
-        <div>
+        <div className="App">
             <Header/>
              <Inicio/>
-             <Card/>
+             <Cards2/>
             <Footer/>
         </div>
     )

@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import Header from "../components/Header";
-import ProfileImage from "../components/ProfileImage";
+import Footer from "../components/Footer";
+import PROFILE_Image from "../components/PROFILE_Image";
 import TableTramites from "../components/TableTramites";
 
 
 export function MisTramitesPage() {    
     return ( 
-        <div>
+        <div className="App">
             <Header/>
-            <ProfileImage/>
             <TableTramites/>
+            <Footer/>
         </div>
     )
 }

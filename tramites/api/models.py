@@ -31,7 +31,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     # Campos personalizados
     number       = models.IntegerField()
     document_type = models.CharField(max_length=9, choices=DOCUMENT_TYPE)
-    role      = models.CharField(max_length=13, choices=ROLES)
+        
     birthdate = models.DateField(default="2000-06-10")
 
      # Campos adicionales para ciudadano
@@ -54,6 +54,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     last_login      = models.DateTimeField(auto_now=True)
     auth_provider   = models.CharField(max_length=50, default=AUTH_PROVIDERS.get("email"))
     genre           = models.CharField(max_length=6, choices=GENRES)
+    role = models.CharField(max_length=15, choices=ROLES)
 
     # Campos para limitar el spam de correos
     password_reset_attempts = models.IntegerField(default=0) 

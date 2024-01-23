@@ -50,12 +50,12 @@ function Header() {
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink href="/dashboard">Iniciar un trámite</MDBNavbarLink>
+              <MDBNavbarLink active href="/requestTramite">Iniciar un trámite</MDBNavbarLink>
             </MDBNavbarItem>
 
             <MDBNavbarItem>
               <MDBDropdown>
-                <MDBDropdownToggle tag="a" className="nav-link" role="button">
+                <MDBDropdownToggle tag="a" className="nav-link" role="button" style={{color:"black"}}>
                   Ayuda
                 </MDBDropdownToggle>
                 <MDBDropdownMenu>
@@ -67,9 +67,10 @@ function Header() {
             </MDBNavbarItem>
           </MDBNavbarNav>
 
+
           <form className="d-flex input-group w-auto">
             {user ? (
-              <HEADER_Dropdown/>
+              <HEADER_Dropdown />
             ) : (
               <Link to="/login">
                 <Button className="buttonPrimary" variant="outline-success">

@@ -4,7 +4,7 @@ from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from api.models import OneTimePasswords, Usuarios
 from api.utils import send_code_to_user
-from api.serializers import UserRegisterSerializer, LoginSerializer, ListUsersSerializer, PasswordResetRequestSerializer, SetNewPasswordSerializer, LogoutUserSerializer, ResendOtpSerializer, VerifyEmailSerializer
+from api.serializers import UserRegisterSerializer, LoginSerializer, ListUsersSerializer, PasswordResetRequestSerializer, SetNewPasswordSerializer, LogoutUserSerializer, ResendOtpSerializer, VerifyEmailSerializer, RolesSerializer
 from rest_framework import status, serializers
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -164,3 +164,16 @@ class LogoutUserView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'message':'¡Gracias por utilizar nuestros servicios!'}, status=status.HTTP_200_OK)
+
+class RoleView(GenericAPIView):
+    serializer_class = RolesSerializer
+
+    def get(self, request):
+        roles = [valor for etiqueta, valor in Usuarios.ROLES]
+        serializer = self.serializer_class(data={'roles': roles})
+        
+        if serializer.is_valid():
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        

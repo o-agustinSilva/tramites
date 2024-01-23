@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 
 export function SignupPage() {
   return (
-    <div>
+    <div className="App">
       <Header />
       <SignUp/>
       <Footer />

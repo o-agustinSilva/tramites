@@ -5,7 +5,7 @@ import ForgetPassword from "../components/ForgetPassword";
 
 export function ForgetPasswordPage() {
   return (
-    <div>
+    <div className="App">
         <Header />
             <ForgetPassword />
         <Footer />

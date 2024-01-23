@@ -6,7 +6,7 @@ import PagoTramite from "../components/PagoTramite";
 
 export function MedioPagoPage() {
   return (
-    <div>
+    <div className="App">
       <Header />
       <MercadoPago/>
       <PagoTramite/>
