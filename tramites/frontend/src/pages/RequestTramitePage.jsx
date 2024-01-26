@@ -1,17 +1,14 @@
 import React, { Component } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import InfoTramite from "../components/InfoTramite ";
-import RequestTramite from "../components/RequestTramite";
 import Documentacion from "../components/Documentacion";
+import REQTRAMITE_Stepper from "../components/REQTRAMITE_Stepper"
 
 export function RequestTramitePage() {    
     return ( 
         <div className="App">
             <Header/>
-             <InfoTramite/>
-             <RequestTramite/>  
-             <Documentacion/>
+             <REQTRAMITE_Stepper/>  
             <Footer/>
         </div>
     )

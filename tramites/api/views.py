@@ -36,6 +36,7 @@ class RegisterUserView(GenericAPIView):
                 'data': usuario,
                 'message': f'Se envió un código a su correo electrónico para válidar su cuenta'
             }, status=status.HTTP_201_CREATED)
+        
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class VerifyUserEmail(GenericAPIView):
@@ -176,4 +177,6 @@ class RoleView(GenericAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
         

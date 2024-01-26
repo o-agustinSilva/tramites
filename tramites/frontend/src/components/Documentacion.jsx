@@ -10,7 +10,6 @@ export function Documentacion() {
   return (
     <div>
       <Container className="my-5">
-        <Row id="infoTramite">
           <Col>
             <div className="d-flex flex-row">
               <MDBIcon fas icon="id-card" size="3x" />
@@ -94,7 +93,7 @@ export function Documentacion() {
               </Col>
             </Row>
           </Row>
-        </Row>
+
       </Container>
     </div>
   );

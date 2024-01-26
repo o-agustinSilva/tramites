@@ -32,25 +32,27 @@ th {
   color: #1b1a1a !important; 
 }
 
-#dropdownLogout {
-  background-color: #e04c64 !important; 
-  color: white !important; 
-}
-
-#dropdownLogout a {
-  color: inherit !important; 
-}
-
-#dropdownLogout a:hover {
-  background-color: #cd455c;
-}
-
 .btn-primary {
-  background-color: #0894c4;
+  background-color: #e3ebf7;
+  color: "#285192" !important;
+}
+
+.btn-primary a {
+  color: black !important;
 }
 
 .btn-primary:hover {
-  background-color: #056788;
+  background-color: #d8dfeb;
+}
+
+.btn-primary:active,
+.btn-primary:focus {
+  background-color: #e3ebf7 !important;
+  color: #285192 !important;
+}
+
+.btn-primary.dropdown-toggle::after {
+  border-top-color: #285192 !important; /* Reemplaza 'tu_color' con el color que desees */
 }
 /* ======================================
     ESTILOS GENERALES APLICADOS A CLASES
@@ -96,9 +98,37 @@ th {
 =================================== */
 
 #header {
-  background-color: #e8edf7 !important;
+  background-color: #114b72 !important;
+} 
+
+#headerLinks a {
+  color: #e8edf7 !important;
 }
 
+#headerSublinks a {
+  color:#1b1a1a !important;
+}
+ 
+#headerDropdown {
+  background-color: #e3ebf7;
+}
+
+#headerDropdown a:hover {
+  background-color: #d8dfeb;
+}
+
+#dropdownLogout {
+  background-color: #e04c64 !important; 
+  color: white !important; 
+}
+
+#dropdownLogout a {
+  color: inherit !important; 
+}
+
+#dropdownLogout a:hover {
+  background-color: #cd455c;
+}
 /* ================================
     ESTILOS APLICADOS AL FOOTER
 =================================== */
@@ -112,9 +142,7 @@ th {
     ESTILOS PARA EL LOGIN DEL USUARIO
 ========================================= */
 #login-container {
-  background: linear-gradient(270deg, rgba(8,107,132,1) 0%, rgba(11, 63, 77, 0.788) 100%);
-  background-color: rgba(8,107,132,1);
-  border-radius: 100% 0% 100% 0% / 0% 0% 100% 100%;
+  background-image: url("../src/img/Portada.png");
 }
 
 #login-box {
@@ -254,7 +282,7 @@ th {
 ========================================= */
 
 .tableButton {
-  min-width: 140px;
+  min-width: 147px;
   display: flex;
   align-items: center;
   font-size: 12px;
@@ -278,25 +306,7 @@ th {
     width: 50%;
     border-top: 2px solid #333; 
     margin: 0 auto; /* Centra la línea horizontalmente */
-
   }
-/*ESTILOS PARA LA PAGINA DE SOLICITAR UN TRAMITE*/
-
-#infoTramite {
-  padding: 50px;
-  margin: 20px;
-  border-radius: 25px;
-  background-color: #e8edf7;
-  color: rgb(57, 56, 56);
-}
-
-#h3Doc{
-  padding-left: 30px;
-}
-
-.btDoc{
-  font-size: 15px;
-}
 
 /*ESTILOS DE PANTALLA MEDIO DE PAGO*/
 
@@ -332,7 +342,6 @@ th {
   color: white !important;
   
 }
-
 .activeTab{
   background-color: #0894c4 !important;
   color: white !important;

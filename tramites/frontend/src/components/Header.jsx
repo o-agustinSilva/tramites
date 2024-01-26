@@ -16,6 +16,7 @@ import {
   MDBDropdownMenu,
   MDBDropdownItem,
   MDBCollapse,
+  MDBBtn,
 } from "mdb-react-ui-kit";
 
 function Header() {
@@ -38,12 +39,13 @@ function Header() {
           aria-expanded="false"
           aria-label="Toggle navigation"
           onClick={() => setOpenBasic(!openBasic)}
+          style={{color:"#d8dfeb"}}
         >
           <MDBIcon icon="bars" fas />
         </MDBNavbarToggler>
 
         <MDBCollapse navbar open={openBasic}>
-          <MDBNavbarNav className="justify-content-center mb-2 mb-lg-0">
+          <MDBNavbarNav id="headerLinks" className="justify-content-center mb-2 mb-lg-0">
             <MDBNavbarItem>
               <MDBNavbarLink active aria-current="page" href="/">
                 Inicio
@@ -55,10 +57,10 @@ function Header() {
 
             <MDBNavbarItem>
               <MDBDropdown>
-                <MDBDropdownToggle tag="a" className="nav-link" role="button" style={{color:"black"}}>
+                <MDBDropdownToggle tag="a" className="nav-link" role="button" style={{ color: "black" }}>
                   Ayuda
                 </MDBDropdownToggle>
-                <MDBDropdownMenu>
+                <MDBDropdownMenu id="headerSublinks">
                   <MDBDropdownItem link>Tengo un problema</MDBDropdownItem>
                   <MDBDropdownItem link>Contacto</MDBDropdownItem>
                   <MDBDropdownItem link>FAQ</MDBDropdownItem>
@@ -73,9 +75,10 @@ function Header() {
               <HEADER_Dropdown />
             ) : (
               <Link to="/login">
-                <Button className="buttonPrimary" variant="outline-success">
-                  Iniciar sesión
-                </Button>
+                <MDBBtn className='me-1 d-flex align-items-center' color='secondary'>
+                  <MDBIcon far icon="user-circle" size='2x' style={{ marginRight: '10px', color:"#285192" }} />
+                  <span>INGRESAR</span>
+                </MDBBtn>
               </Link>
             )}
           </form>
