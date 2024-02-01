@@ -35,8 +35,13 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     birthdate = models.DateField(default="2000-06-10")
 
      # Campos adicionales para ciudadano
-    address = models.CharField(max_length=60, null=True, blank=True)
-    phone   = models.CharField(max_length=16, null=True, blank=True)
+    address = models.CharField(max_length=60)
+    address_number = models.CharField(max_length=10)
+    floor = models.CharField(max_length=10, null=True, blank=True)
+    apartment = models.CharField(max_length=10, null=True, blank=True)
+
+    phone_area_code = models.CharField(max_length=7)
+    phone   = models.CharField(max_length=16, default="468686")
 
     # Campos adicionales para policía
     hierarchy   = models.CharField(max_length=30, null=True, blank=True)

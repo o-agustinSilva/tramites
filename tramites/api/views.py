@@ -4,7 +4,7 @@ from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from api.models import OneTimePasswords, Usuarios
 from api.utils import send_code_to_user
-from api.serializers import UserRegisterSerializer, LoginSerializer, ListUsersSerializer, PasswordResetRequestSerializer, SetNewPasswordSerializer, LogoutUserSerializer, ResendOtpSerializer, VerifyEmailSerializer, RolesSerializer
+from api.serializers import UserRegisterSerializer, LoginSerializer, ListUsersSerializer, PasswordResetRequestSerializer, SetNewPasswordSerializer, LogoutUserSerializer, ResendOtpSerializer, VerifyEmailSerializer, RolesSerializer, ListUsersSerializer
 from rest_framework import status, serializers
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -18,6 +18,20 @@ class ListUsersView(GenericAPIView):
         queryset = self.get_queryset()
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class UserDetailsView(GenericAPIView):
+    serializer_class = ListUsersSerializer
+    lookup_field = 'email'
+
+    def get(self, request, *args, **kwargs):
+        email = self.kwargs.get(self.lookup_field)
+        queryset = Usuarios.objects.filter(email=email).first()
+
+        if queryset is not None:  # Verificar si se encontró un usuario
+            serializer = self.serializer_class(queryset)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({'detail': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
 class RegisterUserView(GenericAPIView):
     serializer_class = UserRegisterSerializer
@@ -109,6 +123,7 @@ class LoginUserView(GenericAPIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
+        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class TestAuthenticationView(GenericAPIView):

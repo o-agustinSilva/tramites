@@ -6,7 +6,7 @@ import { MDBIcon, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 
 const PROFILE_Password = () => {
     return (
-        <Container className="mt-5 pb-5">
+        <Container className="mt-4">
             <div id="editprofileMain" className="m-3">
 
                 <Row className="mb-3">

@@ -48,7 +48,7 @@ def send_code_to_user(email):
         to = [email],
     )
     message.attach_alternative(html_message, "text/html")
-    message.send(fail_silently=True)
+    # message.send(fail_silently=True)
 
 def send_normal_email(data):
     email = EmailMessage(
@@ -57,7 +57,7 @@ def send_normal_email(data):
         from_email = settings.EMAIL_HOST_USER,
         to = [data['to_email']]
     )
-    email.send()
+    # email.send()
 
 # =========================================================================
 

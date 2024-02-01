@@ -21,8 +21,9 @@ import {
 
 function Header() {
   const user = localStorage.getItem("user");
+  const name = JSON.parse(localStorage.getItem("user"));
   const [openBasic, setOpenBasic] = useState(false);
-
+  
   return (
     <MDBNavbar expand="lg" light bgColor="light" id="header">
       <MDBContainer fluid>
@@ -45,7 +46,7 @@ function Header() {
         </MDBNavbarToggler>
 
         <MDBCollapse navbar open={openBasic}>
-          <MDBNavbarNav id="headerLinks" className="justify-content-center mb-2 mb-lg-0">
+          <MDBNavbarNav id="headerLinks" className="d-flex justify-content-start">
             <MDBNavbarItem>
               <MDBNavbarLink active aria-current="page" href="/">
                 Inicio
@@ -73,6 +74,7 @@ function Header() {
           <form className="d-flex input-group w-auto">
             {user ? (
               <HEADER_Dropdown />
+               
             ) : (
               <Link to="/login">
                 <MDBBtn className='me-1 d-flex align-items-center' color='secondary'>

@@ -55,9 +55,8 @@ function VerifyEmail({ email }) {
   };
 
   return (
-    <div id="otp-container">
-      <Container className="d-flex justify-content-center align-items-center">
-        <div id="otp-card" className="p-4">
+      <Container className="d-flex justify-content-center align-items-center mt-4">
+        <div id="otp-card" className="p-4 m-5">
           <Row>
             <Col md={12} className="mt-2">
               <h4>Verificar correo electrónico</h4>
@@ -115,7 +114,6 @@ function VerifyEmail({ email }) {
           </Form>
         </div>
       </Container>
-    </div>
   );
 }
 

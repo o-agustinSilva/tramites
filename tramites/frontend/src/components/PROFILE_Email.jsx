@@ -4,7 +4,7 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import { MDBIcon, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 
-const PROFILE_Email = () => {
+const PROFILE_Email = ( {user} ) => {
 
     return(
     <Container className="mt-5">
@@ -24,6 +24,7 @@ const PROFILE_Email = () => {
               id="email"
               type="text"
               className="custom-input mb-3"
+              value={user.email}
             />
           </Col>
           <Col md={4} xl={6}>

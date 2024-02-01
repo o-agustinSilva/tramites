@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import { Box, Stepper, Step, StepLabel } from '@mui/material';
 import REQTRAMITE_FirstStep from "../components/REQTRAMITE_FirstStep";
 import REQTRAMITE_SecondStep from "../components/REQTRAMITE_SecondStep";

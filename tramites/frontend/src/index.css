@@ -135,18 +135,15 @@ th {
 
 #footer {
   margin-top: auto;
-  background-color: #e8edf7 !important;
+  background-color: #114b72;
 }
 
 /* ======================================
     ESTILOS PARA EL LOGIN DEL USUARIO
 ========================================= */
-#login-container {
-  background-image: url("../src/img/Portada.png");
-}
+
 
 #login-box {
-  margin: 10%;
   background-color: #e8edf7;
   width: 400px;
   border-radius: 15px;
@@ -157,7 +154,7 @@ th {
 }
 
 #loginTitle {
-  color: #1b1a1a !important;
+  color: black !important;
   padding: 10px;
   font-size: 30px;
 }
@@ -171,62 +168,29 @@ th {
   color: rgb(44, 135, 196) !important;
 }
 
-#createAccount a {
-  transition: all 0.3s ease 0s;
-}
-
-#createAccount a:hover {
-  color: rgb(44, 135, 196) !important;
-}
-
-#forgotPassword {
-  text-align: left !important;
-}
-
-#createAccount {
-  text-align: right !important;
-}
 
 /* ======================================
    ESTILOS PARA EL REGISTRO DE USUARIOS
 ========================================= */
-#signup-container {
-  background: linear-gradient(270deg, rgba(8,107,132,1) 0%, rgba(11, 63, 77, 0.788) 100%);
-  background-color: rgba(8,107,132,1);
-  border-radius: 100% 0% 100% 0% / 0% 0% 100% 100%;
-}
 
 #signup-card {
-  margin: 7% !important;
   background-color: #e8edf7;
   border-radius: 15px;
   width: 700px;
-  margin: 30px;
+  box-shadow: 0 1px 40px rgba(0, 0, 0, 0.253);
 }
 
-#signup-title {
-  color: #1b1a1a !important;
-  font-size: 30px;
-}
 /* ======================================
   ESTILOS PARA LA CONFIRMACIÓN DE CUENTA
 ========================================= */
-#otp-container {
-  background: linear-gradient(270deg, rgba(8,107,132,1) 0%, rgba(11, 63, 77, 0.788) 100%);
-  background-color: rgba(8,107,132,1);
-  height: 600px;
-  border-radius: 100% 0% 100% 0% / 0% 0% 100% 100%;
-}
 
 #otp-card {
-  margin-top: 10% !important;
   background-color: #e8edf7;
   border-radius: 15px;
   width: 600px;
-  margin: 30px;
-  padding: 20px;
   text-align: center !important;
   color: black;
+  box-shadow: 0 1px 40px rgba(0, 0, 0, 0.253);
 }
 
 /* ======================================
@@ -259,7 +223,7 @@ th {
   padding: 20px;
   background: #e8edf7;
   border-radius: 15px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.253);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.187);
 }
 
 /* Estilos para la pantalla de perfil*/
@@ -332,19 +296,17 @@ th {
 /*ESTILOS DE TABS*/
 .baseTab{
   cursor: pointer !important;
-  outline: none !important;
   transition: 0.3s ease-out;
+  border: none !important;
 }
 
 .baseTab:hover,
 .baseTab:focus {
-  background-color: #0894c4 !important;
-  color: white !important;
-  
+  background-color: #3b3f4022 !important;
 }
+
 .activeTab{
-  background-color: #0894c4 !important;
-  color: white !important;
+  background-color: #3b3f4022 !important;
 }
 /**ESTILOS PARA LA CARDS*/
 .card{

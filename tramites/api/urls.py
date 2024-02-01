@@ -1,10 +1,11 @@
 from django.urls import path
-from api.views import RegisterUserView, VerifyUserEmail, LoginUserView, ListUsersView, TestAuthenticationView, PasswordResetConfirm, PasswordResetRequestView, SetNewPassword, LogoutUserView, ResendOtp, RoleView
+from api.views import RegisterUserView, VerifyUserEmail, LoginUserView, ListUsersView, TestAuthenticationView, PasswordResetConfirm, PasswordResetRequestView, SetNewPassword, LogoutUserView, ResendOtp, RoleView, UserDetailsView
 from rest_framework_simplejwt.views import (TokenRefreshView)
 from unicodedata import name
 
 urlpatterns = [
     path('users/', ListUsersView.as_view(), name='list-users'),
+    path('user-details/<str:email>/', UserDetailsView.as_view(), name='user-details'),
     path('register/', RegisterUserView.as_view(), name='register'),
     path('verify-email/', VerifyUserEmail.as_view(), name='verify-email'),
     path('resend-otp/', ResendOtp.as_view(), name='resend-otp'),

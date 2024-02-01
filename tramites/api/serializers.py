@@ -24,7 +24,22 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Usuarios
-        fields = ['email', 'firstname', 'lastname', 'password', 'password_confirmation', 'number', 'role', 'birthdate', 'address', 'phone', 'document_type', 'genre']
+        fields = ['email',
+                'firstname',
+                'lastname',
+                'password',
+                'password_confirmation',
+                'number', 
+                'role', 
+                'birthdate', 
+                'address',
+                'address_number',
+                'floor',
+                'apartment',
+                'phone_area_code',
+                'phone',
+                'document_type',
+                'genre']
 
     def validate(self, attrs):
         password = attrs.get('password', '')
@@ -52,7 +67,11 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             birthdate = validated_data.get('birthdate'),
             password = validated_data.get('password'),
             address = validated_data.get('address'),
-            phone = validated_data.get('phone'),
+            address_number = validated_data.get('address_number'),
+            floor = validated_data.get('floor'),
+            apartment = validated_data.get('apartment'),
+            phone_area_code = validated_data.get('phone_area_code'),  
+            phone = validated_data.get('phone'),      
             document_type = validated_data.get('document_type'),
             genre = validated_data.get('genre'),
         )

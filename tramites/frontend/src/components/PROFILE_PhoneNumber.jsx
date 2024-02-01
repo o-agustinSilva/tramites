@@ -4,13 +4,7 @@ import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import { MDBIcon, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 
-const PROFILE_PhoneNumber = () => {
-
-  useEffect(() => {
-    document.getElementById("cod-area").value = '2901';
-    document.getElementById("telefono").value = '468686';
-  }, []);
-
+const PROFILE_PhoneNumber = ( {user} ) => {
   return (
     <Container className="mt-5">
       <div id="editprofileMain" className="m-3">
@@ -25,9 +19,9 @@ const PROFILE_PhoneNumber = () => {
           <Col xs={12} md={4} xl={2}>
             <MDBInput
               label="Código de área"
-              id="cod-area"
               type="text"
               className="custom-input mb-3"
+              value={user.phone}
             />
           </Col>
           <Col xs={12} md={4} xl={4}>
@@ -36,6 +30,7 @@ const PROFILE_PhoneNumber = () => {
               id="telefono"
               type="text"
               className="custom-input mb-3"
+              value={user.phone}
             />
           </Col>
           <Col xs={12} md={4} xl={6}>

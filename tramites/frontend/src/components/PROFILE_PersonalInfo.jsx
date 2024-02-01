@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Form from "react-bootstrap/Form";
 import { MDBIcon, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 
-export function PROFILE_PersonalInfo() {
+export function PROFILE_PersonalInfo({ user }) {
+
   return (
-    <Container className="mt-3">
+    <Container className="mt-4">
       <div id="editprofileMain" className="m-3">
         <Row className="mb-3">
           <Col md={12} className="d-flex justify-content-start align-items-center">
             <MDBIcon fas icon="user-edit" size="2x" />
-            <h5 style={{marginLeft: "6px"}}>Datos personales</h5>
+            <h5 style={{ marginLeft: "6px" }}>Datos personales</h5>
           </Col>
         </Row>
 
@@ -22,6 +23,7 @@ export function PROFILE_PersonalInfo() {
               label="Nombre"
               type="text"
               className="custom-input mb-3"
+              value={user.firstname || ''}
             />
           </Col>
           <Col xs={12} md={6}>
@@ -29,6 +31,7 @@ export function PROFILE_PersonalInfo() {
               label="Apellido"
               type="text"
               className="custom-input mb-3"
+              value={user.lastname || ''}
             />
           </Col>
 
@@ -37,11 +40,12 @@ export function PROFILE_PersonalInfo() {
               label="Fecha de nacimiento"
               type="date"
               className="custom-input mb-3"
+              value={user.birthdate || ''}
             />
           </Col>
 
           <Col md={6} xl={2}>
-            <Form.Select name="document_type" className="mb-3">
+            <Form.Select name="document_type" className="mb-3" defaultValue={user.document_type || ''}>
               <option value="" disabled>
                 Seleccione tipo de documento
               </option>
@@ -56,11 +60,12 @@ export function PROFILE_PersonalInfo() {
               label="Número de documento"
               type="text"
               className="custom-input mb-3"
+              value={user.number || ''}
             />
           </Col>
 
           <Col md={8} xl={6}>
-            <Form.Select name="genre" className="mb-3">
+            <Form.Select name="genre" className="mb-3" defaultValue={user.genre || ''}>
               <option value="" disabled>
                 Género
               </option>

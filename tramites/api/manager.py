@@ -11,7 +11,7 @@ class UserManager(BaseUserManager):
         except ValidationError:
             raise ValueError(_("Ingresar un correo electrónico válido"))
 
-    def create_citizen(self, email, firstname, lastname, number, role, birthdate, password, address, phone, document_type, genre):
+    def create_citizen(self, email, firstname, lastname, number, role, birthdate, password, address, address_number, floor, apartment, phone, phone_area_code, document_type, genre):
         if email:
             email = self.normalize_email(email)
             self.email_validator(email)
@@ -30,7 +30,11 @@ class UserManager(BaseUserManager):
             role=role,
             birthdate=birthdate,
             address=address,
+            address_number=address_number,
+            floor=floor,
+            apartment=apartment,
             phone=phone,
+            phone_area_code=phone_area_code,
             genre=genre,
             document_type=document_type
         )
