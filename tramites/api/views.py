@@ -10,6 +10,9 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+#userPoli
+from api.serializers import UserPoliRegisterSerializer;
+
 class ListUsersView(GenericAPIView):
     serializer_class = ListUsersSerializer
     queryset = Usuarios.objects.all()
@@ -77,7 +80,7 @@ class ResendOtp(GenericAPIView):
         serializer  = self.serializer_class(data=user_data)
             
         if serializer.is_valid(raise_exception=True):
-            user = serializer.data
+            user = serializer.data 
 
             # Si el usuario ya está válidado devuelvo un 204
             user_data = Usuarios.objects.get(email=user['email'])
@@ -178,5 +181,22 @@ class RoleView(GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
+#-------VISTA PARA CREAR USUARIO POLICIAS------------
+class RegisterUserPoliView(GenericAPIView):
+    #utilizo la clase serializable
+    serializer_class = UserPoliRegisterSerializer
+
+    def post(self, request):
+        user_data = request.data
+        serializer = self.serializer_class(data=user_data)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            usuario = serializer.data
+            
+            status=status.HTTP_201_CREATED
+        
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+         
 
         

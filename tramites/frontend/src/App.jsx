@@ -17,6 +17,8 @@ import { TramitePage } from "./pages/TramitePage";
 import PersistLogin from './components/PersistLogin';
 import "./App.css";
 import { AdminPage } from './pages/AdminPage';
+import { SignupPolicePage } from './pages/SignupPolicePage';
+import NewTramite from './pages/NewTramite';
 
 
 const ROLES = {
@@ -55,8 +57,10 @@ function App() {
             </Route>
 
             {/* Rutas que precisan rol de policia/administrador */}
-            <Route element={<RequireAuth allowedRoles={[ROLES.Editor]} />} >
+            <Route element={<RequireAuth allowedRoles={[ROLES.User]} />} >
               <Route path="/pago" element={<MedioPagoPage />} />
+              <Route path="/registrePolice" element={<SignupPolicePage />} />
+              <Route path="/newTramite" element={<NewTramite />} />
               
             </Route>
           </Route>

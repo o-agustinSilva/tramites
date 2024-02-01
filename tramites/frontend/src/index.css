@@ -350,3 +350,10 @@ th {
 .card{
   background-color: rgb(194, 200, 201);
 }
+
+
+
+/*ESTILOS PARA EL FORMULARIO DE CARGA DE USUARIOS POLOS Y TRAMITES*/
+.alertTitle{
+  color:#cd455c;
+}

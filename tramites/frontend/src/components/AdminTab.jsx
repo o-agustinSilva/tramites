@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Container from "react-bootstrap/esm/Container";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import {
   MDBBadge,
   MDBBtn,
@@ -171,10 +172,12 @@ export function AdminTab() {
               </tr>
             </MDBTableBody>
           </MDBTable>
+          <Link to="/registrePolice">
           <MDBBtn color="success" rounded size="sm" className="mx-3">
             <MDBIcon fas icon="plus-circle" size="2x" className="mx-3" />
             Nuevo Usuario
           </MDBBtn>
+          </Link>
           <MDBBtn color="primary" rounded size="sm" className="mx-3">
           <MDBIcon fas icon="home" size="2x" className="mx-3" />
             Volver 
@@ -242,10 +245,12 @@ export function AdminTab() {
               </tr>
             </MDBTableBody>
           </MDBTable>
+          <Link to="/newTramite">
           <MDBBtn color="success" rounded size="sm" className="mx-3">
             <MDBIcon fas icon="plus-circle" size="1x" className="mx-3" />
             Nuevo Tramite 
           </MDBBtn>
+          </Link>
           <MDBBtn color="primary" rounded size="sm" className="mx-3">
           <MDBIcon fas icon="home" size="1x" className="mx-3" />
             Volver 

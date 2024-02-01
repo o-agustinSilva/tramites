@@ -3,6 +3,9 @@ from api.views import RegisterUserView, VerifyUserEmail, LoginUserView, ListUser
 from rest_framework_simplejwt.views import (TokenRefreshView)
 from unicodedata import name
 
+#IMPORTO LA VISTA DE POLI
+from api.views import RegisterUserPoliView
+
 urlpatterns = [
     path('users/', ListUsersView.as_view(), name='list-users'),
     path('register/', RegisterUserView.as_view(), name='register'),
@@ -16,4 +19,9 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>', PasswordResetConfirm.as_view(), name='password-reset-confirm'),
     path('set-new-password/', SetNewPassword.as_view(), name='set-new-password'),
     path('logout/', LogoutUserView.as_view(), name='logout'),
+
+
+
+    #URL PARA EL CREAR USUARIOS POLI
+    path('registerPolicia/', RegisterUserPoliView.as_view(), name='registerPoli'),
 ]
