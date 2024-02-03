@@ -10,7 +10,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     ROLES = (
         ('citizen', 'Ciudadano'),
         ('police', 'Policía'),
-        ('administrator', 'Administrador')
+        ('admin', 'Administrador')
     )
 
     GENRES = (
@@ -45,7 +45,8 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
 
     # Campos adicionales para policía
     hierarchy   = models.CharField(max_length=30, null=True, blank=True)
-    dependence  = models.ForeignKey("Dependence", on_delete=models.CASCADE, null=True, blank=True)
+    dependence
+    = models.ForeignKey("Dependence", on_delete=models.CASCADE, null=True, blank=True)
 
     # Campos necesarios para el modelo User base de django
     email           = models.EmailField(max_length=255, unique=True, verbose_name=("Correo electrónico"))
@@ -112,7 +113,7 @@ class Dependence(models.Model):
         return self.name
 
 class Tramite(models.Model):
-    name        = models.CharField(max_length=30, null=False)    
+    name        = models.CharField(unique=True, max_length=30, null=False)    
     description = models.CharField(max_length=200, null=False)
     price       = models.CharField(max_length=30, null=False)
     time_limit  = models.IntegerField(null=False) # in days

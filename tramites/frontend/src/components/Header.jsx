@@ -20,10 +20,10 @@ import {
 } from "mdb-react-ui-kit";
 
 function Header() {
-  const user = localStorage.getItem("user");
+  const user = JSON.parse(localStorage.getItem("user"));
   const name = JSON.parse(localStorage.getItem("user"));
   const [openBasic, setOpenBasic] = useState(false);
-  
+
   return (
     <MDBNavbar expand="lg" light bgColor="light" id="header">
       <MDBContainer fluid>
@@ -40,7 +40,7 @@ function Header() {
           aria-expanded="false"
           aria-label="Toggle navigation"
           onClick={() => setOpenBasic(!openBasic)}
-          style={{color:"#d8dfeb"}}
+          style={{ color: "#d8dfeb" }}
         >
           <MDBIcon icon="bars" fas />
         </MDBNavbarToggler>
@@ -56,6 +56,14 @@ function Header() {
               <MDBNavbarLink active href="/requestTramite">Iniciar un trámite</MDBNavbarLink>
             </MDBNavbarItem>
 
+            {user?.role == "admin" &&
+              <>
+                <MDBNavbarItem>
+                  <MDBNavbarLink active href="/admin">Administración</MDBNavbarLink>
+                </MDBNavbarItem>
+              </>
+            }
+
             <MDBNavbarItem>
               <MDBDropdown>
                 <MDBDropdownToggle tag="a" className="nav-link" role="button" style={{ color: "black" }}>
@@ -70,15 +78,14 @@ function Header() {
             </MDBNavbarItem>
           </MDBNavbarNav>
 
-
           <form className="d-flex input-group w-auto">
             {user ? (
               <HEADER_Dropdown />
-               
+
             ) : (
               <Link to="/login">
                 <MDBBtn className='me-1 d-flex align-items-center' color='secondary'>
-                  <MDBIcon far icon="user-circle" size='2x' style={{ marginRight: '10px', color:"#285192" }} />
+                  <MDBIcon far icon="user-circle" size='2x' style={{ marginRight: '10px', color: "#285192" }} />
                   <span>INGRESAR</span>
                 </MDBBtn>
               </Link>

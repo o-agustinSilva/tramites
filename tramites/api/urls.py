@@ -1,9 +1,15 @@
 from django.urls import path
-from api.views import RegisterUserView, VerifyUserEmail, LoginUserView, ListUsersView, TestAuthenticationView, PasswordResetConfirm, PasswordResetRequestView, SetNewPassword, LogoutUserView, ResendOtp, RoleView, UserDetailsView
 from rest_framework_simplejwt.views import (TokenRefreshView)
 from unicodedata import name
+from api.views import *
+
+#IMPORTO LA VISTA DE POLI
+from api.views import RegisterUserPoliView
 
 urlpatterns = [
+    # ======================================
+    #           Gestión de usuarios
+    #=======================================
     path('users/', ListUsersView.as_view(), name='list-users'),
     path('user-details/<str:email>/', UserDetailsView.as_view(), name='user-details'),
     path('register/', RegisterUserView.as_view(), name='register'),
@@ -17,4 +23,18 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>', PasswordResetConfirm.as_view(), name='password-reset-confirm'),
     path('set-new-password/', SetNewPassword.as_view(), name='set-new-password'),
     path('logout/', LogoutUserView.as_view(), name='logout'),
+
+    # ======================================
+    #   Gestión de trámites y requisitos
+    #=======================================
+    path('create-requirement/', CreateRequirementView.as_view(), name='create-requirement'),
+    path('get-requirements/', GetRequirementsView.as_view(), name='get-requirement'),
+    path('delete-requirement/<int:pk>/', DeleteRequirementView.as_view(), name='delete-requirement'),
+
+    path('create-tramite/', CreateTramiteView.as_view(), name='create-tramite'),
+    path('get-tramites/', GetTramiteView.as_view(), name='get-tramite'),
+    path('delete-tramite/<int:pk>/', DeleteRequirementView.as_view(), name='delete-tramite'),
+    
+    #URL PARA EL CREAR USUARIOS POLI
+    path('registerPolicia/', RegisterUserPoliView.as_view(), name='registerPoli'),
 ]

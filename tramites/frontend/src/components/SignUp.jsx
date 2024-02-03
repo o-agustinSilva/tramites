@@ -92,7 +92,7 @@ function SignUp() {
           </Col>
         </Row>
 
-        <form className="signup-form" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <Row className="d-flex justify-content-center mt-4">
             <Col md={12}>
               <h6>Datos personales</h6>
@@ -107,6 +107,7 @@ function SignUp() {
                 name="firstname"
                 value={formdata.firstname}
                 onChange={handleFormData}
+                required
               />
             </Col>
             <Col md="6" className="mb-3">
@@ -233,7 +234,7 @@ function SignUp() {
               <MDBInput
                 label="Correo electrónico"
                 id="email"
-                type="text"
+                type="email"
                 className="custom-input"
                 name="email"
                 value={formdata.email}

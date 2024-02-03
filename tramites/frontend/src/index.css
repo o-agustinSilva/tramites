@@ -4,6 +4,13 @@
   flex-direction: column;
 }
 
+/* Quitar flechas de input tipo number para Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 /* ======================================
   ESTILOS GENERALES APLICADOS A ETIQUETAS
 ========================================= */
@@ -29,7 +36,7 @@ h2 {
 }
 
 th {
-  color: #1b1a1a !important; 
+  color: #1b1a1a !important;
 }
 
 .btn-primary {
@@ -52,8 +59,10 @@ th {
 }
 
 .btn-primary.dropdown-toggle::after {
-  border-top-color: #285192 !important; /* Reemplaza 'tu_color' con el color que desees */
+  border-top-color: #285192 !important;
+  /* Reemplaza 'tu_color' con el color que desees */
 }
+
 /* ======================================
     ESTILOS GENERALES APLICADOS A CLASES
 ========================================= */
@@ -71,7 +80,7 @@ th {
 }
 
 .buttonPrimary:hover {
-    background: rgb(1, 82, 102);
+  background: rgb(1, 82, 102);
 }
 
 .custom-input {
@@ -99,16 +108,16 @@ th {
 
 #header {
   background-color: #114b72 !important;
-} 
+}
 
 #headerLinks a {
   color: #e8edf7 !important;
 }
 
 #headerSublinks a {
-  color:#1b1a1a !important;
+  color: #1b1a1a !important;
 }
- 
+
 #headerDropdown {
   background-color: #e3ebf7;
 }
@@ -118,17 +127,18 @@ th {
 }
 
 #dropdownLogout {
-  background-color: #e04c64 !important; 
-  color: white !important; 
+  background-color: #e04c64 !important;
+  color: white !important;
 }
 
 #dropdownLogout a {
-  color: inherit !important; 
+  color: inherit !important;
 }
 
 #dropdownLogout a:hover {
   background-color: #cd455c;
 }
+
 /* ================================
     ESTILOS APLICADOS AL FOOTER
 =================================== */
@@ -198,8 +208,8 @@ th {
 ========================================= */
 
 #forgetpassword-container {
-  background: linear-gradient(270deg, rgba(8,107,132,1) 0%, rgba(11, 63, 77, 0.788) 100%);
-  background-color: rgba(8,107,132,1);
+  background: linear-gradient(270deg, rgba(8, 107, 132, 1) 0%, rgba(11, 63, 77, 0.788) 100%);
+  background-color: rgba(8, 107, 132, 1);
   height: 600px;
   border-radius: 100% 0% 100% 0% / 0% 0% 100% 100%;
 }
@@ -246,55 +256,56 @@ th {
 ========================================= */
 
 .tableButton {
-  min-width: 147px;
   display: flex;
+  justify-content: center;
   align-items: center;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 /*ESTILOS PARA LA PAGINA DE INICIO*/
-.fondoInicio{
-  background-image: url("../src/img/imgFondo.jpeg");
+.fondoInicio {
+  background-image: url("../src/img/imgFondoRecortada.jpeg");
   background-size: cover;
-  background-position: center;
-  height: 50vh;
-  }
+  background-position: left;
+  height: 30vh;
+}
 
-  #titulo-inicio{
-    color: rgb(13, 150, 192);
-    padding-top: 150px;
-    padding-right: 50px;
-  }
- 
-  .linea{
-    width: 50%;
-    border-top: 2px solid #333; 
-    margin: 0 auto; /* Centra la línea horizontalmente */
-  }
+#titulo-inicio {
+  color: rgb(13, 150, 192);
+  padding-top: 150px;
+  padding-right: 50px;
+}
+
+.linea {
+  width: 50%;
+  border-top: 2px solid #333;
+  margin: 0 auto;
+  /* Centra la línea horizontalmente */
+}
 
 /*ESTILOS DE PANTALLA MEDIO DE PAGO*/
 
-.imgPago{
-   width: 200px;
-   height: 100px;
-   border-radius: 30px;
-   
+.imgPago {
+  width: 200px;
+  height: 100px;
+  border-radius: 30px;
+
 }
 
-.h1Pago{
-   padding-top: 30px;
+.h1Pago {
+  padding-top: 30px;
   padding-right: 150px;
 
 }
 
-.imgLogo{
+.imgLogo {
   width: 300px;
   height: 120px;
   padding-right: 10px;
 }
 
 /*ESTILOS DE TABS*/
-.baseTab{
+.baseTab {
   cursor: pointer !important;
   transition: 0.3s ease-out;
   border: none !important;
@@ -305,10 +316,18 @@ th {
   background-color: #3b3f4022 !important;
 }
 
-.activeTab{
+.activeTab {
   background-color: #3b3f4022 !important;
 }
+
 /**ESTILOS PARA LA CARDS*/
-.card{
+.card {
   background-color: rgb(194, 200, 201);
+}
+
+
+
+/*ESTILOS PARA EL FORMULARIO DE CARGA DE USUARIOS POLOS Y TRAMITES*/
+.alertTitle {
+  color: #cd455c;
 }

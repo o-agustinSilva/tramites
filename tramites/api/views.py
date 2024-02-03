@@ -2,13 +2,16 @@ from django.utils import timezone
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from api.models import OneTimePasswords, Usuarios
+from api.models import OneTimePasswords, Usuarios, Requirements, Tramite
 from api.utils import send_code_to_user
-from api.serializers import UserRegisterSerializer, LoginSerializer, ListUsersSerializer, PasswordResetRequestSerializer, SetNewPasswordSerializer, LogoutUserSerializer, ResendOtpSerializer, VerifyEmailSerializer, RolesSerializer, ListUsersSerializer
+from api.serializers import *
 from rest_framework import status, serializers
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, DestroyAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+
+#userPoli
+from api.serializers import UserPoliRegisterSerializer;
 
 class ListUsersView(GenericAPIView):
     serializer_class = ListUsersSerializer
@@ -91,7 +94,7 @@ class ResendOtp(GenericAPIView):
         serializer  = self.serializer_class(data=user_data)
             
         if serializer.is_valid(raise_exception=True):
-            user = serializer.data
+            user = serializer.data 
 
             # Si el usuario ya está válidado devuelvo un 204
             user_data = Usuarios.objects.get(email=user['email'])
@@ -192,6 +195,86 @@ class RoleView(GenericAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Trámites 
+class CreateRequirementView(GenericAPIView):
+    serializer_class = RequirementSerializer; 
+    
+    def post(self, request, *args, **kwargs):
+        serializers = self.serializer_class(data=request.data)
         
+        if serializers.is_valid(raise_exception=True):
+            # Creo y guardo el requisito
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class GetRequirementsView(GenericAPIView):
+    serializer_class = RequirementSerializer; 
+    queryset = Requirements.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class DeleteRequirementView(DestroyAPIView):
+    queryset = Requirements.objects.all()
+    serializer_class = RequirementSerializer
+    lookup_url_kwarg = 'pk'  # Nombre del parámetro en la URL que indica el ID del requisito a eliminar
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({"message": "El requisito ha sido eliminado exitosamente."}, status=status.HTTP_204_NO_CONTENT)
+    
+class CreateTramiteView(GenericAPIView):
+    serializer_class = TramiteSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializers = self.serializer_class(data=request.data)
+        
+        if serializers.is_valid(raise_exception=True):
+
+            # Creo y guardo el trámite
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class GetTramiteView(GenericAPIView):
+    serializer_class = TramiteSerializer
+    queryset = Tramite.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class DeleteRequirementView(DestroyAPIView):
+    queryset = Tramite.objects.all()
+    serializer_class = TramiteSerializer
+    lookup_url_kwarg = 'pk'  # Nombre del parámetro en la URL que indica el ID del requisito a eliminar
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({"message": "El trámite ha sido eliminado exitosamente."}, status=status.HTTP_204_NO_CONTENT)
+    
+#-------VISTA PARA CREAR USUARIO POLICIAS------------
+class RegisterUserPoliView(GenericAPIView):
+    #utilizo la clase serializable
+    serializer_class = UserPoliRegisterSerializer
+
+    def post(self, request):
+        user_data = request.data
+        serializer = self.serializer_class(data=user_data)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            usuario = serializer.data
+            return Response(serializers.errors, status=status.HTTP_201_CREATED)
+        
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+         
 
         

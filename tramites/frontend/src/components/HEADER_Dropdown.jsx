@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import useLogout from "../hooks/useLogout";
 import { MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem, MDBIcon } from 'mdb-react-ui-kit';
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 
 const HEADER_Dropdown = () => {
-    const logout    = useLogout();
-    const navigate  = useNavigate();
-    const refresh   = JSON.parse(localStorage.getItem("refresh_token"));
-    const user      = JSON.parse(localStorage.getItem("user"));
+    const logout = useLogout();
+    const navigate = useNavigate();
+    const refresh = JSON.parse(localStorage.getItem("refresh_token"));
+    const user = JSON.parse(localStorage.getItem("user"));
 
     const handleLogout = async () => {
         const res = await axiosInstance.post("/logout/", {
@@ -22,10 +22,12 @@ const HEADER_Dropdown = () => {
     };
 
     return (
+
         <MDBDropdown group>
+
             <MDBDropdownToggle size="lg" tag='a' className='btn btn-primary d-flex align-items-center'>
-                <MDBIcon far icon="user-circle" size='2x' style={{ marginRight: '10px', color:"#285192" }} />
-                <span style={{color:"#285192"}}>{user.fullname}</span>
+                <MDBIcon far icon="user-circle" size='2x' style={{ marginRight: '10px', color: "#285192" }} />
+                <span style={{ color: "#285192" }}>{user.fullname}</span>
             </MDBDropdownToggle>
             <MDBDropdownMenu id="headerDropdown">
                 <MDBDropdownItem link href="/dashboard">

@@ -49,18 +49,16 @@ const TRAMITES_ListTramites = ({ status }) => {
                         <PDFDownloadLink document={<TRAMITE_Pdf />}
                             fileName='Nombre del certificado'>
                             <MDBBtn color="success" rounded size="sm" className='tableButton'>
-
-
-                                <MDBIcon fas icon="arrow-circle-down" size="2x" />
-                                <span className="mx-2">Descargar</span>
+                                <MDBIcon fas icon="arrow-circle-down" size="1x" />
+                                <span className="mx-3">Descargar</span>
                             </MDBBtn>
                         </PDFDownloadLink>
                     </td>
                     <td>
                         <Link to="/tramite">
                             <MDBBtn color="info" rounded size="sm" className='tableButton'>
-                                <MDBIcon fas icon="edit" size="2x" />
-                                <span className="mx-2">Ver detalle</span>
+                                <MDBIcon fas icon="edit" size="1x" />
+                                <span className="mx-3">Ver detalle</span>
                             </MDBBtn>
                         </Link>
                     </td>

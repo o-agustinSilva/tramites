@@ -1,16 +1,14 @@
 import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { AdminTab } from "../components/AdminTab";
-import AdminUser from "../components/AdminUser";
+import { ADMIN_Tabs } from "../components/ADMIN_Tabs";
 
 
 export function AdminPage(){
    return(
        <div className="App">
            <Header/>
-           <AdminUser/>
-           <AdminTab/>
+           <ADMIN_Tabs/>
            <Footer />
         </div>
    )

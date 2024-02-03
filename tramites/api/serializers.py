@@ -1,4 +1,4 @@
-from api.models import Usuarios
+from api.models import Usuarios, Requirements, Tramite
 from api.utils import send_normal_email, has_required_age
 from django.conf import settings
 from django.contrib.auth import authenticate
@@ -215,3 +215,56 @@ class LogoutUserSerializer(serializers.Serializer):
 
 class RolesSerializer(serializers.Serializer):
     roles = serializers.ListField(child=serializers.CharField(max_length=15), required=False)
+
+# Trámites 
+class RequirementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Requirements
+        fields = ['id', 'name']
+
+class TramiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tramite
+        fields = '__all__'
+
+# ---SERIALIZABLE DEL USUARIO POLICIA-----
+    
+class UserPoliRegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(max_length=68, min_length=8, write_only=True)
+    password_confirmation = serializers.CharField(max_length=68, min_length=8, write_only=True)
+
+    class Meta:
+        model = Usuarios
+        fields = ['email', 'firstname', 'lastname', 'password', 'password_confirmation', 'number', 'role', 'birthdate', 'address', 'phone', 'document_type', 'genre']
+
+    def validate(self, attrs):
+        password = attrs.get('password', '')
+        password_confirmation = attrs.get('password_confirmation', '')
+        user_birthdate = attrs.get('birthdate', '')
+
+        # Corrobora que las dos contraseñas (pw and confirm pw) coincidan
+        if password != password_confirmation:
+            raise serializers.ValidationError("Las contraseñas deben coincidir")
+        
+        # Corrobora que cumpla la edad minima para realizar un trámite
+        if not has_required_age(user_birthdate):
+            raise serializers.ValidationError("Debe ser mayor de edad para crear una cuenta")
+        
+        return attrs
+    
+    def create(self, validated_data):
+        # Creo el usuario y lo guardo en el modelo 
+        usuario = Usuarios.objects.create_citizen(
+            email = validated_data['email'],
+            firstname = validated_data.get('firstname'),
+            lastname = validated_data.get('lastname'),
+            number = validated_data.get('number'),
+            role = validated_data.get('role'),
+            birthdate = validated_data.get('birthdate'),
+            password = validated_data.get('password'),
+            address = validated_data.get('address'),
+            phone = validated_data.get('phone'),
+            document_type = validated_data.get('document_type'),
+            genre = validated_data.get('genre'),
+        )
+        return usuario
