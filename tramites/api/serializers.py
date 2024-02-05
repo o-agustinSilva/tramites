@@ -1,4 +1,4 @@
-from api.models import Usuarios, Requirements, Tramite
+from api.models import Usuarios, Requirements, Tramite, Dependence
 from api.utils import send_normal_email, has_required_age
 from django.conf import settings
 from django.contrib.auth import authenticate
@@ -216,7 +216,7 @@ class LogoutUserSerializer(serializers.Serializer):
 class RolesSerializer(serializers.Serializer):
     roles = serializers.ListField(child=serializers.CharField(max_length=15), required=False)
 
-# Trámites 
+# Trámites y requisitos
 class RequirementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Requirements
@@ -227,8 +227,20 @@ class TramiteSerializer(serializers.ModelSerializer):
         model = Tramite
         fields = '__all__'
 
+# Dependencias policiales
+class DependenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dependence
+        fields = '__all__'
+
 # ---SERIALIZABLE DEL USUARIO POLICIA-----
+class GetSuperusersSerializer(serializers.ModelSerializer):
+    dependence = DependenceSerializer()
     
+    class Meta:
+        model = Usuarios
+        fields = '__all__'
+
 class UserPoliRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=68, min_length=8, write_only=True)
     password_confirmation = serializers.CharField(max_length=68, min_length=8, write_only=True)

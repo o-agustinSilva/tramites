@@ -63,6 +63,12 @@ th {
   /* Reemplaza 'tu_color' con el color que desees */
 }
 
+.disabled {
+  opacity: 0.6; 
+  cursor: not-allowed;
+  color: white !important;
+}
+
 /* ======================================
     ESTILOS GENERALES APLICADOS A CLASES
 ========================================= */

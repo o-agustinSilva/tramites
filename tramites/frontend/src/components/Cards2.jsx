@@ -53,7 +53,6 @@ export function Inicio2() {
             <div className="my-3">
               <Link to="/requestTramite">
                 <MDBBtn className="d-flex align-items-center" color="info">
-                  {" "}
                   <MDBIcon
                     fas
                     icon="file-signature"

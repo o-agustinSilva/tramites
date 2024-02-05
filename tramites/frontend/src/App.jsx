@@ -18,6 +18,8 @@ import PersistLogin from './components/PersistLogin';
 import "./App.css";
 import { AdminPage } from './pages/AdminPage';
 import { SignupPolicePage } from './pages/SignupPolicePage';
+import { EditUserPage } from './pages/EditUserPage';
+import { EditTramitePage } from './pages/EditTramitePage';
 import NewTramite from './pages/NewTramite';
 
 
@@ -60,11 +62,11 @@ function App() {
             <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />} >
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/registrePolice" element={<SignupPolicePage />} />
+              <Route path="/edit-user/:id" element={<EditUserPage />} />
+              <Route path="/edit-tramite/:id" element={<EditTramitePage />} />
               <Route path="/new-tramite" element={<NewTramite />} />
-              
             </Route>
           </Route>
-          {/* Catch all */}
 
         </Routes>
     </>

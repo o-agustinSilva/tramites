@@ -28,6 +28,17 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
         ('CUIT', 'CUIT'),
     )
 
+    RANGOS= (
+        ('ayudante', 'Ayudante'),
+        ('subinspector', 'Subinspector'),
+        ('inspector', 'Inspector'),
+        ('agente', 'Agente'),
+        ('cabo', 'Cabo'),
+        ('cabo primero', 'Cabo Primero'),
+        ('sargento', 'Sargento'),
+        ('sargento primero', 'Sargento Primero'),
+    )
+
     # Campos personalizados
     number       = models.IntegerField()
     document_type = models.CharField(max_length=9, choices=DOCUMENT_TYPE)
@@ -44,9 +55,8 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     phone   = models.CharField(max_length=16, default="468686")
 
     # Campos adicionales para policía
-    hierarchy   = models.CharField(max_length=30, null=True, blank=True)
-    dependence
-    = models.ForeignKey("Dependence", on_delete=models.CASCADE, null=True, blank=True)
+    hierarchy   = models.CharField(max_length=30, null=True, blank=True, choices=RANGOS)
+    dependence  = models.ForeignKey("Dependence", on_delete=models.CASCADE, null=True, blank=True)
 
     # Campos necesarios para el modelo User base de django
     email           = models.EmailField(max_length=255, unique=True, verbose_name=("Correo electrónico"))
@@ -105,7 +115,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
 
 class Dependence(models.Model):
     name    = models.CharField(max_length=25, null=False)
-    adress  = models.CharField(max_length=60, null=False)
+    address  = models.CharField(max_length=60, null=False)
     phone   = models.CharField(max_length=16, null=False) 
     tramite = models.ManyToManyField("Tramite", verbose_name="Lista de trámites")
 

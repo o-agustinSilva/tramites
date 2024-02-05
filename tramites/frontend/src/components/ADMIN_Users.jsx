@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap';
 import { Link } from "react-router-dom";
+import axios from 'axios';
 import {
-    MDBBadge,
     MDBBtn,
     MDBTable,
     MDBTableHead,
@@ -11,6 +11,26 @@ import {
 } from "mdb-react-ui-kit";
 
 const ADMIN_Users = () => {
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await axios.get("http://localhost:8000/api/get-superusers/");
+                const res = response.data;      
+                if (response.status === 200) setUsers(res)
+
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        fetchUsers();
+    }, []);
+
+    const capitalize = (str) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      };
+
     return (
         <div>
             <MDBTable responsive align="middle">
@@ -24,7 +44,8 @@ const ADMIN_Users = () => {
                     </tr>
                 </MDBTableHead>
                 <MDBTableBody>
-                    <tr>
+                    {users.map((user) => (
+                        <tr key={user.id}>
                         <td>
                             <div className="d-flex align-items-center">
                                 <img
@@ -34,20 +55,22 @@ const ADMIN_Users = () => {
                                     className="rounded-circle"
                                 />
                                 <div className="ms-3">
-                                    <p className="fw-bold mb-1">Daniel Herrera</p>
-                                    <p className="text-muted mb-0">daniHerrera@gmail.com</p>
+                                    <p className="fw-bold mb-1">{user.firstname} {user.lastname}</p>
+                                    <p className="text-muted mb-0">{user.email}</p>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <p className="fw-normal mb-1">Oficial Ayudante</p>
+                            <p className="fw-normal mb-1">{capitalize(user.hierarchy)}</p>
                         </td>
-                        <td>Comisaria Cuarta</td>
+                        <td>{user.dependence.name}</td>
                         <td>
-                            <MDBBtn color="info" rounded size="sm" className="tableButton">
-                                <MDBIcon fas icon="edit" size="1x" />
-                                <span className="mx-3">Editar</span>
-                            </MDBBtn>
+                            <Link to={`/edit-user/${user.id}`}>
+                                <MDBBtn color="info" rounded size="sm" className="tableButton">
+                                    <MDBIcon fas icon="edit" size="1x" />
+                                    <span className="mx-3">Editar</span>
+                                </MDBBtn>
+                            </Link>
                             </td>
                         <td>
                             <MDBBtn color="danger" rounded size="sm" className="tableButton">
@@ -56,6 +79,7 @@ const ADMIN_Users = () => {
                             </MDBBtn>
                         </td>
                     </tr>
+                    ))}     
                 </MDBTableBody>
             </MDBTable>
 
