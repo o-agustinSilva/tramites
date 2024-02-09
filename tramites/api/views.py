@@ -336,10 +336,24 @@ class RegisterUserPoliView(GenericAPIView):
 
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            usuario = serializer.data
-            return Response(serializers.errors, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            errores = serializer.errors
+            print(errores)
+            mensaje_error = {"error": "No se pudo registrar el usuario", "detalles": errores}
+            return Response(mensaje_error, status=status.HTTP_400_BAD_REQUEST)
         
-        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+class DeleteUserPoliView(DestroyAPIView):
+    queryset = Usuarios.objects.all()
+    serializer_class = UserPoliceSerializer
+    lookup_field = 'id'  # o 'pk' si tu modelo utiliza 'pk' como clave primaria
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({"message": "Usuario eliminado exitosamente"}, status=status.HTTP_204_NO_CONTENT)
+
+
 
 class GetSuperusersView(GenericAPIView):
     serializer_class = GetSuperusersSerializer
@@ -353,7 +367,7 @@ class GetSuperusersView(GenericAPIView):
 class UpdatePoliceView(UpdateAPIView):
     serializer_class = ListUsersSerializer
     queryset = Usuarios.objects.all()
-    lookup_url_kwarg = 'pk'
+    lookup_url_kwarg = 'id'
 
     def patch(self, request, *args, **kwargs):
         instance = self.get_object()

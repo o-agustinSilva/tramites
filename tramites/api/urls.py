@@ -52,5 +52,7 @@ urlpatterns = [
     #=======================================
     path('get-superusers/', GetSuperusersView.as_view(), name='get-superusers'),
     path('registerPolicia/', RegisterUserPoliView.as_view(), name='registerPoli'),
+    path('deleteUserPolicia/<int:id>/', DeleteUserPoliView.as_view(), name='deletePoli'),
+
     path('update-police/<int:pk>/', UpdatePoliceView.as_view(), name='update-police'),
 ]

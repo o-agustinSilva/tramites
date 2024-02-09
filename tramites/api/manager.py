@@ -42,3 +42,35 @@ class UserManager(BaseUserManager):
         citizen.save(using=self._db)
         return citizen
     
+
+    def create_police(self, email, firstname, lastname, number, role, password, address, address_number, floor, apartment, document_type, genre,  hierarchy, dependence, is_verified ):
+        if email:
+            email = self.normalize_email(email)
+            self.email_validator(email)
+        else:
+            raise ValueError(_("El correo electrónico es requerido"))
+        if not firstname:
+            raise ValueError(_("El nombre es requerido"))
+        if not lastname:
+            raise ValueError(_("El apellido es requerido"))
+        
+        police = self.model(
+            email=email,
+            firstname=firstname,
+            lastname=lastname,
+            number=number,
+            role=role,
+            address=address,
+            address_number=address_number,
+            floor=floor,
+            apartment=apartment,
+            genre=genre,
+            document_type=document_type,
+            hierarchy=hierarchy,
+            dependence=dependence,
+            is_verified=is_verified
+        )
+        police.set_password(password)
+        police.save(using=self._db)
+        return police
+    

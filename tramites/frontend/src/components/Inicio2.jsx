@@ -21,8 +21,9 @@ export function Inicio2() {
         const response = await axios.get("http://localhost:8000/api/get-tramites/");
         const res = response.data;
 
-        if (response.status === 200) setTramites(res)
 
+        if (response.status === 200) setTramites(res)
+        
       } catch (err) {
         console.log(err);
       }
@@ -51,7 +52,7 @@ export function Inicio2() {
           >
             <p>{tramite.description}</p>
             <div className="my-3">
-              <Link to="/requestTramite">
+              <Link to={`/requestTramite/${tramite.id}`}>
                 <MDBBtn className="d-flex align-items-center" color="info">
                   <MDBIcon
                     fas

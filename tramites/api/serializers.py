@@ -247,36 +247,40 @@ class UserPoliRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Usuarios
-        fields = ['email', 'firstname', 'lastname', 'password', 'password_confirmation', 'number', 'role', 'birthdate', 'address', 'phone', 'document_type', 'genre']
-
+        fields = ['email', 'firstname', 'lastname', 'password', 'password_confirmation', 'number', 'role', 'address', 'address_number', 'floor', 'apartment', 'document_type', 'genre', 'hierarchy', 'dependence', 'is_verified']
+                       
     def validate(self, attrs):
         password = attrs.get('password', '')
         password_confirmation = attrs.get('password_confirmation', '')
-        user_birthdate = attrs.get('birthdate', '')
 
         # Corrobora que las dos contraseñas (pw and confirm pw) coincidan
         if password != password_confirmation:
             raise serializers.ValidationError("Las contraseñas deben coincidir")
         
-        # Corrobora que cumpla la edad minima para realizar un trámite
-        if not has_required_age(user_birthdate):
-            raise serializers.ValidationError("Debe ser mayor de edad para crear una cuenta")
-        
         return attrs
     
     def create(self, validated_data):
         # Creo el usuario y lo guardo en el modelo 
-        usuario = Usuarios.objects.create_citizen(
-            email = validated_data['email'],
-            firstname = validated_data.get('firstname'),
-            lastname = validated_data.get('lastname'),
-            number = validated_data.get('number'),
-            role = validated_data.get('role'),
-            birthdate = validated_data.get('birthdate'),
-            password = validated_data.get('password'),
-            address = validated_data.get('address'),
-            phone = validated_data.get('phone'),
-            document_type = validated_data.get('document_type'),
-            genre = validated_data.get('genre'),
+        usuario = Usuarios.objects.create_police(
+            email=validated_data['email'],
+            firstname=validated_data.get('firstname'),
+            lastname=validated_data.get('lastname'),
+            number=validated_data.get('number'),
+            role=validated_data.get('role'),
+            password=validated_data.get('password'),
+            address=validated_data.get('address'),
+            address_number=validated_data.get('address_number'),
+            floor=validated_data.get('floor'),
+            apartment=validated_data.get('apartment'),
+            document_type=validated_data.get('document_type'),
+            genre=validated_data.get('genre'),
+            hierarchy=validated_data.get('hierarchy'),
+            dependence=validated_data.get('dependence'),
+            is_verified=validated_data.get('is_verified')
         )
         return usuario
+
+class UserPoliceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuarios
+        fields = '__all__'
