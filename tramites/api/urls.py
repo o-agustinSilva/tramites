@@ -39,6 +39,8 @@ urlpatterns = [
     path('delete-tramite/<int:pk>/', DeleteTramiteView.as_view(), name='delete-tramite'),
     path('update-tramite/<int:pk>/', UpdateTramiteView.as_view(), name='update-tramite'),
     
+    path('request-tramite/<int:pk>/', RequestTramiteView.as_view(), name='request-tramite'),
+    path('delete-requested-tramite/<int:pk>/', RequestTramiteView.as_view(), name='request-tramite'),
 
     # ======================================
     #       Gestión de dependencias

@@ -1,17 +1,15 @@
-from api.models import Usuarios, Requirements, Tramite, Dependence
+from api.models import *
 from api.utils import send_normal_email, has_required_age
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.urls import reverse
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import smart_str, smart_bytes, force_str
-from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import smart_bytes, force_str
 from rest_framework import serializers
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from rest_framework.exceptions import ValidationError
-from django.utils import timezone
 
 class ListUsersSerializer(serializers.ModelSerializer):
     class Meta:
@@ -225,6 +223,11 @@ class RequirementSerializer(serializers.ModelSerializer):
 class TramiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tramite
+        fields = '__all__'
+
+class RequestTramiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
         fields = '__all__'
 
 # Dependencias policiales

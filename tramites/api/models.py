@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils import timezone
+import secrets
 from .manager import UserManager
 
 AUTH_PROVIDERS ={'email':'email', 'google':'google'}
@@ -150,6 +151,10 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.operation_number
+    
+    def generate_code(self):
+        code = ''.join(secrets.choice("0123456789") for _ in range(10))
+        return code
 
 class Requirements(models.Model): 
     name = models.CharField(max_length=30, null=False)

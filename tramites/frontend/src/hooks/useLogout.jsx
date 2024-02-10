@@ -11,7 +11,6 @@ const useLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("user_data");
     navigate("/login");
-    toast.warn("logout successful");
   };
 
   return logout;

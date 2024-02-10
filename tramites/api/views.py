@@ -289,6 +289,20 @@ class UpdateTramiteView(UpdateAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class RequestTramiteView(GenericAPIView):
+    serializer_class = TramiteSerializer
+    queryset = Tramite.objects.all()
+    lookup_url_kwarg = 'pk'
+
+    def post(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 # ======================================
 #      Views de dependencias
 #=======================================

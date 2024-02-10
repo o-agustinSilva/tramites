@@ -69,11 +69,11 @@ const ADMIN_EditTramite = ({ id }) => {
     const updatedRequirements = formdata.requirement.includes(reqId)
       ? formdata.requirement.filter((id) => id !== reqId)
       : [...formdata.requirement, reqId];
-  
+
     setFormData({ ...formdata, requirement: updatedRequirements });
     setChanged(true);
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -151,11 +151,11 @@ const ADMIN_EditTramite = ({ id }) => {
             <Row>
               {requirements.map((req) => (
                 <Col md={6} key={req.id}>
-                  <MDBCheckbox 
-                  value={req.id} 
-                  label={req.name}
-                  checked={formdata.requirement.includes(req.id)} 
-                  onChange={handleCheckboxChange}
+                  <MDBCheckbox
+                    value={req.id}
+                    label={req.name}
+                    checked={formdata.requirement.includes(req.id)}
+                    onChange={handleCheckboxChange}
                   />
                 </Col>
               ))}
@@ -164,12 +164,13 @@ const ADMIN_EditTramite = ({ id }) => {
 
           <Row className="d-flex mt-3">
             <div className="d-grid gap-2">
-              <MDBBtn 
-              disabled={!hasChanged}
-              className={`d-flex justify-content-center align-items-center ${hasChanged ? '' : 'disabled'}`}
-              type="submit" 
-              color="success">
-                Crear trámite
+              <MDBBtn
+                disabled={!hasChanged}
+                className={`d-flex justify-content-center align-items-center ${hasChanged ? '' : 'disabled'}`}
+                type="submit"
+                color="success">
+                <MDBIcon fas icon="check-circle" size="2x" className="me-3" />
+                <span className="mb-0">Guardar cambios</span>
               </MDBBtn>
             </div>
           </Row>
