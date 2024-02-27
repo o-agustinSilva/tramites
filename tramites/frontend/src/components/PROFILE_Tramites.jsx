@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "../utils/axiosInstance";
@@ -6,13 +6,13 @@ import { Link } from "react-router-dom";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/Col";
-import { MDBIcon } from "mdb-react-ui-kit";
 import { MDBBtn } from "mdb-react-ui-kit";
+import axios from "axios";
 
 export function PROFILE_Tramites() {
   const navigate = useNavigate();
   const refresh = JSON.parse(localStorage.getItem("refresh_token"));
-  
+
   const handleLogout = async () => {
     const res = await axiosInstance.post("/logout/", {
       refresh_token: refresh,

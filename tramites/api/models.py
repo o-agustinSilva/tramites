@@ -44,7 +44,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     number       = models.IntegerField()
     document_type = models.CharField(max_length=9, choices=DOCUMENT_TYPE)
         
-    birthdate = models.DateField(default="2000-06-10")
+    birthdate = models.DateField()
 
      # Campos adicionales para ciudadano
     address = models.CharField(max_length=60)
@@ -142,7 +142,7 @@ class Payment(models.Model):
     )
 
     tramite = models.ForeignKey("Tramite", on_delete=models.CASCADE) 
-    usuario = models.OneToOneField(Usuarios, on_delete=models.CASCADE, default=1)
+    usuario = models.OneToOneField(Usuarios, on_delete=models.CASCADE)
     
     operation_number    = models.CharField(max_length=15, null=False)
     amount              = models.DecimalField(max_digits=5, decimal_places=2)
@@ -155,6 +155,32 @@ class Payment(models.Model):
     def generate_code(self):
         code = ''.join(secrets.choice("0123456789") for _ in range(10))
         return code
+
+class Cases(models.Model):
+    ESTADOS = (
+        ('solicitado', 'Solicitado'),
+        ('en curso', 'En curso'),
+        ('resuelto', 'Resuelto'),
+        ('rechazado', 'Rechazado'),
+    )
+
+    tramite = models.ForeignKey("Tramite", on_delete=models.CASCADE) 
+    solicitante = models.ForeignKey(Usuarios, on_delete=models.CASCADE, related_name = 'solicitante')
+    usuario_administrador = models.ForeignKey(Usuarios, on_delete=models.CASCADE, related_name = 'administrativo', null=True)
+    request_date = models.DateField()
+    status = models.CharField(max_length=10, choices=ESTADOS)
+
+    # Permite la carga de documentos
+    dni_frente  = models.ImageField(upload_to='media/', null=True)
+    dni_dorso   = models.ImageField(upload_to='media/', null=True)
+
+    # Atributos opcionales - solo para algunos trámites
+    nombre_madre = models.CharField(max_length=100, blank=True)
+    madre_vive = models.BooleanField(blank=True, null=True)
+    nombre_padre = models.CharField(max_length=100, blank=True)
+    padre_vive = models.BooleanField(blank=True, null=True)
+    numero_hijos = models.IntegerField(blank=True, null=True)
+    entidad_solicitante = models.CharField(max_length=100, blank=True)
 
 class Requirements(models.Model): 
     name = models.CharField(max_length=30, null=False)

@@ -41,7 +41,7 @@ export function TableTramites() {
         </TabPane>
 
         <TabPane eventKey="2" active={activeTab === "2"}>
-        <TRAMITES_ListTramites status="finalizado" />
+        <TRAMITES_ListTramites status="resuelto" />
         </TabPane>
       </TabContent>
     </Container>

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useTramite } from '../context/TramiteProvider';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -13,6 +14,12 @@ import {
 } from "mdb-react-ui-kit";
 
 const REQTRAMITE_SecondStep = (props) => {
+    const { tramiteData, setTramiteData } = useTramite();
+    const [data, setData] = useState({
+        frente: "",
+        dorso: "",
+    });
+
     return (
         <Container style={{ background: "#e8edf7", maxWidth: "1100px", borderRadius: "15px" }} className='mt-5'>
             <Row>

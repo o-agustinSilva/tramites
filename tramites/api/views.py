@@ -289,20 +289,80 @@ class UpdateTramiteView(UpdateAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# ======================================
+#           Views de casos
+#=======================================
 class RequestTramiteView(GenericAPIView):
-    serializer_class = TramiteSerializer
-    queryset = Tramite.objects.all()
-    lookup_url_kwarg = 'pk'
+    serializer_class = RequestTramiteSerializer
 
-    def post(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
         
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class ListCasesView(GenericAPIView):
+    serializer_class = ListRequestedTramitesSerializer
+    queryset = Cases.objects.all()
+
+    def get(self, request):
+        queryset = self.get_queryset()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class FilterCasesView(GenericAPIView):
+    serializer_class = ListRequestedTramitesSerializer
+    lookup_url_kwarg = 'filter'
+    
+    def get_queryset(self):
+        filter_value = self.kwargs.get(self.lookup_url_kwarg)
+        filter_value = filter_value.replace("-", " ") # Por si el estado es "En curso"
+        return Cases.objects.filter(status=filter_value)
+    
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class FilterCasesByUserAndStatusView(GenericAPIView):
+    serializer_class = ListRequestedTramitesSerializer
+
+    def get(self, request, user_id, status):
+        if (status != 'resuelto'):
+            status = status.replace("-", " ")
+            queryset = Cases.objects.filter(solicitante=user_id)
+        else:
+            queryset = Cases.objects.filter(solicitante=user_id, status='resuelto')
+
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+    
+class UpdateCaseView(UpdateAPIView):
+    serializer_class = RequestTramiteSerializer
+    queryset = Cases.objects.all()
+    lookup_url_kwarg = 'pk'
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteCaseView(DestroyAPIView):
+    queryset = Cases.objects.all()
+    serializer_class = RequestTramiteSerializer
+    lookup_url_kwarg = 'pk'  # Nombre del parámetro en la URL que indica el ID del requisito a eliminar
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({"message": "La solicitud de trámite ha sido eliminado exitosamente."}, status=status.HTTP_204_NO_CONTENT)
+    
 # ======================================
 #      Views de dependencias
 #=======================================
@@ -350,10 +410,22 @@ class RegisterUserPoliView(GenericAPIView):
 
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            usuario = serializer.data
-            return Response(serializers.errors, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            errores = serializer.errors
+            print(errores)
+            mensaje_error = {"error": "No se pudo registrar el usuario", "detalles": errores}
+            return Response(mensaje_error, status=status.HTTP_400_BAD_REQUEST)
         
-        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+class DeleteUserPoliView(DestroyAPIView):
+    queryset = Usuarios.objects.all()
+    serializer_class = UserPoliceSerializer
+    lookup_field = 'id'  # o 'pk' si tu modelo utiliza 'pk' como clave primaria
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({"message": "Usuario eliminado exitosamente"}, status=status.HTTP_204_NO_CONTENT)
 
 class GetSuperusersView(GenericAPIView):
     serializer_class = GetSuperusersSerializer
@@ -367,7 +439,7 @@ class GetSuperusersView(GenericAPIView):
 class UpdatePoliceView(UpdateAPIView):
     serializer_class = ListUsersSerializer
     queryset = Usuarios.objects.all()
-    lookup_url_kwarg = 'pk'
+    lookup_url_kwarg = 'id'
 
     def patch(self, request, *args, **kwargs):
         instance = self.get_object()

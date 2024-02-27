@@ -1,18 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import Container from "react-bootstrap/Container";
 import { Box, Stepper, Step, StepLabel } from '@mui/material';
 import REQTRAMITE_FirstStep from "../components/REQTRAMITE_FirstStep";
 import REQTRAMITE_SecondStep from "../components/REQTRAMITE_SecondStep";
 import REQTRAMITE_ThirdStep from "../components/REQTRAMITE_ThirdStep";
+import axios from "axios";
 
 const steps = [
-  'Validación de datos',
-  'Datos familiares',
-  'Documentación adicional',
 ];
 
 export function RequestTramite() {
+  let { id } = useParams();
+  const [tramite, setTramite] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
+  const [formData, setFormData] = useState({});
+
+  const updateFormData = (data) => {
+    setFormData(prevData => ({
+      ...prevData,
+      ...data
+    }));
+  };
+  
+  //obtengo el tramite con el ID que pasa por la URL
+  useEffect(() => {
+    const fetchTramite = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/get-tramite/${id}/`);
+        const res = response.data;
+
+        if (response.status === 200) setTramite(res);
+
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchTramite();
+  }, []);
+
+  const setSteps = (s) => {
+    steps.splice(0, steps.length);
+
+    s.forEach((step) => {
+      steps.push(step);
+    })
+  }
 
   return (
     <Container className="mt-3 mb-5">
@@ -26,20 +59,43 @@ export function RequestTramite() {
         </Stepper>
       </Box>
 
-      {activeStep === 0 ? (
-        <REQTRAMITE_FirstStep onNextStep={() => setActiveStep(1)} />
-      ) : activeStep === 1 ? (
-        <REQTRAMITE_SecondStep
-          onNextStep={() => setActiveStep(2)}
-          onPreviousStep={() => setActiveStep(0)}
-        />
-      ) : activeStep === 2 ? (
-        <REQTRAMITE_ThirdStep 
-          onPreviousStep={() => setActiveStep(1)}
-        />
-      ) : null}
+      {tramite?.requirement?.length > 1 && setSteps(['Datos personales', 'Información familiar', 'Documentación adicional'])}
+      {tramite?.requirement?.length == 1 && setSteps(['Datos personales', 'Documentación adicional'])}
+
+      {tramite?.requirement?.length > 1 ?
+        <>
+          {activeStep === 0 ? (
+            <REQTRAMITE_FirstStep 
+            onNextStep={() => setActiveStep(1)}
+            />
+          ) : activeStep === 1 ? (
+            <REQTRAMITE_SecondStep
+              onNextStep={() => setActiveStep(2)}
+              onPreviousStep={() => setActiveStep(0)}
+            />
+          ) : activeStep === 2 ? (
+            <REQTRAMITE_ThirdStep
+              onPreviousStep={() => setActiveStep(1)}
+            />
+          ) : null}
+        </> :
+        <>
+          {activeStep === 0 ? (
+            <REQTRAMITE_FirstStep 
+            onNextStep={() => setActiveStep(1)} 
+            />
+          ) : activeStep === 1 ? (
+            <REQTRAMITE_ThirdStep
+              onPreviousStep={() => setActiveStep(0)}
+            />
+          ) : null}
+        </>
+      }
+
+
     </Container>
   );
 }
+
 
 export default RequestTramite;

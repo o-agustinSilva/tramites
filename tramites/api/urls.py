@@ -39,7 +39,12 @@ urlpatterns = [
     path('delete-tramite/<int:pk>/', DeleteTramiteView.as_view(), name='delete-tramite'),
     path('update-tramite/<int:pk>/', UpdateTramiteView.as_view(), name='update-tramite'),
     
-    path('request-tramite/<int:pk>/', RequestTramiteView.as_view(), name='request-tramite'),
+    path('request-tramite/', RequestTramiteView.as_view(), name='request-tramite'),
+    path('list-cases/', ListCasesView.as_view(), name='list-cases'),
+    path('list-cases/<str:filter>/', FilterCasesView.as_view(), name='filter-cases'),
+    path('list-cases-by-user/<int:user_id>/<str:status>/', FilterCasesByUserAndStatusView.as_view(), name='filter-cases-by-user'),
+    path('claim-case/<int:pk>/', UpdateCaseView.as_view(), name='claim-case'),
+    path('delete-case/<int:pk>/', DeleteCaseView.as_view(), name='delete-case'),
     path('delete-requested-tramite/<int:pk>/', RequestTramiteView.as_view(), name='request-tramite'),
 
     # ======================================
@@ -54,5 +59,7 @@ urlpatterns = [
     #=======================================
     path('get-superusers/', GetSuperusersView.as_view(), name='get-superusers'),
     path('registerPolicia/', RegisterUserPoliView.as_view(), name='registerPoli'),
+    path('deleteUserPolicia/<int:id>/', DeleteUserPoliView.as_view(), name='deletePoli'),
+
     path('update-police/<int:pk>/', UpdatePoliceView.as_view(), name='update-police'),
 ]

@@ -21,6 +21,8 @@ import { SignupPolicePage } from './pages/SignupPolicePage';
 import { EditUserPage } from './pages/EditUserPage';
 import { EditTramitePage } from './pages/EditTramitePage';
 import NewTramite from './pages/NewTramite';
+import { PanelNotificacionPage } from './pages/PanelNotificacionPage';
+
 
 
 const ROLES = {
@@ -53,18 +55,19 @@ function App() {
             <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Editor, ROLES.Admin]} />} >
               <Route path="/dashboard" element={<PerfilPage />} />
               <Route path="/misTramites" element={<MisTramitesPage />} />
-              <Route path="/requestTramite" element={<RequestTramitePage />} />
+              <Route path="/requestTramite/:id" element={<RequestTramitePage/>} />
               <Route path="/tramite" element={<TramitePage />} />
               <Route path="/pago" element={<MedioPagoPage />} />
             </Route>
 
             {/* Rutas que precisan rol de policia/administrador */}
-            <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />} >
+            <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Editor]} />} >
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/registrePolice" element={<SignupPolicePage />} />
               <Route path="/edit-user/:id" element={<EditUserPage />} />
               <Route path="/edit-tramite/:id" element={<EditTramitePage />} />
               <Route path="/new-tramite" element={<NewTramite />} />
+              <Route path="/panelNotificacion" element={<PanelNotificacionPage />} />
             </Route>
           </Route>
 

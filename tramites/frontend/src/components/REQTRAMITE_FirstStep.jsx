@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useTramite } from '../context/TramiteProvider';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -11,6 +12,42 @@ import {
 } from "mdb-react-ui-kit";
 
 const REQTRAMITE_FirstStep = (props) => {
+  const { tramiteData, setTramiteData } = useTramite();
+  const user = JSON.parse(localStorage.getItem("user_data"));
+  const [userData, setUserData] = useState({
+    firstname: '',
+    lastname: '',
+    document_type: '',
+    number: '',
+    address: '',
+    address_number: '',
+    floor: '',
+    email: '',
+    phone: '',
+    birthdate: '',
+  });
+
+  useEffect(() => {
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      ...user,
+      phone: user.phone_area_code + user.phone,
+    }));
+  }, []);
+
+  const handleFormData = (e) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+
+  const handleNextStep = () => {
+    setTramiteData((prevTramite) => ({
+      ...prevTramite,
+      user: userData // Asigna userData al estado user dentro de tramiteData
+    }));
+
+    props.onNextStep(); // Llama a la función para pasar al siguiente paso
+  };
+
   return (
     <Container style={{ background: "#e8edf7", maxWidth:"1100px", borderRadius: "15px" }} className='mt-5'>
       <Row>
@@ -27,6 +64,9 @@ const REQTRAMITE_FirstStep = (props) => {
               label="Nombre"
               type="text"
               className="custom-input"
+              name="firstname"
+              value={userData.firstname}
+              onChange={handleFormData}
             />
           </Col>
           <Col xs={12} md={6} className="mb-3">
@@ -34,6 +74,9 @@ const REQTRAMITE_FirstStep = (props) => {
               label="Apellido"
               type="text"
               className="custom-input"
+              name="lastname"
+              value={userData.lastname}
+              onChange={handleFormData}
             />
           </Col>
         </Row>
@@ -42,6 +85,8 @@ const REQTRAMITE_FirstStep = (props) => {
           <Col md="6" className="mb-3">
             <Form.Select
               name="document_type"
+              value={userData.document_type}
+              onChange={handleFormData}
             >
               <option value="" disabled>
                 Seleccione tipo de documento
@@ -57,6 +102,8 @@ const REQTRAMITE_FirstStep = (props) => {
               type="text"
               className="custom-input"
               name="number"
+              value={userData.number}
+              onChange={handleFormData}
             />
           </Col>
         </Row>
@@ -67,7 +114,9 @@ const REQTRAMITE_FirstStep = (props) => {
               label="Dirección"
               type="text"
               className="custom-input"
-              name="direccion"
+              name="address"
+              value={userData.address}
+              onChange={handleFormData}
             />
           </Col>
 
@@ -77,7 +126,9 @@ const REQTRAMITE_FirstStep = (props) => {
               id="numero"
               type="text"
               className="custom-input"
-              name="namber"
+              name="address_number"
+              value={userData.address_number}
+              onChange={handleFormData}
             />
           </Col>
 
@@ -87,7 +138,9 @@ const REQTRAMITE_FirstStep = (props) => {
               id="piso/dpto"
               type="text"
               className="custom-input"
-              name="namber"
+              name="floor"
+              value={userData.floor}
+              onChange={handleFormData}
             />
           </Col>
         </Row>
@@ -99,6 +152,9 @@ const REQTRAMITE_FirstStep = (props) => {
                 className="form-control"
                 type="text"
                 placeholder="Correo Electonico"
+                name="email"
+                value={userData.email}
+                onChange={handleFormData}
               />
             </MDBInputGroup>
           </Col>
@@ -109,7 +165,9 @@ const REQTRAMITE_FirstStep = (props) => {
               id="telefono"
               type="text"
               className="custom-input"
-              name="number"
+              name="phone"
+              value={userData.phone}
+              onChange={handleFormData}
             />
           </Col>
 
@@ -118,14 +176,16 @@ const REQTRAMITE_FirstStep = (props) => {
               label="Fecha de Nacimiento"
               type="date"
               className="custom-input"
-              name="fecha"
+              name="birthdate"
+              value={userData.birthdate}
+              onChange={handleFormData}
             />
           </Col>
         </Row>
 
         <Row>
           <Col className="d-flex justify-content-end">
-            <MDBBtn className="d-flex align-items-center" color="success" onClick={props.onNextStep}>
+            <MDBBtn className="d-flex align-items-center" color="success" onClick={handleNextStep}>
               <MDBIcon
                 fas
                 icon="check-circle"
