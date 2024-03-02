@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTramite } from '../context/TramiteProvider';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
 import {
     MDBInput,
-    MDBInputGroup,
-    MDBCheckbox,
     MDBBtn,
     MDBIcon,
     MDBRadio,
@@ -16,9 +13,26 @@ import {
 const REQTRAMITE_SecondStep = (props) => {
     const { tramiteData, setTramiteData } = useTramite();
     const [data, setData] = useState({
-        frente: "",
-        dorso: "",
+        nombre_padre: "",
+        padre_vive: "",
+        nombre_madre: "",
+        madre_vive: "",
+        nro_hijos: "0",
+        entidad_solicitante: "",
     });
+
+    const handleFormData = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value });
+    };
+
+    const handleNextStep = () => {
+        setTramiteData((prevTramite) => ({
+            ...prevTramite,
+            family_data: data
+        }));
+
+        props.onNextStep(); // Llama a la función para pasar al siguiente paso
+    };
 
     return (
         <Container style={{ background: "#e8edf7", maxWidth: "1100px", borderRadius: "15px" }} className='mt-5'>
@@ -35,12 +49,15 @@ const REQTRAMITE_SecondStep = (props) => {
                             label="Padre: Nombre y Apellido"
                             type="text"
                             className="custom-input"
+                            name="nombre_padre"
+                            value={data.nombre_padre}
+                            onChange={handleFormData}
                         />
                     </Col>
                     <Col md={3} className='d-flex justify-content-center'>
                         <p className='mx-3'>¿Vive?</p>
-                        <MDBRadio name='inlineRadio' id='inlineRadio1' value='option1' label='Si' inline />
-                        <MDBRadio name='inlineRadio' id='inlineRadio2' value='option2' label='No' inline />
+                        <MDBRadio name='padre_vive' value='true' label='Si' inline onChange={handleFormData}/>
+                        <MDBRadio name='padre_vive' value='false' label='No' inline onChange={handleFormData}/>
                     </Col>
                 </Row>
 
@@ -50,13 +67,16 @@ const REQTRAMITE_SecondStep = (props) => {
                             label="Madre: Nombre y Apellido"
                             type="text"
                             className="custom-input"
+                            name="nombre_madre"
+                            value={data.nombre_madre}
+                            onChange={handleFormData}
                         />
                     </Col>
 
                     <Col md={3} className='d-flex justify-content-center'>
                         <p className='mx-3'>¿Vive?</p>
-                        <MDBRadio name='inlineRadio' id='inlineRadio1' value='option1' label='Si' inline />
-                        <MDBRadio name='inlineRadio' id='inlineRadio2' value='option2' label='No' inline />
+                        <MDBRadio name='madre_vive' value='true' label='Si' inline onChange={handleFormData}/>
+                        <MDBRadio name='madre_vive' value='false' label='No' inline onChange={handleFormData}/>
                     </Col>
                 </Row>
 
@@ -67,10 +87,12 @@ const REQTRAMITE_SecondStep = (props) => {
 
                     <Col md={5} className='mb-3 d-flex justify-content-start'>
                         <select
-                            className="form-select"
-                            aria-label="Default select example"
-                        >
-                            <option selected>0</option>
+                        className="form-select"
+                        aria-label="Default select example"
+                        name="nro_hijos"
+                        value={data.nro_hijos}
+                        onChange={handleFormData}>
+                            <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -82,9 +104,11 @@ const REQTRAMITE_SecondStep = (props) => {
                     <Col md={6} className="mb-3">
                         <MDBInput
                             label="Entidad que lo solicita"
-                            id="form1"
                             type="text"
                             className="custom-input"
+                            name="entidad_solicitante"
+                            value={data.entidad_solicitante}
+                            onChange={handleFormData}
                         />
                     </Col>
                 </Row>
@@ -102,7 +126,7 @@ const REQTRAMITE_SecondStep = (props) => {
                         </MDBBtn>
                     </Col>
                     <Col className="d-flex justify-content-end">
-                        <MDBBtn className="d-flex align-items-center" color="success" onClick={props.onNextStep}>
+                        <MDBBtn className="d-flex align-items-center" color="success" onClick={handleNextStep}>
                             <MDBIcon
                                 fas
                                 icon="check-circle"

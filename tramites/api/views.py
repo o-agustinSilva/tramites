@@ -312,6 +312,11 @@ class ListCasesView(GenericAPIView):
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class GetCaseView(RetrieveAPIView):
+    serializer_class = ListRequestedTramitesSerializer
+    queryset = Cases.objects.all()
+    lookup_url_kwarg = 'pk'
+
 class FilterCasesView(GenericAPIView):
     serializer_class = ListRequestedTramitesSerializer
     lookup_url_kwarg = 'filter'

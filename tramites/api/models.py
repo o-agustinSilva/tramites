@@ -182,6 +182,8 @@ class Cases(models.Model):
     numero_hijos = models.IntegerField(blank=True, null=True)
     entidad_solicitante = models.CharField(max_length=100, blank=True)
 
+    # Comprobante de pago y certificado
+
 class Requirements(models.Model): 
     name = models.CharField(max_length=30, null=False)
 

@@ -56,7 +56,7 @@ function App() {
               <Route path="/dashboard" element={<PerfilPage />} />
               <Route path="/misTramites" element={<MisTramitesPage />} />
               <Route path="/requestTramite/:id" element={<RequestTramitePage/>} />
-              <Route path="/tramite" element={<TramitePage />} />
+              <Route path="/tramite/:id" element={<TramitePage />} />
               <Route path="/pago" element={<MedioPagoPage />} />
             </Route>
 

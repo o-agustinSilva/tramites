@@ -81,7 +81,7 @@ const TRAMITES_ListTramites = ({ status }) => {
                             </PDFDownloadLink>
                         </td>
                         <td>
-                            <Link to="/tramite">
+                            <Link to={`/tramite/${tramite.id}/`}>
                                 <MDBBtn color="info" rounded size="sm" className='tableButton'>
                                     <MDBIcon fas icon="edit" size="1x" />
                                     <span className="mx-3">Ver detalle</span>

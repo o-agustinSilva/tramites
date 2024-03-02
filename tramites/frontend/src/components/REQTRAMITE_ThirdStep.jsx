@@ -61,7 +61,7 @@ const REQTRAMITE_ThirdStep = (props) => {
             formData.append('madre_vive', tramiteData.family_data.madre_vive);
             formData.append('nombre_padre', tramiteData.family_data.nombre_padre);
             formData.append('padre_vive', tramiteData.family_data.padre_vive);
-            formData.append('numero_hijos', tramiteData.family_data.numero_hijos);
+            formData.append('numero_hijos', tramiteData.family_data.nro_hijos);
             formData.append('entidad_solicitante', tramiteData.family_data.entidad_solicitante);
 
             // Imagenes
