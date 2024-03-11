@@ -22,8 +22,8 @@ import { EditUserPage } from './pages/EditUserPage';
 import { EditTramitePage } from './pages/EditTramitePage';
 import NewTramite from './pages/NewTramite';
 import { PanelNotificacionPage } from './pages/PanelNotificacionPage';
-
-
+import REQTRAMITE_Success from './components/REQTRAMITE_Success';
+import REQTRAMITE_Failure from './components/REQTRAMITE_Failure';
 
 const ROLES = {
   'User': 'citizen',
@@ -58,6 +58,8 @@ function App() {
               <Route path="/requestTramite/:id" element={<RequestTramitePage/>} />
               <Route path="/tramite/:id" element={<TramitePage />} />
               <Route path="/pago" element={<MedioPagoPage />} />
+              <Route path="/paymentSuccessful" element={<REQTRAMITE_Success/>} />
+              <Route path="/paymentFailed" element={<REQTRAMITE_Failure/>} />
             </Route>
 
             {/* Rutas que precisan rol de policia/administrador */}

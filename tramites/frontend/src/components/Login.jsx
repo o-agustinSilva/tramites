@@ -73,7 +73,7 @@ function Login() {
   };
 
   return (
-    <Container className="d-flex justify-content-center my-auto">
+    <Container className="d-flex justify-content-center my-auto p-5">
       <div id="login-box" className="p-4">
         <h2 id="loginTitle">Iniciar sesión</h2>
         <form className="loginForm" onSubmit={handleSubmit}>

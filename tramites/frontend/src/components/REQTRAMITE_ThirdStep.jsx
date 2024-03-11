@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { useTramite } from '../context/TramiteProvider';
 import { useParams, useNavigate } from 'react-router-dom';
+import LOADING_Spinner from './LOADING_Spinner';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -15,12 +17,56 @@ import {
 
 const REQTRAMITE_ThirdStep = (props) => {
     let { id } = useParams();
+    const [isLoading, setIsLoading] = useState(true);
+    const [fieldsCompleted, setFieldsCompleted] = useState(false);
     const navigate = useNavigate();
     const { tramiteData, setTramiteData } = useTramite();
     const [documentation, setDocumentation] = useState({
         frente: "",
         dorso: "",
     });
+    const [preferenceId, setPreferenceId] = useState(null);
+    
+    useEffect(() => {
+        const areFieldsCompleted = documentation.frente !== "" && documentation.dorso !== "";
+        setFieldsCompleted(areFieldsCompleted);
+    }, [documentation]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            initMercadoPago("TEST-8dd16f5f-25c7-4d8c-b2ed-cba4e2242fe4", {
+                locale: "es-AR",
+            });
+
+            handleBuy();
+        };
+
+        fetchData();
+        setIsLoading(false);
+    }, []);
+
+    const createPreference = async () => {
+        try {
+            const response = await axios.post("http://localhost:3000/create_preference", {
+                title: "Tramite estatico",
+                price: 100,
+                quantity: 1,
+            });
+
+            const { id } = response.data;
+            return id;
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleBuy = async () => {
+        const id = await createPreference();
+        if (id) {
+            setPreferenceId(id);
+        }
+    };
 
     const handleChange = (e) => {
         const { name, files } = e.target;
@@ -34,9 +80,6 @@ const REQTRAMITE_ThirdStep = (props) => {
         }));
     }, [documentation]);
 
-    useEffect(() => {
-        console.log(tramiteData);
-    }, [tramiteData]); // Se ejecuta cuando tramiteData cambia
 
     const getDate = () => {
         const fecha = new Date();
@@ -47,6 +90,7 @@ const REQTRAMITE_ThirdStep = (props) => {
         return `${year}-${month}-${day}`;
     }
 
+    /*
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -83,6 +127,11 @@ const REQTRAMITE_ThirdStep = (props) => {
         } catch (error) {
             console.error(error);
         }
+    }*/
+
+    if (isLoading) {
+        // Muestra el spinner mientras la página está cargando
+        return <LOADING_Spinner />;
     }
 
     return (
@@ -94,60 +143,57 @@ const REQTRAMITE_ThirdStep = (props) => {
                 </Col>
             </Row>
 
-            <form onSubmit={handleSubmit}>
-                <div className='p-3'>
-                    <Row>
-                        <Col className='d-flex align-items-center'>
-                            <MDBIcon fas icon="id-card" size="2x" />
-                            <h5 className='mx-3 mb-0'>
-                                Fotos del Documento (Tome una imagen del frente y dorso)
-                            </h5>
-                        </Col>
-                    </Row>
-                    <Row className='mt-2 mb-3'>
-                        <Col sm={12} xl={6}>
-                            <MDBFile label='Frente'
-                                id='customFile'
-                                name='frente'
-                                onChange={handleChange}
-                            />
-                        </Col>
 
-                        <Col sm={12} xl={6}>
-                            <MDBFile label='Dorso'
-                                id='customFile'
-                                name='dorso'
-                                onChange={handleChange}
-                            />
-                        </Col>
-                    </Row>
+            <div className='p-3'>
+                <Row>
+                    <Col className='d-flex align-items-center'>
+                        <MDBIcon fas icon="id-card" size="2x" />
+                        <h5 className='mx-3 mb-0'>
+                            Fotos del Documento (Tome una imagen del frente y dorso)
+                        </h5>
+                    </Col>
+                </Row>
+                <Row className='mt-2 mb-3'>
+                    <Col sm={12} xl={6}>
+                        <MDBFile label='Frente'
+                            id='customFile'
+                            name='frente'
+                            onChange={handleChange}
+                            required
+                        />
+                    </Col>
 
-                    <Row>
-                        <Col className="d-flex justify-content-start">
-                            <MDBBtn className="d-flex align-items-center" color="danger" onClick={props.onPreviousStep}>
-                                <MDBIcon
-                                    fas
-                                    icon="arrow-circle-left"
-                                    size="2x"
-                                    style={{ marginRight: '10px' }}
-                                />
-                                <span className='mb-0'>Volver</span>
-                            </MDBBtn>
-                        </Col>
-                        <Col className="d-flex justify-content-end">
-                            <MDBBtn className="d-flex align-items-center" color="success">
-                                <MDBIcon
-                                    fas
-                                    icon="check-circle"
-                                    size="2x"
-                                    style={{ marginRight: '10px' }}
-                                />
-                                <span className='mb-0'>Ir a pagar</span>
-                            </MDBBtn>
-                        </Col>
-                    </Row>
-                </div>
-            </form>
+                    <Col sm={12} xl={6}>
+                        <MDBFile label='Dorso'
+                            id='customFile'
+                            name='dorso'
+                            onChange={handleChange}
+                            required
+                        />
+                    </Col>
+                </Row>
+
+                <Row className='d-flex align-items-center'>
+                    <Col md={6} className="d-flex justify-content-start">
+                        <MDBBtn className="d-flex justify-content-center align-items-center mb-3 w-100" color="danger" onClick={props.onPreviousStep} style={{ height: '48px' }}>
+                            <MDBIcon
+                                fas
+                                icon="arrow-circle-left"
+                                size="2x"
+                                style={{ marginRight: '10px' }}
+                            />
+                            <span className='mb-0'>Volver</span>
+                        </MDBBtn>
+                    </Col>
+                    <Col md={6}>
+                        {fieldsCompleted && 
+                        <Wallet initialization={{ preferenceId: preferenceId }} />}
+                        
+                    </Col>
+                </Row>
+            </div>
+
+
 
         </Container >
     );
