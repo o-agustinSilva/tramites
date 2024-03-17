@@ -44,7 +44,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     number       = models.IntegerField()
     document_type = models.CharField(max_length=9, choices=DOCUMENT_TYPE)
         
-    birthdate = models.DateField()
+    birthdate = models.DateField(default="2000-06-10")
 
      # Campos adicionales para ciudadano
     address = models.CharField(max_length=60)

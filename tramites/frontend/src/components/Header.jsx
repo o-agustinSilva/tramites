@@ -21,8 +21,57 @@ import {
 
 function Header() {
   const user = JSON.parse(localStorage.getItem("user"));
-  const name = JSON.parse(localStorage.getItem("user"));
   const [openBasic, setOpenBasic] = useState(false);
+  
+  const renderUserRoleSpecificLinks = () => {
+    if (user) {
+      if (user.role === "admin") {
+        return (
+          <MDBNavbarItem>
+            <MDBNavbarLink active href="/admin">
+              Administración
+            </MDBNavbarLink>
+          </MDBNavbarItem>
+        );
+      } else if (user.role === "police") {
+        return (
+          <MDBNavbarItem>
+            <MDBNavbarLink active href="/panelNotificacion">
+              Panel de Notificaciones
+            </MDBNavbarLink>
+          </MDBNavbarItem>
+        );
+      }
+    }
+
+    // Si el usuario no es admin ni policía, mostrar solo las opciones comunes
+    return (
+      <>
+        <MDBNavbarItem>
+          <MDBNavbarLink active aria-current="page" href="/">
+            Inicio
+          </MDBNavbarLink>
+        </MDBNavbarItem>
+        <MDBNavbarItem>
+          <MDBNavbarLink active href="/requestTramite">
+            Iniciar un trámite
+          </MDBNavbarLink>
+        </MDBNavbarItem>
+        <MDBNavbarItem>
+          <MDBDropdown>
+            <MDBDropdownToggle tag="a" className="nav-link" role="button" style={{ color: "black" }}>
+              Ayuda
+            </MDBDropdownToggle>
+            <MDBDropdownMenu id="headerSublinks">
+              <MDBDropdownItem link>Tengo un problema</MDBDropdownItem>
+              <MDBDropdownItem link>Contacto</MDBDropdownItem>
+              <MDBDropdownItem link>FAQ</MDBDropdownItem>
+            </MDBDropdownMenu>
+          </MDBDropdown>
+        </MDBNavbarItem>
+      </>
+    );
+  };
 
   return (
     <MDBNavbar expand="lg" light bgColor="light" id="header">
@@ -47,35 +96,7 @@ function Header() {
 
         <MDBCollapse navbar open={openBasic}>
           <MDBNavbarNav id="headerLinks" className="d-flex justify-content-start">
-            <MDBNavbarItem>
-              <MDBNavbarLink active aria-current="page" href="/">
-                Inicio
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink active href="/requestTramite">Iniciar un trámite</MDBNavbarLink>
-            </MDBNavbarItem>
-
-            {user?.role == "admin" &&
-              <>
-                <MDBNavbarItem>
-                  <MDBNavbarLink active href="/admin">Administración</MDBNavbarLink>
-                </MDBNavbarItem>
-              </>
-            }
-    
-            <MDBNavbarItem>
-              <MDBDropdown>
-                <MDBDropdownToggle tag="a" className="nav-link" role="button" style={{ color: "black" }}>
-                  Ayuda
-                </MDBDropdownToggle>
-                <MDBDropdownMenu id="headerSublinks">
-                  <MDBDropdownItem link>Tengo un problema</MDBDropdownItem>
-                  <MDBDropdownItem link>Contacto</MDBDropdownItem>
-                  <MDBDropdownItem link>FAQ</MDBDropdownItem>
-                </MDBDropdownMenu>
-              </MDBDropdown>
-            </MDBNavbarItem>
+            {renderUserRoleSpecificLinks()}
           </MDBNavbarNav>
 
           <form className="d-flex input-group w-auto">
