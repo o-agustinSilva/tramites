@@ -1,4 +1,3 @@
-import useLogout from "../hooks/useLogout";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import dayjs from "dayjs";

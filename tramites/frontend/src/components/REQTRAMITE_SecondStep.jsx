@@ -26,6 +26,10 @@ const REQTRAMITE_SecondStep = (props) => {
     };
 
     const handleNextStep = () => {
+
+        // Chequeo de campos obligatorios
+        if (data.entidad_solicitante === "") return;
+
         setTramiteData((prevTramite) => ({
             ...prevTramite,
             family_data: data
@@ -42,7 +46,7 @@ const REQTRAMITE_SecondStep = (props) => {
                     <h4> Informacion Familiar</h4>
                 </Col>
             </Row>
-            <div className='p-3'>
+            <form className='p-3'>
                 <Row>
                     <Col md={6} className="mb-3">
                         <MDBInput
@@ -56,8 +60,8 @@ const REQTRAMITE_SecondStep = (props) => {
                     </Col>
                     <Col md={3} className='d-flex justify-content-center'>
                         <p className='mx-3'>¿Vive?</p>
-                        <MDBRadio name='padre_vive' value='true' label='Si' inline onChange={handleFormData}/>
-                        <MDBRadio name='padre_vive' value='false' label='No' inline onChange={handleFormData}/>
+                        <MDBRadio name='padre_vive' value='true' label='Si' inline onChange={handleFormData} required/>
+                        <MDBRadio name='padre_vive' value='false' label='No' inline onChange={handleFormData} />
                     </Col>
                 </Row>
 
@@ -75,8 +79,8 @@ const REQTRAMITE_SecondStep = (props) => {
 
                     <Col md={3} className='d-flex justify-content-center'>
                         <p className='mx-3'>¿Vive?</p>
-                        <MDBRadio name='madre_vive' value='true' label='Si' inline onChange={handleFormData}/>
-                        <MDBRadio name='madre_vive' value='false' label='No' inline onChange={handleFormData}/>
+                        <MDBRadio name='madre_vive' value='true' label='Si' inline onChange={handleFormData} required/>
+                        <MDBRadio name='madre_vive' value='false' label='No' inline onChange={handleFormData} />
                     </Col>
                 </Row>
 
@@ -91,7 +95,8 @@ const REQTRAMITE_SecondStep = (props) => {
                         aria-label="Default select example"
                         name="nro_hijos"
                         value={data.nro_hijos}
-                        onChange={handleFormData}>
+                        onChange={handleFormData}
+                        >
                             <option value="0">0</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -109,6 +114,7 @@ const REQTRAMITE_SecondStep = (props) => {
                             name="entidad_solicitante"
                             value={data.entidad_solicitante}
                             onChange={handleFormData}
+                            required
                         />
                     </Col>
                 </Row>
@@ -137,7 +143,7 @@ const REQTRAMITE_SecondStep = (props) => {
                         </MDBBtn>
                     </Col>
                 </Row>
-            </div>
+            </form>
 
 
         </Container >

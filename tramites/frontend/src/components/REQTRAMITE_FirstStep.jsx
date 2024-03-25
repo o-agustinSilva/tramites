@@ -67,6 +67,7 @@ const REQTRAMITE_FirstStep = (props) => {
               name="firstname"
               value={userData.firstname}
               onChange={handleFormData}
+              required
             />
           </Col>
           <Col xs={12} md={6} className="mb-3">
@@ -77,6 +78,7 @@ const REQTRAMITE_FirstStep = (props) => {
               name="lastname"
               value={userData.lastname}
               onChange={handleFormData}
+              required
             />
           </Col>
         </Row>
@@ -87,6 +89,7 @@ const REQTRAMITE_FirstStep = (props) => {
               name="document_type"
               value={userData.document_type}
               onChange={handleFormData}
+              required
             >
               <option value="" disabled>
                 Seleccione tipo de documento
@@ -104,6 +107,7 @@ const REQTRAMITE_FirstStep = (props) => {
               name="number"
               value={userData.number}
               onChange={handleFormData}
+              required
             />
           </Col>
         </Row>
@@ -117,6 +121,7 @@ const REQTRAMITE_FirstStep = (props) => {
               name="address"
               value={userData.address}
               onChange={handleFormData}
+              required
             />
           </Col>
 
@@ -129,6 +134,7 @@ const REQTRAMITE_FirstStep = (props) => {
               name="address_number"
               value={userData.address_number}
               onChange={handleFormData}
+              required
             />
           </Col>
 
@@ -141,6 +147,7 @@ const REQTRAMITE_FirstStep = (props) => {
               name="floor"
               value={userData.floor}
               onChange={handleFormData}
+              required
             />
           </Col>
         </Row>
@@ -155,6 +162,7 @@ const REQTRAMITE_FirstStep = (props) => {
                 name="email"
                 value={userData.email}
                 onChange={handleFormData}
+                required
               />
             </MDBInputGroup>
           </Col>
@@ -168,6 +176,7 @@ const REQTRAMITE_FirstStep = (props) => {
               name="phone"
               value={userData.phone}
               onChange={handleFormData}
+              required
             />
           </Col>
 
@@ -179,13 +188,14 @@ const REQTRAMITE_FirstStep = (props) => {
               name="birthdate"
               value={userData.birthdate}
               onChange={handleFormData}
+              required
             />
           </Col>
         </Row>
-
         <Row>
-          <Col className="d-flex justify-content-end">
-            <MDBBtn className="d-flex align-items-center" color="success" onClick={handleNextStep}>
+          <Col></Col>
+          <Col md={6} className="d-flex justify-content-end">
+            <MDBBtn className="d-flex justify-content-center align-items-center w-100" color="success" onClick={handleNextStep}>
               <MDBIcon
                 fas
                 icon="check-circle"
@@ -195,6 +205,7 @@ const REQTRAMITE_FirstStep = (props) => {
               <span className='mb-0'>Validar Datos</span>
             </MDBBtn>
           </Col>
+
         </Row>
       </div>
 
