@@ -44,7 +44,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     number       = models.IntegerField()
     document_type = models.CharField(max_length=9, choices=DOCUMENT_TYPE)
         
-    birthdate = models.DateField()
+    birthdate = models.DateField(default="2000-06-10")
 
      # Campos adicionales para ciudadano
     address = models.CharField(max_length=60)
@@ -175,14 +175,17 @@ class Cases(models.Model):
     dni_dorso   = models.ImageField(upload_to='media/', null=True)
 
     # Atributos opcionales - solo para algunos trámites
-    nombre_madre = models.CharField(max_length=100, blank=True)
-    madre_vive = models.BooleanField(blank=True, null=True)
-    nombre_padre = models.CharField(max_length=100, blank=True)
-    padre_vive = models.BooleanField(blank=True, null=True)
-    numero_hijos = models.IntegerField(blank=True, null=True)
+    nombre_madre        = models.CharField(max_length=100, blank=True)
+    madre_vive          = models.BooleanField(blank=True, null=True)
+    nombre_padre        = models.CharField(max_length=100, blank=True)
+    padre_vive          = models.BooleanField(blank=True, null=True)
+    numero_hijos        = models.IntegerField(blank=True, null=True)
     entidad_solicitante = models.CharField(max_length=100, blank=True)
 
     # Comprobante de pago y certificado
+    comprobante_pago    = models.FileField(upload_to='media/', null=True)
+    certificado         = models.FileField(upload_to='media/', null=True)
+
 
 class Requirements(models.Model): 
     name = models.CharField(max_length=30, null=False)

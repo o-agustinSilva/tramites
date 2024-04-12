@@ -278,7 +278,7 @@ th {
 
 #titulo-inicio {
   color: rgb(13, 150, 192);
-  padding-top: 150px;
+  padding-top: 50px;
   padding-right: 50px;
 }
 
@@ -336,4 +336,10 @@ th {
 /*ESTILOS PARA EL FORMULARIO DE CARGA DE USUARIOS POLOS Y TRAMITES*/
 .alertTitle {
   color: #cd455c;
+}
+
+#task-details {
+  max-height: 600px;
+  overflow: scroll;
+  overflow-x: hidden; 
 }

@@ -22,9 +22,7 @@ const HEADER_Dropdown = () => {
     };
 
     return (
-
         <MDBDropdown group>
-
             <MDBDropdownToggle size="lg" tag='a' className='btn btn-primary d-flex align-items-center'>
                 <MDBIcon far icon="user-circle" size='2x' style={{ marginRight: '10px', color: "#285192" }} />
                 <span style={{ color: "#285192" }}>{user.fullname}</span>

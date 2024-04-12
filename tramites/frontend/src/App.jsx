@@ -1,4 +1,4 @@
-import react from 'react';
+import react, { useState } from 'react';
 import RequireAuth from './components/RequireAuth';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -24,6 +24,7 @@ import NewTramite from './pages/NewTramite';
 import { PanelNotificacionPage } from './pages/PanelNotificacionPage';
 import REQTRAMITE_Success from './components/REQTRAMITE_Success';
 import REQTRAMITE_Failure from './components/REQTRAMITE_Failure';
+import TRAMITE_BuenaConducta from './pdf/TRAMITE_BuenaConducta';
 
 const ROLES = {
   'User': 'citizen',
@@ -32,6 +33,14 @@ const ROLES = {
 }
 
 function App() {
+  const [data, setData] = useState({
+    name:"Agus",
+    year:2000,
+    dni:42011140,
+    today:"10/04/2024",
+    entity:"MUNICIPALIDAD DE USHUAIA"
+  });
+
   return (
     <>
         <ToastContainer
@@ -48,7 +57,7 @@ function App() {
           <Route path="/forget-password" element={<ForgetPasswordPage />} />
           <Route path="/otp/verify" element={<VerifyPage />} />
           <Route path="/password-reset-confirm/:uid/:token" element={<ConfirmPasswordPage />} />
-          
+          <Route path="test" element={<TRAMITE_BuenaConducta data={data} />} />
 
           {/* Rutas protegidas */}
           <Route element={<PersistLogin />}>
