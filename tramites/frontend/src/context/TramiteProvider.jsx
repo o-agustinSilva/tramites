@@ -4,6 +4,7 @@ const TramiteContext = createContext();
 
 export const TramiteProvider = ({ children }) => {
   const [tramiteData, setTramiteData] = useState({
+    tramite: [],
     user: [],
     documentation: [],
     family_data: [],

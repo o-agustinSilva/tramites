@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { useTramite } from '../context/TramiteProvider';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import LOADING_Spinner from './LOADING_Spinner';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import { toast } from "react-toastify";
 import axios from 'axios';
 import {
     MDBBtn,
@@ -19,17 +17,21 @@ const REQTRAMITE_ThirdStep = (props) => {
     let { id } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [fieldsCompleted, setFieldsCompleted] = useState(false);
-    const navigate = useNavigate();
     const { tramiteData, setTramiteData } = useTramite();
     const [documentation, setDocumentation] = useState({
-        frente: "",
-        dorso: "",
+        frente: tramiteData?.documentation?.frente || "",
+        dorso: tramiteData?.documentation?.dorso || "",
     });
     const [preferenceId, setPreferenceId] = useState(null);
     
     useEffect(() => {
         const areFieldsCompleted = documentation.frente !== "" && documentation.dorso !== "";
-        setFieldsCompleted(areFieldsCompleted);
+
+        if (areFieldsCompleted) {
+            handleSubmit();
+            setFieldsCompleted(areFieldsCompleted);
+        }
+        
     }, [documentation]);
 
     useEffect(() => {
@@ -44,6 +46,14 @@ const REQTRAMITE_ThirdStep = (props) => {
         fetchData();
         setIsLoading(false);
     }, []);
+
+    useEffect(() => {
+        setTramiteData((prevTramite) => ({
+            ...prevTramite,
+            documentation: documentation,
+            tramite: id // Asigna userData al estado user dentro de tramiteData
+        }));
+    }, [documentation]);
 
     const createPreference = async () => {
         try {
@@ -73,14 +83,6 @@ const REQTRAMITE_ThirdStep = (props) => {
         setDocumentation({ ...documentation, [name]: files[0] });
     }
 
-    useEffect(() => {
-        setTramiteData((prevTramite) => ({
-            ...prevTramite,
-            documentation: documentation // Asigna userData al estado user dentro de tramiteData
-        }));
-    }, [documentation]);
-
-
     const getDate = () => {
         const fecha = new Date();
         const year = fecha.getFullYear();
@@ -90,15 +92,13 @@ const REQTRAMITE_ThirdStep = (props) => {
         return `${year}-${month}-${day}`;
     }
 
-    /*
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
         try {
             const formData = new FormData();
             formData.append('tramite', id);
             formData.append('solicitante', tramiteData.user.id);
             formData.append('request_date', getDate());
-            formData.append('status', 'solicitado');
+            formData.append('status', 'pendiente de pago');
 
             // Datos familiares
             formData.append('nombre_madre', tramiteData.family_data.nombre_madre);
@@ -107,43 +107,33 @@ const REQTRAMITE_ThirdStep = (props) => {
             formData.append('padre_vive', tramiteData.family_data.padre_vive);
             formData.append('numero_hijos', tramiteData.family_data.nro_hijos);
             formData.append('entidad_solicitante', tramiteData.family_data.entidad_solicitante);
+            formData.append('nacionalidad', tramiteData.family_data.nacionalidad);
+            formData.append('ocupacion', tramiteData.family_data.ocupacion);
+            formData.append('estado_civil', tramiteData.family_data.estado_civil);
+            formData.append('residencia', tramiteData.family_data.residencia);
+            formData.append('detalle_extravio', tramiteData.family_data.detalle_extravio);
 
             // Imagenes
             formData.append('dni_frente', documentation.frente);
             formData.append('dni_dorso', documentation.dorso);
-            console.log(formData);
 
-            const response = await axios.post('http://127.0.0.1:8000/api/request-tramite/', formData, {
+            await axios.post('http://127.0.0.1:8000/api/request-tramite/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
 
-            const res = response.data;
-            if (response.status === 201) {
-                toast.success("El trámite fue generado exitosamente");
-                navigate('/misTramites');
-            }
         } catch (error) {
             console.error(error);
         }
-    }*/
+    }
 
     if (isLoading) {
-        // Muestra el spinner mientras la página está cargando
         return <LOADING_Spinner />;
     }
 
     return (
-        <Container style={{ background: "#e8edf7", maxWidth: "1100px", borderRadius: "15px" }} className='mt-5 mb-5'>
-            <Row>
-                <Col className="d-flex flex-column align-items-center mt-3">
-                    <MDBIcon fas icon="user-edit" size="2x" />
-                    <h4>Documentación adicional</h4>
-                </Col>
-            </Row>
-
-
+        <Container style={{ background: "#e8edf7", maxWidth: "1100px", borderRadius: "15px" }} className='mt-5 mb-5 p-3'>
             <div className='p-3'>
                 <Row>
                     <Col className='d-flex align-items-center'>
@@ -187,14 +177,10 @@ const REQTRAMITE_ThirdStep = (props) => {
                     </Col>
                     <Col md={6}>
                         {fieldsCompleted && 
-                        <Wallet initialization={{ preferenceId: preferenceId }} />}
-                        
+                        <Wallet initialization={{ preferenceId: preferenceId, redirectMode: 'modal'}} />}                 
                     </Col>
                 </Row>
             </div>
-
-
-
         </Container >
     );
 }

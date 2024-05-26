@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     titleHeader: { maxWidth: '265px', textAlign: 'center' }
 });
 
-const TRAMITE_Pdf = ({ data }) => {
+const TRAMITE_Pdf = () => {
 
     return (
         <Document>
@@ -41,16 +41,16 @@ const TRAMITE_Pdf = ({ data }) => {
 
                 <View style={styles.body}>
                     <Text style={[styles.underlinedText, styles.boldText]}>
-                    {data.name}             /2.024 D.D.I.P.U.
+                                /2.024 D.D.I.P.U.
                     </Text>
                     <Text style={{ marginTop: "10px", lineHeight: "1.5" }}>
                         En la División Documentación e Identificación Policial Ushuaia,
                         con asiento en la ciudad homónima, capital de la Provincia de Tierra del Fuego,
-                        Antártida e Islas del Atlántico Sur, República Argentina, a la fecha {data.today}, el Funcionario de Policía que suscribe
-                        <Text style={styles.boldText}> {data.hierarchy + ' ' + data.name} ; HACE CONSTAR:</Text> Que habiendo concurrido una persona capaz
+                        Antártida e Islas del Atlántico Sur, República Argentina, a la fecha , el Funcionario de Policía que suscribe
+                        <Text style={styles.boldText}> ; HACE CONSTAR:</Text> Que habiendo concurrido una persona capaz
                         que manifiesta deseos de radicar una exposición; y dispuesta su recepción, al ser
                         interrogada por sus circunstancias personales, dice: llamarse
-                        <Text style={styles.boldText}> {data.applicant} de nacionalidad NACIONALIDAD_SOLICITANTE,</Text> estado civil
+                        <Text style={styles.boldText}> de nacionalidad NACIONALIDAD_SOLICITANTE,</Text> estado civil
                         <Text style={styles.boldText}> ESTADOCIVIL_SOLICITANTE,</Text>
                         fecha de nacimiento:
                         <Text style={styles.boldText}> FECHANACIMIENTO_SOLICITANTE,</Text> quien acredita identidad mediante, D.N.I. Nº

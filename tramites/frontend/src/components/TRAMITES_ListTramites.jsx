@@ -18,15 +18,22 @@ const TRAMITES_ListTramites = ({ status }) => {
 
     useEffect(() => {
         const getTramites = () => {
-            axios.get(`http://127.0.0.1:8000/api/list-cases-by-user/${user.id}/${status}/`)
+
+            if (status == 1) {
+                axios.get(`http://127.0.0.1:8000/api/get-pending-cases/${user.id}/`)
+                    .then(response => {
+                        if (response.status === 200) {
+                            setTramites(response.data);
+                        }
+                    })
+            } else if (status == 2) {
+                axios.get(`http://127.0.0.1:8000/api/get-completed-cases/${user.id}/`)
                 .then(response => {
                     if (response.status === 200) {
                         setTramites(response.data);
                     }
                 })
-                .catch(error => {
-                    console.log(error);
-                });
+            }
         }
 
         getTramites();

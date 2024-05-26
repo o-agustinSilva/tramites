@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NOTIFICATION_General from "../components/NOTIFICATION_General";
 import TASKS_User from "../components/TASKS_User";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   MDBIcon,
@@ -17,9 +18,11 @@ import {
 
 const USER_Notificacion = () => {
   const userData = JSON.parse(localStorage.getItem("user_data"));
-  const [verticalActive, setVerticalActive] = useState("tab1");
+  const [verticalActive, setVerticalActive] = useState("1");
   const [tramitesSolicitado, setTramitesSolicitados] = useState([]);
   const [tramitesEncurso, setTramitesEncurso] = useState([]);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const fetchSolicitados = async () => {
     try {
@@ -94,12 +97,27 @@ const USER_Notificacion = () => {
     }
   };
 
-  const handleVerticalClick = (value) => {    //NAVEGACION POR LAS TABS
-    if (value === verticalActive) {
-      return;
+  const handleVerticalClick = (value) => {
+    if (verticalActive !== value) {
+      setVerticalActive(value);
+      navigate(`?tab=${value}`);
     }
-    setVerticalActive(value);
   };
+
+    // Establece la pestaña activa basándose en la información de la URL
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const tabFromURL = searchParams.get("tab");
+    
+    // Si hay un tab en la URL, o si no hay uno almacenado en el estado local, usa el tab de la URL
+    if (tabFromURL) {
+      setVerticalActive(tabFromURL);
+    } else if (!setVerticalActive) {
+      // Si no hay un tab en la URL y no hay uno almacenado, establece el tab por defecto (en este caso, 1)
+      setVerticalActive("1");
+      navigate(`?tab=1`);
+    }
+  }, [location.search, setVerticalActive, navigate]);
 
   return (
     <MDBContainer fluid id="task-details">
@@ -119,21 +137,20 @@ const USER_Notificacion = () => {
             <MDBTabsItem>
               <MDBTabsLink
                 style={{ color: "black" }}
-                onClick={() => handleVerticalClick("tab1")}
-                active={verticalActive === "tab1"}
-                className={`baseTab d-flex align-items-center ${verticalActive === "tab1" ? "activeTab" : ""}`}
+                onClick={() => handleVerticalClick("1")}
+                active={verticalActive === "1"}
+                className={`baseTab d-flex align-items-center ${verticalActive === "1" ? "activeTab" : ""}`}
               >
                 <MDBIcon fas icon="envelope-square" className="me-2" size="2x" />
                 <span className="mb-0">Bandeja de entrada</span>
               </MDBTabsLink>
             </MDBTabsItem>
-            <MDBTabsItem>
-              <MDBTabsLink
-                style={{ color: "black" }}
-                onClick={() => handleVerticalClick("tab2")}
-                active={verticalActive === "tab2"}
-                className={`baseTab d-flex align-items-center ${verticalActive === "tab2" ? "activeTab" : ""}`}
-              >
+              <MDBTabsItem>
+                <MDBTabsLink
+                  style={{ color: "black" }}
+                  onClick={() => handleVerticalClick("2")}
+                  active={verticalActive === "2"}
+                  className={`baseTab d-flex align-items-center ${verticalActive === "2" ? "activeTab" : ""}`}>
                 <MDBIcon fas icon="tasks" className="me-2" size="2x" />
                 <span>Mis casos</span>
               </MDBTabsLink>
@@ -142,10 +159,10 @@ const USER_Notificacion = () => {
         </MDBCol>
         <MDBCol lg={9}>
           <MDBTabsContent>
-            <MDBTabsPane open={verticalActive === "tab1"}>
+            <MDBTabsPane open={verticalActive === "1"}>
               <NOTIFICATION_General tramites={tramitesSolicitado} onAddTramite={handleAddTramites}/>
             </MDBTabsPane>
-            <MDBTabsPane open={verticalActive === "tab2"}>
+            <MDBTabsPane open={verticalActive === "2"}>
               <TASKS_User tramites={tramitesEncurso} onVolver={handleTramites}/>
             </MDBTabsPane>
           </MDBTabsContent>

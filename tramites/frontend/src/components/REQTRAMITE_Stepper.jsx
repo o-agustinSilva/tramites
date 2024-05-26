@@ -59,7 +59,7 @@ export function RequestTramite() {
         </Stepper>
       </Box>
 
-      {tramite?.requirement?.length > 1 && setSteps(['Datos personales', 'Información familiar', 'Documentación adicional'])}
+      {tramite?.requirement?.length > 1 && setSteps(['Datos personales', 'Información adicional', 'Documentación adicional'])}
       {tramite?.requirement?.length == 1 && setSteps(['Datos personales', 'Documentación adicional'])}
 
       {tramite?.requirement?.length > 1 ?
@@ -72,6 +72,7 @@ export function RequestTramite() {
             <REQTRAMITE_SecondStep
               onNextStep={() => setActiveStep(2)}
               onPreviousStep={() => setActiveStep(0)}
+              tramite={tramite}
             />
           ) : activeStep === 2 ? (
             <REQTRAMITE_ThirdStep

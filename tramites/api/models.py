@@ -162,13 +162,28 @@ class Cases(models.Model):
         ('en curso', 'En curso'),
         ('resuelto', 'Resuelto'),
         ('rechazado', 'Rechazado'),
+        ('pendiente de pago', 'Pendiente de pago')
+    )
+
+    ESTADO_CIVIL = (
+        ('soltero', 'Soltero/a'),
+        ('casado', 'Casado/a'),
+        ('divorciado', 'Divorciado/a'),
+        ('viudo', 'Viudo/a'),
+    )
+
+    OCUPACION = (
+        ('empleado', 'Empleado/a'),
+        ('desocupado', 'Desocupado/a'),
+        ('estudiante', 'Estudiante'),
+        ('jubilado', 'Jubilado/a'),
     )
 
     tramite = models.ForeignKey("Tramite", on_delete=models.CASCADE) 
     solicitante = models.ForeignKey(Usuarios, on_delete=models.CASCADE, related_name = 'solicitante')
     usuario_administrador = models.ForeignKey(Usuarios, on_delete=models.CASCADE, related_name = 'administrativo', null=True)
     request_date = models.DateField()
-    status = models.CharField(max_length=10, choices=ESTADOS)
+    status = models.CharField(max_length=17, choices=ESTADOS)
 
     # Permite la carga de documentos
     dni_frente  = models.ImageField(upload_to='media/', null=True)
@@ -181,6 +196,11 @@ class Cases(models.Model):
     padre_vive          = models.BooleanField(blank=True, null=True)
     numero_hijos        = models.IntegerField(blank=True, null=True)
     entidad_solicitante = models.CharField(max_length=100, blank=True)
+    nacionalidad        = models.CharField(max_length=100, blank=True)
+    ocupacion           = models.CharField(max_length=100, blank=True, choices=OCUPACION)
+    estado_civil        = models.CharField(max_length=100, blank=True, choices=ESTADO_CIVIL)
+    residencia          = models.CharField(max_length=100, blank=True)
+    detalle_extravio    = models.CharField(max_length=1024, blank=True)
 
     # Comprobante de pago y certificado
     comprobante_pago    = models.FileField(upload_to='media/', null=True)

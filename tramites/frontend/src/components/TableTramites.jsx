@@ -37,11 +37,11 @@ export function TableTramites() {
 
       <TabContent className="my-4">
         <TabPane eventKey="1" active={activeTab === "1"}>
-          <TRAMITES_ListTramites status="pendiente"/>
+          <TRAMITES_ListTramites status={1}/>
         </TabPane>
 
         <TabPane eventKey="2" active={activeTab === "2"}>
-        <TRAMITES_ListTramites status="resuelto" />
+        <TRAMITES_ListTramites status={2} />
         </TabPane>
       </TabContent>
     </Container>

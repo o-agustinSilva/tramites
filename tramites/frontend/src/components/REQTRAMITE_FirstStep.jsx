@@ -49,14 +49,7 @@ const REQTRAMITE_FirstStep = (props) => {
   };
 
   return (
-    <Container style={{ background: "#e8edf7", maxWidth:"1100px", borderRadius: "15px" }} className='mt-5'>
-      <Row>
-        <Col className="d-flex flex-column align-items-center mt-3">
-          <MDBIcon fas icon="user-edit" size="2x" />
-          <h4>Informacion Personal</h4>
-        </Col>
-      </Row>
-
+    <Container style={{ background: "#e8edf7", maxWidth:"1100px", borderRadius: "15px" }} className='mt-5 p-3'>
       <div className='p-3'>
         <Row >
           <Col xs={12} md={6} className="mb-3">
@@ -208,7 +201,6 @@ const REQTRAMITE_FirstStep = (props) => {
 
         </Row>
       </div>
-
     </Container >
   );
 }

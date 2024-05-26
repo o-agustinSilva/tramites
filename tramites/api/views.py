@@ -335,15 +335,28 @@ class FilterCasesByUserAndStatusView(GenericAPIView):
     serializer_class = ListRequestedTramitesSerializer
 
     def get(self, request, user_id, status):
-        if (status != 'resuelto'):
-            status = status.replace("-", " ")
-            queryset = Cases.objects.filter(solicitante=user_id)
-        else:
-            queryset = Cases.objects.filter(solicitante=user_id, status='resuelto')
-
+        status = status.replace("-", " ")
+        queryset = Cases.objects.filter(solicitante=user_id, status=status)
+            
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+class GetPendingCasesView(GenericAPIView):
+    serializer_class = ListRequestedTramitesSerializer
+
+    def get(self, request, user_id):
+        queryset = Cases.objects.filter(solicitante=user_id, status__in=['solicitado', 'en curso'])
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class GetCompletedCasesView(GenericAPIView):
+    serializer_class = ListRequestedTramitesSerializer
     
+    def get(self, request, user_id):
+        queryset = Cases.objects.filter(solicitante=user_id, status__in=['resuelto', 'rechazado'])
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 class UpdateCaseView(UpdateAPIView):
     serializer_class = RequestTramiteSerializer
     queryset = Cases.objects.all()

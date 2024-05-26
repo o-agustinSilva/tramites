@@ -37,8 +37,8 @@ app.post("/create_preference", async (req, res) => {
                 },
             ],
             back_urls: {
-                success: "http://localhost:5173",
-                failure: "http://localhost:5173/requestTramite/5",
+                success: "http://localhost:5173/paymentSuccessful",
+                failure: "http://localhost:5173/paymentFailed",
                 pending: "http://localhost:5173/dashboard",
             },
             auto_return: "approved",

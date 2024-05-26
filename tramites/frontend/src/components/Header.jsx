@@ -1,5 +1,4 @@
-import React, { Component, useState } from "react";
-import Button from "react-bootstrap/Button";
+import React, { useState } from "react";
 import HEADER_Dropdown from "./HEADER_Dropdown";
 import { Link } from "react-router-dom";
 import {
@@ -22,28 +21,9 @@ import {
 function Header() {
   const user = JSON.parse(localStorage.getItem("user"));
   const [openBasic, setOpenBasic] = useState(false);
-  
+
   const renderUserRoleSpecificLinks = () => {
-    if (user) {
-      if (user.role === "admin") {
-        return (
-          <MDBNavbarItem>
-            <MDBNavbarLink active href="/admin">
-              Administración
-            </MDBNavbarLink>
-          </MDBNavbarItem>
-        );
-      } else if (user.role === "police") {
-        return (
-          <MDBNavbarItem>
-            <MDBNavbarLink active href="/panelNotificacion">
-              Panel de Notificaciones
-            </MDBNavbarLink>
-          </MDBNavbarItem>
-        );
-      }
-    }
-    /*
+
     // Si el usuario no es admin ni policía, mostrar solo las opciones comunes
     return (
       <>
@@ -53,7 +33,7 @@ function Header() {
           </MDBNavbarLink>
         </MDBNavbarItem>
         <MDBNavbarItem>
-          <MDBNavbarLink active href="/requestTramite">
+          <MDBNavbarLink active href="/">
             Iniciar un trámite
           </MDBNavbarLink>
         </MDBNavbarItem>
@@ -69,15 +49,29 @@ function Header() {
             </MDBDropdownMenu>
           </MDBDropdown>
         </MDBNavbarItem>
+        {user && user.role === "admin" && (
+          <MDBNavbarItem>
+            <MDBNavbarLink active href="/admin">
+              Administración
+            </MDBNavbarLink>
+          </MDBNavbarItem>
+        )}
+        {user && user.role === "police" && (
+          <MDBNavbarItem>
+            <MDBNavbarLink active href="/panelNotificacion">
+              Panel de Notificaciones
+            </MDBNavbarLink>
+          </MDBNavbarItem>
+        )}
       </>
     );
-    */
+
   };
-  
+
   return (
     <MDBNavbar expand="lg" light bgColor="light" id="header">
       <MDBContainer fluid>
-        <MDBNavbarBrand href="#">
+        <MDBNavbarBrand href="/">
           <img
             src="https://policia.tierradelfuego.gob.ar/wp-content/uploads/2021/12/LOGO-POLICIA_GOBIERNO.png"
             width="170px"
