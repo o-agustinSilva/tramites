@@ -206,6 +206,10 @@ class RoleView(GenericAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+
+
 # ======================================
 #      Views de trámites/requisitos
 #=======================================
@@ -454,4 +458,62 @@ class UpdatePoliceView(UpdateAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# Vista para actualizar el numero de telefono        
+class UpdatePhoneNumberView(UpdateAPIView):
+    serializer_class = UpdatePhoneNumberSerializer
+    queryset = Usuarios.objects.all()
+    lookup_url_kwarg = 'pk'
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
         
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#Vista para actualizar el Email
+class UpdateEmailView(UpdateAPIView):
+    serializer_class = UpdateEmailSerializer
+    queryset = Usuarios.objects.all()
+    lookup_url_kwarg = 'pk'
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#Vista para actualizar la imagen de perfil
+class UpdateImagView(UpdateAPIView):
+    serializer_class = UpdatePerfilImaglSerializer
+    queryset = Usuarios.objects.all()
+    lookup_url_kwarg = 'pk'
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#Vista para actualizar la contraseña de la cuenta
+class UpdatePasswordView(UpdateAPIView):
+    serializer_class = UpdatePasswordSerializer
+    queryset = Usuarios.objects.all()
+    lookup_url_kwarg = 'pk'
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

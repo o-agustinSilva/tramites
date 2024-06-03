@@ -24,8 +24,13 @@ urlpatterns = [
     path('password-reset-confirm/<uidb64>/<token>', PasswordResetConfirm.as_view(), name='password-reset-confirm'),
     path('set-new-password/', SetNewPassword.as_view(), name='set-new-password'),
     path('logout/', LogoutUserView.as_view(), name='logout'),
-
-
+    
+    # URL PARA ACTUALIZAR DATOS DESDE LOS USUARIOS
+    path('update-phone-number/<int:pk>/', UpdatePhoneNumberView.as_view(), name='update_phone_number'),
+    path('update-email/<int:pk>/', UpdateEmailView.as_view(), name='update_email'),
+    path('update-perfil-imag/<int:pk>/', UpdateImagView.as_view(), name='update_ImagPerfil'),
+    path('update-password/<int:pk>/', UpdatePasswordView.as_view(), name='update_password'),
+    
     # ======================================
     #   Gestión de trámites y requisitos
     #=======================================

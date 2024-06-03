@@ -43,8 +43,8 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     # Campos personalizados
     number       = models.IntegerField()
     document_type = models.CharField(max_length=9, choices=DOCUMENT_TYPE)
-        
     birthdate = models.DateField(default="2000-06-10")
+    profile_imagen = models.ImageField(upload_to='profile_imagen/', null=True,   blank=True, verbose_name=("Profile picture"))
 
      # Campos adicionales para ciudadano
     address = models.CharField(max_length=60)

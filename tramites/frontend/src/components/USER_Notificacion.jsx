@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NOTIFICATION_General from "../components/NOTIFICATION_General";
 import TASKS_User from "../components/TASKS_User";
+import TASKS_Finalizados from "./TASKS_Finalizados";
 import axios from "axios";
 import {
   MDBIcon,
@@ -20,6 +21,8 @@ const USER_Notificacion = () => {
   const [verticalActive, setVerticalActive] = useState("tab1");
   const [tramitesSolicitado, setTramitesSolicitados] = useState([]);
   const [tramitesEncurso, setTramitesEncurso] = useState([]);
+  const [tramitesFinalizados, setTramitesFinalizados] = useState([]);
+
 
   const fetchSolicitados = async () => {
     try {
@@ -50,9 +53,25 @@ const USER_Notificacion = () => {
     }
   };
 
+  const fetchFinalizados = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/list-cases/resuelto/"
+      );
+      const res = response.data;
+      if (response.status === 200) {
+        setTramitesFinalizados(res);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
   useEffect(() => {
     fetchSolicitados();
     fetchEnCurso();
+    fetchFinalizados();
   }, []);
 
   const handleAddTramites = async (casoId) => {
@@ -94,6 +113,28 @@ const USER_Notificacion = () => {
     }
   };
 
+  const handleTramitesFinalizado = async (casoId) => {
+    console.log("tramites finalizados");
+    try {
+      const user = JSON.parse(localStorage.getItem("user_data"));
+      const userId = user.id;
+
+      const response = await axios.patch(
+        `http://localhost:8000/api/claim-case/${casoId}/`, {
+        "user_id": userId,
+        "status": "resuelto",
+      }
+      );
+
+      if (response.status === 200) {
+        fetchFinalizados();
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error("Error al realizar la solicitud POST:", error);
+    }
+  };
+
   const handleVerticalClick = (value) => {    //NAVEGACION POR LAS TABS
     if (value === verticalActive) {
       return;
@@ -102,7 +143,7 @@ const USER_Notificacion = () => {
   };
 
   return (
-    <MDBContainer fluid id="task-details">
+    <MDBContainer fluid  id="task-details">
       <MDBRow>
         <MDBCol lg={3}>
           <MDBTabs
@@ -111,7 +152,7 @@ const USER_Notificacion = () => {
           >
             <MDBTabsItem style={{ color: "black" }}>
               <div className="my-3  text-center">
-                <MDBIcon fas icon="user-injured" size="3x" />
+                <MDBIcon fas icon="user" size="3x" />
                 <h3>{userData.firstname + ' ' + userData.lastname}</h3>
               </div>
             </MDBTabsItem>
@@ -127,6 +168,7 @@ const USER_Notificacion = () => {
                 <span className="mb-0">Bandeja de entrada</span>
               </MDBTabsLink>
             </MDBTabsItem>
+
             <MDBTabsItem>
               <MDBTabsLink
                 style={{ color: "black" }}
@@ -138,6 +180,21 @@ const USER_Notificacion = () => {
                 <span>Mis casos</span>
               </MDBTabsLink>
             </MDBTabsItem>
+
+            <MDBTabsItem>
+              <MDBTabsLink
+                style={{ color: "black" }}
+                onClick={() => handleVerticalClick("tab3")}
+                active={verticalActive === "tab3"}
+                className={`baseTab d-flex align-items-center ${verticalActive === "tab3" ? "activeTab" : ""}`}
+              >
+                <MDBIcon fas icon="file-archive" className="me-2" size="2x" />
+                <span>Casos Finalizados</span>
+              </MDBTabsLink>
+            </MDBTabsItem>
+
+
+
           </MDBTabs>
         </MDBCol>
         <MDBCol lg={9}>
@@ -146,7 +203,10 @@ const USER_Notificacion = () => {
               <NOTIFICATION_General tramites={tramitesSolicitado} onAddTramite={handleAddTramites}/>
             </MDBTabsPane>
             <MDBTabsPane open={verticalActive === "tab2"}>
-              <TASKS_User tramites={tramitesEncurso} onVolver={handleTramites}/>
+              <TASKS_User tramites={tramitesEncurso} onVolver={handleTramites} onFinalizado={handleTramitesFinalizado}/>
+            </MDBTabsPane>
+            <MDBTabsPane open={verticalActive === "tab3"}>
+              <TASKS_Finalizados tramites={tramitesFinalizados}/>
             </MDBTabsPane>
           </MDBTabsContent>
         </MDBCol>
