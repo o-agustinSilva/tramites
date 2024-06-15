@@ -6,6 +6,11 @@ import Form from "react-bootstrap/Form";
 import { MDBIcon, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 
 export function PROFILE_PersonalInfo({ user }) {
+  const [inputValue, setInputValue] = useState('');
+
+  const handleInput = (e) => {
+    setInputValue(e.target.value);
+  };
 
   return (
     <Container className="mt-4">
@@ -50,8 +55,7 @@ export function PROFILE_PersonalInfo({ user }) {
                 Seleccione tipo de documento
               </option>
               <option value="DNI">DNI</option>
-              <option value="TWO">Two</option>
-              <option value="3">Three</option>
+              <option value="TWO">PASAPORTE</option>
             </Form.Select>
           </Col>
 
@@ -65,22 +69,30 @@ export function PROFILE_PersonalInfo({ user }) {
           </Col>
 
           <Col md={8} xl={6}>
-            <Form.Select name="genre" className="mb-3" defaultValue={user.genre || ''}>
+          <MDBInput
+              label="Género"
+              type="text"
+              className="custom-input mb-3"              
+              value={user.genre==='male' ? 'Hombre': (user.genre === 'female' ? 'Mujer' : inputValue)}
+              onChange={handleInput}
+            />
+
+            {/* <Form.Select name="genre" className="mb-3" defaultValue={user.genre || ''}>
               <option value="" disabled>
                 Género
               </option>
               <option value="male">Hombre</option>
               <option value="female">Mujer</option>
-            </Form.Select>
+            </Form.Select> */}
           </Col>
 
-          <Col md={4} xl={6}>
+          {/* <Col md={4} xl={6}>
             <div className="d-grid gap-2">
               <MDBBtn type="submit" color="success">
                 Guardar cambios
               </MDBBtn>
             </div>
-          </Col>
+          </Col> */}
         </Row>
 
       </div>

@@ -37,7 +37,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
                 'phone_area_code',
                 'phone',
                 'document_type',
-                'genre']
+                'genre',
+                'profile_imagen']  
+                # se agrega el fields de la imagen de perfil
 
     def validate(self, attrs):
         password = attrs.get('password', '')
@@ -72,6 +74,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             phone = validated_data.get('phone'),      
             document_type = validated_data.get('document_type'),
             genre = validated_data.get('genre'),
+            profile_imagen=validated_data.get('profile_imagen'),
         )
         return usuario
 
@@ -296,3 +299,34 @@ class UserPoliceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuarios
         fields = '__all__'
+
+# Serializable para actulizar el contacto de un usuario
+class UpdatePhoneNumberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuarios
+        fields = ['phone_area_code', 'phone']  # Campos que se pueden actualizar    
+
+# Serializable para actulizar el email de un usuario
+class UpdateEmailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuarios
+        fields = ['email']  # Campo que se puede actualizar    
+
+# Serializable para actulizar la imagen de un usuario
+class UpdatePerfilImaglSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuarios
+        fields = ['profile_imagen']  # Campo que se puede actualizar    
+
+# Serializable para actulizar la contraseña de un usuario
+class UpdatePasswordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuarios
+        fields = ['password']  # Campo que se puede actualizar
+
+    def update(self, instance, validated_data):
+        password = validated_data.get('password')
+        if password:
+            instance.set_password(password)
+            instance.save()
+        return instance

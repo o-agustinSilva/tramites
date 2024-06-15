@@ -35,12 +35,13 @@ const REQTRAMITE_SecondStep = (props) => {
     };
 
     const handleNextStep = (event) => {
-
         const form = event.currentTarget;
-        if (form.checkValidity() === false) {
+        if (form.checkValidity() == false) {
             event.preventDefault();
             event.stopPropagation();
-        }
+            toast.error("Completar los campos requeridos");
+        } 
+        
 
         setTramiteData((prevTramite) => ({
             ...prevTramite,
@@ -48,11 +49,12 @@ const REQTRAMITE_SecondStep = (props) => {
         }));
 
         setValidated(true);
-        if (form.checkValidity() === false) {
-            props.onNextStep();
-        }
 
+        if (form.checkValidity() == true) {
+            props.onNextStep();
+        } 
     };
+
 
     return (
         <Container style={{ background: "#e8edf7", maxWidth: "1100px", borderRadius: "15px" }} className='mt-5 p-3'>
@@ -63,7 +65,7 @@ const REQTRAMITE_SecondStep = (props) => {
                         <Row>
                             <Col md={6} className="mb-3">
                                 <MDBInput
-                                    label="Padre: Nombre y Apellido"
+                                    label="Padre: nombre y apellido"
                                     type="text"
                                     className="custom-input"
                                     name="nombre_padre"
@@ -81,7 +83,7 @@ const REQTRAMITE_SecondStep = (props) => {
                         <Row>
                             <Col md={6} className="mb-3">
                                 <MDBInput
-                                    label="Madre: Nombre y Apellido"
+                                    label="Madre: nombre y apellido"
                                     type="text"
                                     className="custom-input"
                                     name="nombre_madre"
@@ -114,9 +116,9 @@ const REQTRAMITE_SecondStep = (props) => {
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
-                                    <option value="1">4</option>
-                                    <option value="2">5</option>
-                                    <option value="3">6</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
                                 </select>
                             </Col>
                             <Col md={6} className="mb-3">
@@ -135,7 +137,6 @@ const REQTRAMITE_SecondStep = (props) => {
                 }
 
                 {/* Nacionalidad */}
-
                 <Row>
                     {props.tramite?.requirement.includes(4) &&
                         <>
@@ -149,7 +150,6 @@ const REQTRAMITE_SecondStep = (props) => {
                                     onChange={handleFormData}
                                     required
                                 >
-                                    <i className="fas fa-exclamation-circle trailing"></i>
                                 </MDBInput>
                             </Col>
                         </>
@@ -173,9 +173,6 @@ const REQTRAMITE_SecondStep = (props) => {
                                     <option value="desocupado">Desocupado/a</option>
                                     <option value="jubilado">Jubilado/a</option>
                                 </Form.Select>
-                                <Form.Control.Feedback type="invalid">
-                                    Please choose a username.
-                                </Form.Control.Feedback>
                             </Col>
                         </>
                     }
@@ -254,7 +251,7 @@ const REQTRAMITE_SecondStep = (props) => {
                         </MDBBtn>
                     </Col>
                     <Col className="d-flex justify-content-end">
-                        <MDBBtn className="d-flex align-items-center" color="success" onClick={handleNextStep}>
+                        <MDBBtn className="d-flex align-items-center" color="success">
                             <MDBIcon
                                 fas
                                 icon="check-circle"

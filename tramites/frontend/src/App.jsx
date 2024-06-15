@@ -25,6 +25,7 @@ import { PanelNotificacionPage } from './pages/PanelNotificacionPage';
 import REQTRAMITE_Success from './components/REQTRAMITE_Success';
 import REQTRAMITE_Failure from './components/REQTRAMITE_Failure';
 import TRAMITE_Domicilio from './pdf/TRAMITE_Domicilio';
+import TRAMITE_Comprobante from './components/TRAMITE_Comprobante';
 
 const ROLES = {
   'User': 'citizen',
@@ -50,6 +51,7 @@ function App() {
           <Route path="/forget-password" element={<ForgetPasswordPage />} />
           <Route path="/otp/verify" element={<VerifyPage />} />
           <Route path="/password-reset-confirm/:uid/:token" element={<ConfirmPasswordPage />} />
+          <Route path='test' element={<TRAMITE_Comprobante />} />
 
           {/* Rutas protegidas */}
           <Route element={<PersistLogin />}>

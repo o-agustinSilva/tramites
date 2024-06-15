@@ -28,11 +28,11 @@ const TRAMITES_ListTramites = ({ status }) => {
                     })
             } else if (status == 2) {
                 axios.get(`http://127.0.0.1:8000/api/get-completed-cases/${user.id}/`)
-                .then(response => {
-                    if (response.status === 200) {
-                        setTramites(response.data);
-                    }
-                })
+                    .then(response => {
+                        if (response.status === 200) {
+                            setTramites(response.data);
+                        }
+                    })
             }
         }
 
@@ -47,7 +47,6 @@ const TRAMITES_ListTramites = ({ status }) => {
                     <th>Codigo</th>
                     <th>Estado</th>
                     <th>Fecha de solicitud</th>
-                    <th></th>
                     <th></th>
                 </tr>
             </MDBTableHead>
@@ -71,22 +70,41 @@ const TRAMITES_ListTramites = ({ status }) => {
                             <p className="fw-normal mb-1">{tramite.id}</p>
                         </td>
                         <td>
-                            <MDBBadge color='success' pill>
-                                {tramite.status.charAt(0).toUpperCase() + tramite.status.slice(1)}
-                            </MDBBadge>
+                            {tramite.status.charAt(0).toUpperCase() + tramite.status.slice(1) == 'Solicitado' &&
+                                <>
+                                    <MDBBadge color='secondary' pill>
+                                        {tramite.status.charAt(0).toUpperCase() + tramite.status.slice(1)}
+                                    </MDBBadge>
+                                </>
+                            }
+
+                            {tramite.status.charAt(0).toUpperCase() + tramite.status.slice(1) == 'En curso' &&
+                                <>
+                                    <MDBBadge color='warning' pill>
+                                        {tramite.status.charAt(0).toUpperCase() + tramite.status.slice(1)}
+                                    </MDBBadge>
+                                </>
+                            }
+
+                            {tramite.status.charAt(0).toUpperCase() + tramite.status.slice(1) == 'Resuelto' &&
+                                <>
+                                    <MDBBadge color='success' pill>
+                                        {tramite.status.charAt(0).toUpperCase() + tramite.status.slice(1)}
+                                    </MDBBadge>
+                                </>
+                            }
+
+                            {tramite.status.charAt(0).toUpperCase() + tramite.status.slice(1) == 'Rechazado' &&
+                                <>
+                                    <MDBBadge color='danger' pill>
+                                        {tramite.status.charAt(0).toUpperCase() + tramite.status.slice(1)}
+                                    </MDBBadge>
+                                </>
+                            }
 
                         </td>
-
                         <td>{tramite.request_date}</td>
-                        <td>
-                            <PDFDownloadLink document={<TRAMITE_Pdf />}
-                                fileName='Nombre del certificado'>
-                                <MDBBtn color="success" rounded size="sm" className='tableButton'>
-                                    <MDBIcon fas icon="arrow-circle-down" size="1x" />
-                                    <span className="mx-3">Descargar</span>
-                                </MDBBtn>
-                            </PDFDownloadLink>
-                        </td>
+
                         <td>
                             <Link to={`/tramite/${tramite.id}/`}>
                                 <MDBBtn color="info" rounded size="sm" className='tableButton'>
