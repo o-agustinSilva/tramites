@@ -16,6 +16,8 @@ import {
 } from "mdb-react-ui-kit";
 
 const REQTRAMITE_ThirdStep = (props) => {
+    const {tramite}= props;
+    const user = JSON.parse(localStorage.getItem("user_data"));
     let { id } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [fieldsCompleted, setFieldsCompleted] = useState(false);
@@ -24,7 +26,7 @@ const REQTRAMITE_ThirdStep = (props) => {
     const [documentation, setDocumentation] = useState({
         frente: "",
         dorso: "",
-    });
+    }); 
     const [preferenceId, setPreferenceId] = useState(null);
     
     useEffect(() => {
@@ -48,9 +50,10 @@ const REQTRAMITE_ThirdStep = (props) => {
     const createPreference = async () => {
         try {
             const response = await axios.post("http://localhost:3000/create_preference", {
-                title: "Tramite estatico",
-                price: 100,
+                title: tramite.name,
+                price: tramite.price,
                 quantity: 1,
+                user_id:user.id
             });
 
             const { id } = response.data;

@@ -67,4 +67,11 @@ urlpatterns = [
     path('registerPolicia/', RegisterUserPoliView.as_view(), name='registerPoli'),
     path('deleteUserPolicia/<int:id>/', DeleteUserPoliView.as_view(), name='deletePoli'),
     path('update-police/<int:id>/', UpdatePoliceView.as_view(), name='update-police'),
+
+    # ======================================
+    # Gestión de pagos
+    #=======================================
+    path('payment/', PaymentView.as_view(), name='payment'),
+    path('list-payment/', ListPayment.as_view(), name='list-payment'),
+    path('get-payment/<int:pk>/', GetPayment.as_view(), name='get-payment')
 ]

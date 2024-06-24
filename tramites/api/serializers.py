@@ -330,3 +330,8 @@ class UpdatePasswordSerializer(serializers.ModelSerializer):
             instance.set_password(password)
             instance.save()
         return instance
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PaymentTramite
+        fields = '__all__'
