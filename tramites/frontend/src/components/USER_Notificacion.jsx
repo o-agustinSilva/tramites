@@ -159,7 +159,7 @@ const USER_Notificacion = () => {
   }, [location.search, setVerticalActive, navigate]);
 
   return (
-    <MDBContainer fluid id="task-details">
+    <MDBContainer fluid  id="task-details">
       <MDBRow>
         <MDBCol lg={3}>
           <MDBTabs

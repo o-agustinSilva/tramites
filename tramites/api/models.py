@@ -220,3 +220,24 @@ class OneTimePasswords(models.Model):
                                     
     def __str__(self):
         return f"\n{self.usuario.email} - passcode \n{self.expiration}"
+
+# MODELO PARA ALMACENAR LOS PAGOS
+class PaymentTramite(models.Model):
+    user_id=models.IntegerField()
+    transaction_Id=models.CharField(max_length=100, unique=True,  default="0")
+    transaction_Amount=models.DecimalField(max_digits=10, decimal_places=2,  default="0.0")
+    currency_Id=models.CharField(max_length=10,  default="Unknown")
+    status=models.CharField(max_length=50,  default="Unknown")
+    status_Detail=models.CharField(max_length=100,  default="Unknown")
+    date_Approved=models.DateTimeField(default=timezone.now)
+    paymentMethod_Id=models.CharField(max_length=50, default="Unknown")
+    cardholder_Name=models.CharField(max_length=100,  default="Unknown")
+    last_Four_Digits=models.CharField(max_length=4,  default="0000")
+    payer_Email=models.CharField(max_length=50, default="Unknown")
+    description=models.CharField(max_length=100, default="Unknown")
+
+    def __str__(self):
+        return f'{self.transaction_Id} - {self.status}'
+
+
+

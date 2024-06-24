@@ -1,107 +1,81 @@
 import React from 'react';
-import { PDFViewer, Document, Page, Text, View, Image, StyleSheet } from "@react-pdf/renderer";
+import { PDFViewer, Document, Page, Text, View, Image, StyleSheet, Font } from "@react-pdf/renderer";
+import {useEffect, useState} from 'react';
+import axios from 'axios';
 
-// Estilos para el documento PDF
-const styles = StyleSheet.create({
-  page: {
-    padding: 20,
-    fontSize: 12,
-    fontFamily: 'Helvetica',
-  },
-  header: {
-    justifyContent: 'space-between',
-    marginBottom: 20,
-    display: "flex", 
-    flexDirection: "column", 
-    justifyContent: "center", 
-    alignItems: "center", 
-    textAlign: "center"
-  },
-  title: {
-    fontSize: 20,
-    color: '#00A8E8',
-    marginBottom: 10,
-    
-  },
-  subTitle: {
-    fontSize: 14,
-    marginBottom: 10,
-  },
-  section: {
-    border: '1px solid #ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-    marginTop: 20
-  },
-  row: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 5,
-  },
-  label: {
-    fontWeight: 'bold',
-  },
-  text: {
-    marginBottom: 5,
-  },
-  signature: {
-    marginTop: 20,
-    textAlign: 'center',
-  },
-  img: {
-    width: '100px',
-    height: '50px',
-  },
+const styles= StyleSheet.create({
+  img: {width: '200px', height: '100px', paddingTop:'25px', paddingRight:'10px'},
+  heade: {display:'flex', flexDirection:'row',justifyContent:'flex-end'},
+  pading: {paddingTop:'10px'},
 });
 
-const ComprobantePago = () => {
-  return (
-    <PDFViewer style={{ width: '100%', height: '100vh', borderRadius: '10px' }}>
-      <Document>
-        <Page size="A4" style={styles.page}>
-          {/* Header */}
-          
-          <View style={styles.header}>
-              <Text style={styles.title}>COMPROBANTE DE PAGO</Text>
-            </View>
-            <View>
-              <Text style={styles.subTitle}>N° recibo:</Text>
-              <Text style={styles.subTitle}>Fecha:</Text>
-              <Text style={styles.subTitle}>Lugar:</Text>
-            </View>
 
-          {/* Emisor y Receptor */}
-          <View style={styles.section}>
-            <View style={styles.row}>
-              <View>
-                <Text style={styles.label}>EMISOR:</Text>
-                <Text>Nombre:</Text>
-                <Text>Dirección:</Text>
-                <Text>Teléfono:</Text>
-                <Text>Email:</Text>
-              </View>
-              <View>
-                <Text style={styles.label}>RECEPTOR:</Text>
-                <Text>Nombre:</Text>
-                <Text>Dirección:</Text>
-              </View>
-            </View>
-          </View>
+function ComprobantePago(){
+   const [transactionData, setTransactionData] = useState(null);
+   const user= JSON.parse(localStorage.getItem("user_data"));  
 
-          {/* Concepto */}
-          <View style={styles.section}>
-            <Text style={styles.label}>CONCEPTO:</Text>
-            <Text>Pago: total/parcial</Text>
-            <Text style={styles.text}>CANTIDAD:</Text>
-            <Text style={styles.text}>MEDIO DE PAGO:</Text>
-          </View>
+  useEffect(() => {
+    const fetchTransactionData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/get-payment/${user.id}/`);
+        setTransactionData(response.data);
+      } catch (error) {
+        console.error('Error al obtener el número de transacción:', error);
+      }
+    };
+    fetchTransactionData();
+  }, []);
 
-        </Page>
-      </Document>
-    </PDFViewer>
+  if (!transactionData) {
+    return <div>Loading...</div>;
+  }
+
+
+  return(
+    <PDFViewer style={{ width: '100%', height: '350px', borderRadius: '10px' }}>
+       <Document>
+          <Page size={{ width: 600, height: 350 }}>
+            <View style={{...styles.heade, backgroundColor:'#0894c4'}}>
+              <Text style={{...styles.text, paddingRight:'50px', paddingTop: '50px'}}>
+                  COMPROBANTE DE PAGO
+              </Text>               
+              <Image src="../../src/img/logoPDF.png" style={styles.img}/>  
+            </View>  
+
+
+            <View style={{ paddingLeft: '10px', paddingTop: '20px', backgroundColor:'#d8dfeb'}}>
+            <Text style={{...styles.pading, fontWeight: 'bold'}}>
+              Descripcion: {transactionData.description}
+            </Text>
+
+             <Text style={styles.pading}>
+              Monto: $ {transactionData.transaction_Amount}
+            </Text> 
+
+             <Text style={styles.pading}>
+              Metodo de pago: Tarjeta {transactionData.paymentMethod_Id}
+            </Text>
+
+            <Text style={styles.pading}>
+              Pagado con la tarjeta: XXXX-XXXX-XXXX-{transactionData.last_Four_Digits}
+            </Text>
+
+            <Text style={styles.pading}>
+              Titular: {transactionData.cardholder_Name}
+            </Text> 
+
+             <Text style={styles.pading}>
+              Fecha y Hora: {transactionData.date_Approved}
+            </Text> 
+
+            <Text style={{...styles.pading, paddingBottom:'20px', fontWeight:'bold'}}>
+              Transaccion N°: {transactionData.transaction_Id}
+              </Text>
+            </View>  
+          </Page>
+       </Document>
+      </PDFViewer> 
   );
-};
+}
 
 export default ComprobantePago;

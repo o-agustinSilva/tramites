@@ -18,6 +18,7 @@ const ADMIN_Users = () => {
                 const response = await axios.get("http://localhost:8000/api/get-superusers/");
                 const res = response.data;      
                 if (response.status === 200) setUsers(res)
+                console.log(res);
 
             } catch (err) {
                 console.log(err);
@@ -28,8 +29,9 @@ const ADMIN_Users = () => {
     }, []);
 
     const capitalize = (str) => {
+        if (!str) return ''; // Verifica si la cadena es nula o indefinida
         return str.charAt(0).toUpperCase() + str.slice(1);
-      };
+    };
 
     return (
         <div>

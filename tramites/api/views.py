@@ -11,9 +11,6 @@ from rest_framework.generics import GenericAPIView, DestroyAPIView, UpdateAPIVie
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-#userPoli
-from api.serializers import UserPoliRegisterSerializer;
-
 # ======================================
 #         Views de usuarios
 #=======================================
@@ -530,3 +527,44 @@ class UpdatePasswordView(UpdateAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PaymentView(GenericAPIView):
+    serializer_class = PaymentSerializer
+
+    def post(self, request):
+        user_data = request.data
+        serializer = self.serializer_class(data=user_data)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            errores = serializer.errors
+            print(errores)
+            mensaje_error = {"error": "No se pudo registrar el pago", "detalles": errores}
+            return Response(mensaje_error, status=status.HTTP_400_BAD_REQUEST)
+        
+class ListPayment(GenericAPIView):
+    serializer_class = PaymentSerializer
+    queryset = PaymentTramite.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)  
+
+class GetPayment(GenericAPIView):
+    serializer_class = PaymentSerializer
+    lookup_url_kwarg = 'pk'
+
+    def get_queryset(self):
+        user_id = self.kwargs.get(self.lookup_url_kwarg)
+        return PaymentTramite.objects.filter(user_id=user_id).order_by('-date_Approved')
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset().first()
+        if not queryset:
+            return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = self.serializer_class(queryset)
+        return Response(serializer.data, status=status.HTTP_200_OK)

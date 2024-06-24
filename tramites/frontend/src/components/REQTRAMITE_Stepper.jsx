@@ -76,6 +76,7 @@ export function RequestTramite() {
             />
           ) : activeStep === 2 ? (
             <REQTRAMITE_ThirdStep
+            tramite={tramite}
               onPreviousStep={() => setActiveStep(1)}
             />
           ) : null}
@@ -87,6 +88,7 @@ export function RequestTramite() {
             />
           ) : activeStep === 1 ? (
             <REQTRAMITE_ThirdStep
+            tramite={tramite}
               onPreviousStep={() => setActiveStep(0)}
             />
           ) : null}

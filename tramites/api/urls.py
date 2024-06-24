@@ -3,9 +3,6 @@ from rest_framework_simplejwt.views import (TokenRefreshView)
 from unicodedata import name
 from api.views import *
 
-#IMPORTO LA VISTA DE POLI
-from api.views import RegisterUserPoliView
-
 urlpatterns = [
     # ======================================
     #           Gestión de usuarios
@@ -69,4 +66,11 @@ urlpatterns = [
     path('registerPolicia/', RegisterUserPoliView.as_view(), name='registerPoli'),
     path('deleteUserPolicia/<int:id>/', DeleteUserPoliView.as_view(), name='deletePoli'),
     path('update-police/<int:id>/', UpdatePoliceView.as_view(), name='update-police'),
+
+    # ======================================
+    # Gestión de pagos
+    #=======================================
+    path('payment/', PaymentView.as_view(), name='payment'),
+    path('list-payment/', ListPayment.as_view(), name='list-payment'),
+    path('get-payment/<int:pk>/', GetPayment.as_view(), name='get-payment')
 ]

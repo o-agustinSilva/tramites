@@ -40,7 +40,7 @@ const TRAMITES_ListTramites = ({ status }) => {
     }, []);
 
     return (
-        <MDBTable responsive align="middle">
+        <MDBTable  responsive align="middle">
             <MDBTableHead>
                 <tr>
                     <th>Documento</th>
