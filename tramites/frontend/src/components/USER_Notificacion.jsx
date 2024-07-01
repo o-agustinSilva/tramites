@@ -18,7 +18,8 @@ import {
 
 
 const USER_Notificacion = () => {
-  const userData = JSON.parse(localStorage.getItem("user_data"));
+  const user = JSON.parse(localStorage.getItem("user_data"));
+  const [userData, setUserData] = useState(user); //estado para almacenar los datos del usuario
   const [verticalActive, setVerticalActive] = useState("1");
   const [tramitesSolicitado, setTramitesSolicitados] = useState([]);
   const [tramitesEncurso, setTramitesEncurso] = useState([]);
@@ -27,6 +28,34 @@ const USER_Notificacion = () => {
   const [tramitesFinalizados, setTramitesFinalizados] = useState([]);
 
 
+  useEffect(() => { 
+    const fetchUserData = async () => {
+      try {
+        const user = JSON.parse(localStorage.getItem('user_data'));
+        
+        const response = await axios.get(`http://localhost:8000/api/get-user/${user.id}/`);
+        
+        if (response.data) {
+          setUserData(response.data);
+          
+        } else {
+          console.log('No data found for the user');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        setError('Error fetching user data');
+      }
+    };
+    
+    fetchUserData();
+  }, []);
+
+
+
+
+
+
+  console.log(userData);
   const fetchSolicitados = async () => {
     try {
       const response = await axios.get(
@@ -168,7 +197,17 @@ const USER_Notificacion = () => {
           >
             <MDBTabsItem style={{ color: "black" }}>
               <div className="my-3  text-center">
-                <MDBIcon fas icon="user" size="3x" />
+              {userData.profile_imagen ? (
+                <img
+                  style={{ width: "150px", height: "150px" }}
+                  id="profileImg"
+                  src={userData.profile_imagen}
+                  alt="Imagen de perfil"
+                />
+                ) : (
+                  <MDBIcon fas icon="user" size="4x" />
+                )}
+                
                 <h3>{userData.firstname + ' ' + userData.lastname}</h3>
               </div>
             </MDBTabsItem>

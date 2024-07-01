@@ -134,8 +134,7 @@ function SignUp() {
                   Seleccione tipo de documento
                 </option>
                 <option value="DNI">DNI</option>
-                <option value="TWO">Two</option>
-                <option value="3">Three</option>
+                <option value="TWO">PASAPORTE</option>
               </Form.Select>
             </Col>
             <Col md="6" className="mb-3">

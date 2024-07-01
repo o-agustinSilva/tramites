@@ -1,27 +1,54 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { MDBIcon, MDBInput, MDBInputGroup, MDBBtn } from "mdb-react-ui-kit";
 import { useForm } from "react-hook-form"; //LIBRERIA PARA MANERJAR EL FORMULARIO
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export function SignupPolice() {
+  const navagate= useNavigate();
+  const [dependences, setDependences] = useState([]);
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm(); //LLAMO A LAS PROPIEDADES DE LA LIBRERIA
+  } = useForm();  // Valor por defecto para el campo "Rol"); //LLAMO A LAS PROPIEDADES DE LA LIBRERIA
+
+  // Obtengo todas las dependencias para completar el dropdown
+  useEffect(() => {
+    const fetchDependences = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/get-dependences/");
+        const res = response.data;
+
+        if (response.status === 200) setDependences(res);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchDependences();
+  }, []);
+
+
 
   //funcion para capturar los valores
   const customSubmit = async (postData) => {
     console.log(postData);
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/register/",
+        "http://localhost:8000/api/registerPolicia/",
         postData
       );
-      alert("El Usuario fue creado correctamente");
+
+      if(res.status == 201){
+        toast.success("El Usuario fue creado correctamente");
+        navagate("/admin");
+      }
+      
     } catch (error) {
       console.error("Error en la solicitud:", error);
     }
@@ -50,18 +77,18 @@ export function SignupPolice() {
                   className="custom-input"
                   label="Nombre"
                   type="text"
-                  {...register("Nombre", { required: true })} //ES LA FORMA CON QUE SE VAN A REGISTRAR LOS VALORES DEL INPUT, REMPLAZA AL ID
+                  {...register("firstname", { required: true })} //ES LA FORMA CON QUE SE VAN A REGISTRAR LOS VALORES DEL INPUT, REMPLAZA AL ID
                 />
-                {errors.Nombre && <small className="alertTitle">El campo no puede estar vacio</small>}
+                {errors.firstname && <small className="alertTitle">El campo no puede estar vacio</small>}
               </Col>
               <Col>
                 <MDBInput
                   className="custom-input"
                   label="Apellido"
                   type="text"
-                  {...register("Apellido", { required: true })}
+                  {...register("lastname", { required: true })}
                 />
-                {errors.Apellido && (
+                {errors.lastname && (
                   <small className="alertTitle">El campo no puede estar vacio</small>
                 )}
               </Col>
@@ -71,13 +98,13 @@ export function SignupPolice() {
                 <MDBInput
                   className="custom-input"
                   label="Dni N°"
-                  type="text"
-                  {...register("Documento", { required: true, minLength: 8 })}
+                  type="number"
+                  {...register("number", { required: true, minLength: 8 })}
                 />
-                {errors.Documento?.type === "required" && (
+                {errors.number?.type === "required" && (
                   <small className="alertTitle">El campo no puede estar vacio</small>
                 )}
-                {errors.Documento?.type === "minLength" && (
+                {errors.number?.type === "minLength" && (
                   <small className="alertTitle">Ingrese la cantidad de caracteres validos (08)</small>
                 )}
               </Col>
@@ -85,15 +112,24 @@ export function SignupPolice() {
                 <MDBInput
                   className="custom-input"
                   label="Legajo N°"
-                  type="text"
-                  {...register("Legajo", { required: true, minLength: 5 })}
+                  type="number"
+                  {...register("legajo_number", { required: true, minLength: 5 })}
                 />
-                {errors.Legajo?.type === "required" && (
+                {errors.legajo_number?.type === "required" && (
                   <small className="alertTitle">El campo no puede estar vacio</small>
                 )}
-                {errors.Legajo?.type === "minLength" && (
+                {errors.legajo_number?.type === "minLength" && (
                   <small className="alertTitle">Ingrese la cantidad de caracteres validos (05)</small>
                 )}
+              </Col>
+              <Col>
+                <MDBInput
+                  className="custom-input"
+                  label="Rol"
+                  defaultValue="Policia"
+                  type="text"
+                  {...register("role", { required: true, value: 'police'})}
+                />
               </Col>
             </Row>
 
@@ -103,9 +139,9 @@ export function SignupPolice() {
                   className="custom-input"
                   label="Direccion - Calle"
                   type="text"
-                  {...register("DireccionCalle", { required: true })}
+                  {...register("address", { required: true })}
                 />
-                {errors.DireccionCalle?.type === "required" && (
+                {errors.address?.type === "required" && (
                   <small className="alertTitle">El campo no puede estar vacio</small>
                 )}
               </Col>
@@ -114,9 +150,9 @@ export function SignupPolice() {
                   className="custom-input"
                   label="Numero"
                   type="text"
-                  {...register("DireccionNumero", { required: true })}
+                  {...register("address_number", { required: true })}
                 />
-                {errors.DireccionNumero?.type === "required" && (
+                {errors.address_number?.type === "required" && (
                   <small className="alertTitle">El campo no puede estar vacio</small>
                 )}
               </Col>
@@ -125,7 +161,7 @@ export function SignupPolice() {
                   className="custom-input"
                   label="Piso-Dpto"
                   type="text"
-                  {...register("Direccion-piso")}
+                  {...register("floor")}
                 />
               </Col>
             </Row>
@@ -136,9 +172,9 @@ export function SignupPolice() {
                   className="custom-input"
                   label="Telefono N°"
                   type="text"
-                  {...register("Telefono", { required: true })}
+                  {...register("phone", { required: true })}
                 />
-                {errors.Telefono?.type === "required" && (
+                {errors.phone?.type === "required" && (
                   <small className="alertTitle">El campo no puede estar vacio</small>
                 )}
               </Col>
@@ -148,35 +184,34 @@ export function SignupPolice() {
                   label="Fecha de Nacimiento"
                   type="text"
                   placeholder="dd/mm/aaaa"
-                  {...register("Nacimiento", { required: true })}
+                  {...register("birthdate", { required: true })}
                 />
-                {errors.Nacimiento?.type === "required" && (
+                {errors.birthdate?.type === "required" && (
                   <small className="alertTitle">El campo no puede estar vacio</small>
                 )}
               </Col>
             </Row>
             <Row className="my-4">
               <Col>
-                <select className="form-select" aria-label="Default select example" {...register("Jerarquia", { required: true })}>
-                  <option value="Ayudante">Ayudante</option>
-                  <option value="Subinspector">Subinspector</option>
-                  <option value="Inspector">Inspector</option>
-                  <option value="Agente">Agente</option>
-                  <option value="Cabo">Cabo</option>
-                  <option value="Cabo Primero">Cabo Primero</option>
-                  <option value="Sargento">Sargento</option>
-                  <option value="Sargento Primero">Sargento Primero</option>
+                <select className="form-select" aria-label="Default select example" {...register("hierarchy", { required: true })}>
+                  <option value="ayudante">Ayudante</option>
+                  <option value="subinspector">Subinspector</option>
+                  <option value="inspector">Inspector</option>
+                  <option value="agente">Agente</option>
+                  <option value="cabo">Cabo</option>
+                  <option value="cabo primero">Cabo Primero</option>
+                  <option value="sargento">Sargento</option>
+                  <option value="sargento primero">Sargento Primero</option>
                 </select>
               </Col>
               
               <Col>
-              <select className="form-select" aria-label="Default select example" {...register("Dependencia")}>
-                  <option value="Investigaciones">Investigaciones</option>
-                  <option value="Comisaria Primera">Comisaria Primera</option>
-                  <option value="Comisaria Segunda">Comisaria Segunda</option>
-                  <option value="Comisaria Tercera">Comisaria Tercera</option>
-                  <option value="Comisaria Cuarta">Comisaria Cuarta</option>
-                  <option value="Comisaria Quinta">Comisaria Quinta</option>
+              <select className="form-select" aria-label="Default select example" {...register("dependence", { required: true })}>
+                  {dependences.map((dependence) => (
+                    <option key={dependence.id} value={dependence.id}>
+                      {dependence.name}
+                    </option>
+                  ))}
                 </select>
               </Col>
             </Row>
@@ -187,9 +222,9 @@ export function SignupPolice() {
                     className="form-control"
                     type="email"
                     placeholder="Correo Electonico"
-                    {...register("Correo", { required: true })}
+                    {...register("email", { required: true })}
                   />
-                  {errors.Correo?.type === 'required' && <small className="alertTitle">El campo no puede estar vacio</small>}
+                  {errors.email?.type === 'required' && <small className="alertTitle">El campo no puede estar vacio</small>}
                 </MDBInputGroup>
               </Col>
             </Row>
@@ -200,12 +235,12 @@ export function SignupPolice() {
                   label="Contraseña"
                   type="password"
                   className="custom-input"
-                  {...register("Password", { required: true, minLength: 8 })}
+                  {...register("password", { required: true, minLength: 8 })}
                 />
-                {errors.Password?.type === "required" && (
+                {errors.password?.type === "required" && (
                   <small className="alertTitle">El campo no puede estar vacio</small>
                 )}
-                {errors.Password?.type === "minLength" && (
+                {errors.password?.type === "minLength" && (
                   <small className="alertTitle"> Ingrese la cantidad de caracteres validos (08)</small>
                 )}
               </Col>
@@ -214,20 +249,20 @@ export function SignupPolice() {
                   label="Confirmar contraseña"
                   type="password"
                   className="custom-input"
-                  {...register("ConfirmationPassword", {
+                  {...register("password_confirmation", {
                     required: {
                       value: true,
                       message: "Este campo no puede estar vacio",
                     },
                     validate: (value) => {
-                      if (value === watch("Password")) {
+                      if (value === watch("password")) {
                         return true;
                       } else return "Las constraseñas no coninciden";
                     },
                   })}
                 />
-                {errors.ConfirmationPassword && (
-                  <small className="alertTitle">{errors.ConfirmationPassword.message}</small>
+                {errors.password_confirmation && (
+                  <small className="alertTitle">{errors.password_confirmation.message}</small>
                 )}
               </Col>
             </Row>

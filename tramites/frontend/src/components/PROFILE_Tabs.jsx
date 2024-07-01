@@ -18,7 +18,7 @@ import {
 import axios from "axios";
 
 const PROFILE_Tabs = () => {
-   const user = JSON.parse(localStorage.getItem("user_data"));
+  const user = JSON.parse(localStorage.getItem("user_data"));
   const [verticalActive, setVerticalActive] = useState("tab1");
   const [userData, setUserData] = useState(user); //estado para almacenar los datos del usuario
 

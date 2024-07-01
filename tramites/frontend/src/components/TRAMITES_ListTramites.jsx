@@ -55,12 +55,13 @@ const TRAMITES_ListTramites = ({ status }) => {
                     <tr key={tramite.id}>
                         <td>
                             <div className="d-flex align-items-center">
-                                <img
+                            <MDBIcon far icon="file" size='2x' />
+                                {/* <img
                                     src="https://mdbootstrap.com/img/new/avatars/8.jpg"
                                     alt=""
                                     style={{ width: "45px", height: "45px" }}
                                     className="rounded-circle"
-                                />
+                                /> */}
                                 <div className="ms-3">
                                     <p className="fw-bold mb-1">{tramite.tramite.name}</p>
                                 </div>

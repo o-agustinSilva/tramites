@@ -11,7 +11,7 @@ class UserManager(BaseUserManager):
         except ValidationError:
             raise ValueError(_("Ingresar un correo electrónico válido"))
 
-    def create_citizen(self, email, firstname, lastname, number, role, birthdate, password, address, address_number, floor, apartment, phone, phone_area_code, document_type, genre):
+    def create_citizen(self, email, firstname, lastname, number, role, birthdate, password, address, address_number, floor, apartment, phone, phone_area_code, document_type, genre, profile_imagen):
         if email:
             email = self.normalize_email(email)
             self.email_validator(email)
@@ -36,14 +36,15 @@ class UserManager(BaseUserManager):
             phone=phone,
             phone_area_code=phone_area_code,
             genre=genre,
-            document_type=document_type
+            document_type=document_type,
+            profile_imagen=profile_imagen
         )
         citizen.set_password(password)
         citizen.save(using=self._db)
         return citizen
     
 
-    def create_police(self, email, firstname, lastname, number, role, password, address, address_number, floor, apartment, document_type, genre,  hierarchy, dependence, is_verified ):
+    def create_police(self, email, firstname, lastname, role, password, legajo_number, address, address_number, apartment, number, hierarchy, dependence, is_verified, profile_imagen):
         if email:
             email = self.normalize_email(email)
             self.email_validator(email)
@@ -58,17 +59,17 @@ class UserManager(BaseUserManager):
             email=email,
             firstname=firstname,
             lastname=lastname,
-            number=number,
             role=role,
+            legajo_number=legajo_number,
             address=address,
             address_number=address_number,
-            floor=floor,
             apartment=apartment,
-            genre=genre,
-            document_type=document_type,
+            number=number,
             hierarchy=hierarchy,
             dependence=dependence,
-            is_verified=is_verified
+            is_verified=is_verified,
+            profile_imagen=profile_imagen,
+            password=password
         )
         police.set_password(password)
         police.save(using=self._db)

@@ -259,10 +259,12 @@ class GetSuperusersSerializer(serializers.ModelSerializer):
 class UserPoliRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=68, min_length=8, write_only=True)
     password_confirmation = serializers.CharField(max_length=68, min_length=8, write_only=True)
+    is_verified = serializers.BooleanField(default=True)  # Agregar el valor predeterminado aquí
+
 
     class Meta:
         model = Usuarios
-        fields = ['email', 'firstname', 'lastname', 'password', 'password_confirmation', 'number', 'role', 'address', 'address_number', 'floor', 'apartment', 'document_type', 'genre', 'hierarchy', 'dependence', 'is_verified']
+        fields = ['email', 'number', 'firstname', 'lastname', 'legajo_number','password', 'password_confirmation', 'role', 'address', 'address_number', 'apartment', 'hierarchy', 'dependence', 'is_verified', 'profile_imagen']
                        
     def validate(self, attrs):
         password = attrs.get('password', '')
@@ -283,15 +285,17 @@ class UserPoliRegisterSerializer(serializers.ModelSerializer):
             number=validated_data.get('number'),
             role=validated_data.get('role'),
             password=validated_data.get('password'),
+            legajo_number=validated_data.get('legajo_number'),
             address=validated_data.get('address'),
             address_number=validated_data.get('address_number'),
-            floor=validated_data.get('floor'),
+            # floor=validated_data.get('floor'),
             apartment=validated_data.get('apartment'),
-            document_type=validated_data.get('document_type'),
-            genre=validated_data.get('genre'),
+            # document_type=validated_data.get('document_type'),
+            # genre=validated_data.get('genre'),
             hierarchy=validated_data.get('hierarchy'),
             dependence=validated_data.get('dependence'),
-            is_verified=validated_data.get('is_verified')
+            is_verified=validated_data.get('is_verified', True),
+            profile_imagen=validated_data.get('profile_imagen')
         )
         return usuario
 

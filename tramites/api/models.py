@@ -42,9 +42,10 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
 
     # Campos personalizados
     number       = models.IntegerField()
-    document_type = models.CharField(max_length=9, choices=DOCUMENT_TYPE)
+    document_type = models.CharField(max_length=9, choices=DOCUMENT_TYPE, null=True,   blank=True)
     birthdate = models.DateField(default="2000-06-10")
     profile_imagen = models.ImageField(upload_to='profile_imagen/', null=True,   blank=True, verbose_name=("Profile picture"))
+    legajo_number = models.IntegerField()
 
      # Campos adicionales para ciudadano
     address = models.CharField(max_length=60)
@@ -59,6 +60,10 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     hierarchy   = models.CharField(max_length=30, null=True, blank=True, choices=RANGOS)
     dependence  = models.ForeignKey("Dependence", on_delete=models.CASCADE, null=True, blank=True)
 
+    
+    # dependence  = models.CharField(max_length=30, null=True, blank=True)
+
+    
     # Campos necesarios para el modelo User base de django
     email           = models.EmailField(max_length=255, unique=True, verbose_name=("Correo electrónico"))
     firstname       = models.CharField(max_length=100, verbose_name=("Nombre"))

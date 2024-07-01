@@ -17,6 +17,7 @@ const ADMIN_Users = () => {
             try {
                 const response = await axios.get("http://localhost:8000/api/get-superusers/");
                 const res = response.data;      
+                console.log(res);
                 if (response.status === 200) setUsers(res)
                 console.log(res);
 
@@ -50,12 +51,16 @@ const ADMIN_Users = () => {
                         <tr key={user.id}>
                         <td>
                             <div className="d-flex align-items-center">
+                            {user.profile_imagen ? (
                                 <img
-                                    src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-                                    alt=""
-                                    style={{ width: "45px", height: "45px" }}
+                                    src={`http://localhost:8000${user.profile_imagen}`}
+                                    alt="Imagen de perfil"
+                                    style={{ width: "50px", height: "50px" }}
                                     className="rounded-circle"
+                                    id="profileImg"
                                 />
+                                ): (<MDBIcon fas icon="user" size="2x" />
+                                )}
                                 <div className="ms-3">
                                     <p className="fw-bold mb-1">{user.firstname} {user.lastname}</p>
                                     <p className="text-muted mb-0">{user.email}</p>
@@ -65,7 +70,7 @@ const ADMIN_Users = () => {
                         <td>
                             <p className="fw-normal mb-1">{capitalize(user.hierarchy)}</p>
                         </td>
-                        <td>{user.dependence.name}</td>
+                        <td>{user.dependence}</td>
                         <td>
                             <Link to={`/edit-user/${user.id}`}>
                                 <MDBBtn color="info" rounded size="sm" className="tableButton">

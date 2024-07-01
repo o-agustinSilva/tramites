@@ -29,31 +29,9 @@ app.get("/", function (req, res) {
 });
 
 app.post("/create_preference", async (req, res) => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    try{
-        const body = {
-            items: [
-                {
-                    title: req.body.title,
-                    quantity: Number(req.body.quantity),
-                    unit_price: Number(req.body.price),
-                    currency_id: "ARS",
-                },
-            ],
-            back_urls: {
-                success: "http://localhost:5173/paymentSuccessful",
-                failure: "http://localhost:5173/paymentFailed",
-                pending: "http://localhost:5173/dashboard",
-            },
-            auto_return: "approved",
-        };
-=======
-  try {
-=======
   try {
     const user_id = req.body.user_id; // Obtén el ID del usuario del cuerpo del request
->>>>>>> e15df53acb4c4f98bac2fe89f8d99524cd771483
+
     const body = {
       items: [
         {
@@ -64,25 +42,18 @@ app.post("/create_preference", async (req, res) => {
         },
       ],
       back_urls: {
-        success: "http://localhost:5173",
-        failure: "http://localhost:5173/requestTramite/5",
+        success: "http://localhost:5173/paymentSuccessful",
+        failure: "http://localhost:5173/paymentFailed",
         pending: "http://localhost:5173/dashboard",
       },
       auto_return: "approved",
-<<<<<<< HEAD
-      notification_url: "https://554c-179-62-75-20.ngrok-free.app/webhook",
-    };
->>>>>>> 2cccfbf15b5eb644739077470784cd26d71f1527
-=======
-      notification_url: "https://67cd-168-226-67-185.ngrok-free.app/webhook",
+      notification_url: "https://98b2-168-226-67-185.ngrok-free.app/webhook",
       metadata: {
         user_id: user_id // Incluye el ID del usuario en los metadatos
       }
     };
->>>>>>> e15df53acb4c4f98bac2fe89f8d99524cd771483
 
     const preference = new Preference(client);
-
     const result = await preference.create({ body });
 
     res.json({
@@ -95,24 +66,24 @@ app.post("/create_preference", async (req, res) => {
     });
   }
 });
-
 app.post("/webhook", async function (req, res) {
   const body = req.body;
-<<<<<<< HEAD
+
   console.log(body);
-=======
   //console.log(body);
->>>>>>> e15df53acb4c4f98bac2fe89f8d99524cd771483
 
   if (body.data && body.data.id) {
     try {
       // Asegúrate de usar await aquí si .get() retorna una promesa
       const payment = await new Payment(client).get({ id: body.data.id });
-<<<<<<< HEAD
       console.log(payment);
+
+      // Extraemos el ID del usuario desde los metadatos de la preferencia de pago
+      const user_id = payment.metadata.user_id;
 
       // Extraemos los datos relevantes y los almacenamos en un objeto 'map'
       const paymentInfo = {
+        user_id: user_id,
         transactionId: payment.id,
         transactionAmount: payment.transaction_amount,
         currencyId: payment.currency_id,
@@ -127,28 +98,11 @@ app.post("/webhook", async function (req, res) {
       };
 
       console.log(paymentInfo);
-=======
-
       console.log(payment);
 
       // Extraemos el ID del usuario desde los metadatos de la preferencia de pago
       const userId = payment.metadata.user_id;
 
-      // Extraemos los datos relevantes y los almacenamos en un objeto 'map'
-      const paymentInfo = {
-        user_id:userId,
-        transaction_Id: payment.id,
-        transaction_Amount: payment.transaction_amount,
-        currency_Id: payment.currency_id,
-        status: payment.status,
-        status_Detail: payment.status_detail,
-        date_Approved: payment.date_approved,
-        paymentMethod_Id: payment.payment_method_id,
-        cardholder_Name: payment.card.cardholder.name,
-        last_Four_Digits: payment.card.last_four_digits,
-        payer_Email: payment.payer.email, 
-        description: payment.description,
-      };
 
       axios.post("http://127.0.0.1:8000/api/payment/", paymentInfo, {
         headers: {
@@ -163,7 +117,7 @@ app.post("/webhook", async function (req, res) {
       });
       
       //console.log(paymentInfo);
->>>>>>> e15df53acb4c4f98bac2fe89f8d99524cd771483
+
     } catch (error) {
       console.error("Error al obtener el pago:", error);
     }
@@ -171,11 +125,9 @@ app.post("/webhook", async function (req, res) {
     console.log("No se encontró 'data' o 'data.id' en el cuerpo del request");
   }
 
-<<<<<<< HEAD
-  res.sendStatus(200);  
-=======
-  res.sendStatus(200);
->>>>>>> e15df53acb4c4f98bac2fe89f8d99524cd771483
+ res.sendStatus(200);  
+
+  
 });
 
 app.listen(port, () => {

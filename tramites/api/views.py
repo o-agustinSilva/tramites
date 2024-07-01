@@ -447,8 +447,8 @@ class DeleteUserPoliView(DestroyAPIView):
         return Response({"message": "Usuario eliminado exitosamente"}, status=status.HTTP_204_NO_CONTENT)
 
 class GetSuperusersView(GenericAPIView):
-    serializer_class = GetSuperusersSerializer
-    queryset = Usuarios.objects.filter(Q(role='admin') | Q(role='police'))
+    serializer_class = ListUsersSerializer
+    queryset = Usuarios.objects.filter(Q(role='police'))
 
     def get(self, request):
         queryset = self.get_queryset()
