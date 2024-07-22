@@ -39,9 +39,11 @@ urlpatterns = [
     path('get-tramites/', ListTramites.as_view(), name='get-tramite'),
     path('get-tramite/<int:pk>/', GetTramiteView.as_view(), name='get-tramite'),
     path('delete-tramite/<int:pk>/', DeleteTramiteView.as_view(), name='delete-tramite'),
-    path('update-tramite/<int:pk>/', UpdateTramiteView.as_view(), name='update-tramite'),
-    
+    path('update-tramite/<int:pk>/', UpdateTramiteView.as_view(), name='update-tramite'),    
     path('request-tramite/', RequestTramiteView.as_view(), name='request-tramite'),
+
+    path('addpdf-case/<int:pk>/', AddDocumentoPDF.as_view(), name='addpdf-caso'),
+    path('case-rechazo/<int:pk>/', RechazarTramiteView.as_view(), name='caso-rechazado'),
     path('get-case/<int:pk>/', GetCaseView.as_view(), name='get-case'),
     path('list-cases/', ListCasesView.as_view(), name='list-cases'),
     path('list-cases/<str:filter>/', FilterCasesView.as_view(), name='filter-cases'),

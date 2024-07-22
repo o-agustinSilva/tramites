@@ -223,12 +223,25 @@ class RequirementSerializer(serializers.ModelSerializer):
         model = Requirements
         fields = ['id', 'name']
 
+
+# Serializable para rechazar el tramite
+class RechazoCaoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cases
+        fields = ['motivo_rechazo', 'status']  
+
+class UpdateCasePDFSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cases
+        fields = ['archivo_pdf', 'status']  
+
 class TramiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tramite
         fields = '__all__'
 
 class ListRequestedTramitesSerializer(serializers.ModelSerializer):
+    archivo_pdf_url = serializers.SerializerMethodField()
     solicitante = ListUsersSerializer()
     usuario_administrador = ListUsersSerializer()
     tramite = TramiteSerializer()
@@ -236,6 +249,12 @@ class ListRequestedTramitesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cases
         fields = '__all__'
+        
+    def get_archivo_pdf_url(self, obj):
+        request = self.context.get('request')
+        if request is not None:
+            return request.build_absolute_uri(obj.archivo_pdf.url) if obj.archivo_pdf else None
+        return None
 
 class RequestTramiteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -308,19 +327,19 @@ class UserPoliceSerializer(serializers.ModelSerializer):
 class UpdatePhoneNumberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuarios
-        fields = ['phone_area_code', 'phone']  # Campos que se pueden actualizar    
+        fields = ['phone_area_code', 'phone']    
 
 # Serializable para actulizar el email de un usuario
 class UpdateEmailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuarios
-        fields = ['email']  # Campo que se puede actualizar    
+        fields = ['email']      
 
 # Serializable para actulizar la imagen de un usuario
 class UpdatePerfilImaglSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuarios
-        fields = ['profile_imagen']  # Campo que se puede actualizar    
+        fields = ['profile_imagen']     
 
 # Serializable para actulizar la contraseña de un usuario
 class UpdatePasswordSerializer(serializers.ModelSerializer):
@@ -339,3 +358,9 @@ class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaymentTramite
         fields = '__all__'
+
+# Serializable para actulizar la imagen de un usuario
+class UpdatePerfilImaglSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuarios
+        fields = ['profile_imagen']  # Campo que se puede actualizar  

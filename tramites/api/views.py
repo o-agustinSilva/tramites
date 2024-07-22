@@ -303,6 +303,40 @@ class RequestTramiteView(GenericAPIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class AddDocumentoPDF(GenericAPIView):
+    serializer_class = UpdateCasePDFSerializer
+    queryset = Cases.objects.all()
+    lookup_url_kwarg = 'pk'
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data= request.data
+        data['status']= 'solicitado'
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class RechazarTramiteView(UpdateAPIView):
+    queryset = Cases.objects.all()
+    serializer_class = RechazoCaoSerializer
+    lookup_url_kwarg = 'pk'
+    
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data= request.data
+        data['status']= 'rechazado'
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ListCasesView(GenericAPIView):
     serializer_class = ListRequestedTramitesSerializer
@@ -422,7 +456,7 @@ class UpdateDependenceView(UpdateAPIView):
 class RegisterUserPoliView(GenericAPIView):
     #utilizo la clase serializable
     serializer_class = UserPoliRegisterSerializer
-
+    
     def post(self, request):
         user_data = request.data
         serializer = self.serializer_class(data=user_data)

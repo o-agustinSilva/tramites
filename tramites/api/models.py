@@ -124,7 +124,8 @@ class Dependence(models.Model):
     address  = models.CharField(max_length=60, null=False)
     phone   = models.CharField(max_length=16, null=False) 
     tramite = models.ManyToManyField("Tramite", verbose_name="Lista de trámites")
-
+    imagen = models.ImageField(upload_to='imagenDependence/', null=True,   blank=True, verbose_name=("imagen-dependencia"))
+    
     def __str__(self):
         return self.name
 
@@ -193,6 +194,10 @@ class Cases(models.Model):
     # Permite la carga de documentos
     dni_frente  = models.ImageField(upload_to='media/', null=True)
     dni_dorso   = models.ImageField(upload_to='media/', null=True)
+    archivo_pdf = models.FileField(upload_to='documentoPDF/', null=True, blank=True)
+
+    # Nuevo campo para el motivo del rechazo
+    motivo_rechazo = models.TextField(blank=True, null=True)  
 
     # Atributos opcionales - solo para algunos trámites
     nombre_madre        = models.CharField(max_length=100, blank=True)

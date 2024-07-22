@@ -23,32 +23,46 @@ function Header() {
   const [openBasic, setOpenBasic] = useState(false);
 
   const renderUserRoleSpecificLinks = () => {
-
     // Si el usuario no es admin ni policía, mostrar solo las opciones comunes
     return (
       <>
-        <MDBNavbarItem>
-          <MDBNavbarLink active aria-current="page" href="/">
-            Inicio
-          </MDBNavbarLink>
-        </MDBNavbarItem>
-        <MDBNavbarItem>
-          <MDBNavbarLink active href="/">
-            Iniciar un trámite
-          </MDBNavbarLink>
-        </MDBNavbarItem>
-        <MDBNavbarItem>
-          <MDBDropdown>
-            <MDBDropdownToggle tag="a" className="nav-link" role="button" style={{ color: "black" }}>
-              Ayuda
-            </MDBDropdownToggle>
-            <MDBDropdownMenu id="headerSublinks">
-              <MDBDropdownItem link>Tengo un problema</MDBDropdownItem>
-              <MDBDropdownItem link>Contacto</MDBDropdownItem>
-              <MDBDropdownItem link>FAQ</MDBDropdownItem>
-            </MDBDropdownMenu>
-          </MDBDropdown>
-        </MDBNavbarItem>
+        {user && user.role === "citizen" && (
+          <>
+            <MDBNavbarItem>
+              <MDBNavbarLink active aria-current="page" href="/">
+                Inicio
+              </MDBNavbarLink>
+            </MDBNavbarItem>
+
+            {/* <MDBNavbarItem>
+            <MDBNavbarLink active href="/">
+              Iniciar un trámite
+            </MDBNavbarLink>
+          </MDBNavbarItem> */}
+            <MDBNavbarItem>
+              <MDBDropdown>
+                <MDBDropdownToggle
+                  tag="a"
+                  className="nav-link"
+                  role="button"
+                  style={{ color: "black" }}
+                >
+                  Ayuda
+                </MDBDropdownToggle>
+                <MDBDropdownMenu id="headerSublinks">
+                  <MDBDropdownItem>
+                    <MDBNavbarLink active href="/Cuestion">
+                      Preguntas Frecuentes
+                    </MDBNavbarLink>
+                  </MDBDropdownItem>
+                  <MDBNavbarLink active href="/Contacto">
+                     Contacto
+                     </MDBNavbarLink>
+                </MDBDropdownMenu>
+              </MDBDropdown>
+            </MDBNavbarItem>
+          </>
+        )}
         {user && user.role === "admin" && (
           <MDBNavbarItem>
             <MDBNavbarLink active href="/admin">
@@ -65,7 +79,6 @@ function Header() {
         )}
       </>
     );
-
   };
 
   return (
@@ -90,18 +103,28 @@ function Header() {
         </MDBNavbarToggler>
 
         <MDBCollapse navbar open={openBasic}>
-          <MDBNavbarNav id="headerLinks" className="d-flex justify-content-start">
+          <MDBNavbarNav
+            id="headerLinks"
+            className="d-flex justify-content-start"
+          >
             {renderUserRoleSpecificLinks()}
           </MDBNavbarNav>
 
           <form className="d-flex input-group w-auto">
             {user ? (
               <HEADER_Dropdown />
-
             ) : (
               <Link to="/login">
-                <MDBBtn className='me-1 d-flex align-items-center' color='secondary'>
-                  <MDBIcon far icon="user-circle" size='2x' style={{ marginRight: '10px', color: "#285192" }} />
+                <MDBBtn
+                  className="me-1 d-flex align-items-center"
+                  color="secondary"
+                >
+                  <MDBIcon
+                    far
+                    icon="user-circle"
+                    size="2x"
+                    style={{ marginRight: "10px", color: "#285192" }}
+                  />
                   <span>INGRESAR</span>
                 </MDBBtn>
               </Link>
