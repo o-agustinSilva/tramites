@@ -73,6 +73,7 @@ class VerifyUserEmail(GenericAPIView):
             user_code_obj = OneTimePasswords.objects.get(code=passcode) 
             usuario       = user_code_obj.usuario
             expiration    = user_code_obj.expiration
+            print(passcode)
         
             if timezone.now() > expiration: # Si pasó el tiempo de expiración, devuelvo un 204
                 return Response({'message':'El código OTP ha expirado, por favor intentelo de nuevo.'}, status=status.HTTP_204_NO_CONTENT)
@@ -300,11 +301,10 @@ class RequestTramiteView(GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            instance=serializer.save()
+            return Response({"id": instance.id}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-
 class AddDocumentoPDF(GenericAPIView):
     serializer_class = UpdateCasePDFSerializer
     queryset = Cases.objects.all()
@@ -517,6 +517,23 @@ class UpdatePhoneNumberView(UpdateAPIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+# Vista para actualizar la direccion         
+class UpdateAddressView(UpdateAPIView):
+    serializer_class = UpdateAddressSerializer
+    queryset = Usuarios.objects.all()
+    lookup_url_kwarg = 'pk'
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 #Vista para actualizar el Email
 class UpdateEmailView(UpdateAPIView):
     serializer_class = UpdateEmailSerializer
@@ -574,7 +591,6 @@ class PaymentView(GenericAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             errores = serializer.errors
-            print(errores)
             mensaje_error = {"error": "No se pudo registrar el pago", "detalles": errores}
             return Response(mensaje_error, status=status.HTTP_400_BAD_REQUEST)
         
@@ -589,11 +605,11 @@ class ListPayment(GenericAPIView):
 
 class GetPayment(GenericAPIView):
     serializer_class = PaymentSerializer
-    lookup_url_kwarg = 'pk'
+    lookup_url_kwarg = 'case_id'
 
     def get_queryset(self):
-        user_id = self.kwargs.get(self.lookup_url_kwarg)
-        return PaymentTramite.objects.filter(user_id=user_id).order_by('-date_Approved')
+        case_id = self.kwargs.get(self.lookup_url_kwarg)
+        return PaymentTramite.objects.filter(case_id=case_id).order_by('-date_Approved')
 
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset().first()
@@ -602,3 +618,29 @@ class GetPayment(GenericAPIView):
         
         serializer = self.serializer_class(queryset)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+#Vista para agregar el ID del caso al pago
+class UpdateCaseIdView(UpdateAPIView):
+    serializer_class = UpdateCaseIdSerializer
+    queryset = PaymentTramite.objects.all()  # Asegúrate de que sea PaymentTramite
+    lookup_field = 'transaction_Id'  # Usar el campo correcto para buscar
+
+    def patch(self, request, *args, **kwargs):
+        return super().patch(request, *args, **kwargs)
+
+
+
+
+    # serializer_class = UpdateCaseIdSerializer
+    # queryset = PaymentTramite.objects.all()
+    # lookup_url_kwarg = 'transaction_Id'
+
+    # def patch(self, request, *args, **kwargs):
+    #     instance = self.get_object()
+    #     serializer = self.get_serializer(instance, data=request.data, partial=True)
+        
+    #     if serializer.is_valid(raise_exception=True):
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_200_OK)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

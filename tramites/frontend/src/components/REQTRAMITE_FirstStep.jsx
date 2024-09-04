@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
+import { toast } from "react-toastify";
 import {
   MDBInput,
   MDBInputGroup,
@@ -14,6 +15,7 @@ import {
 const REQTRAMITE_FirstStep = (props) => {
   const { tramiteData, setTramiteData } = useTramite();
   const user = JSON.parse(localStorage.getItem("user_data"));
+  
   const [userData, setUserData] = useState({
     firstname: '',
     lastname: '',
@@ -48,8 +50,22 @@ const REQTRAMITE_FirstStep = (props) => {
     props.onNextStep(); // Llama a la función para pasar al siguiente paso
   };
 
+  useEffect(() => {
+    if (props.tramite?.id === 8 ) {
+      toast.info("Para realizar este tramite, debera contener la dirección ACTUALIZADA y debe coincidir con el DNI. si no la posee debera actualizarala en CUENTA", {
+        position: "top-center",
+        autoClose: 9000,});
+    }
+
+  }, [props.tramite?.id]);
+
+
   return (
-    <Container style={{ background: "#e8edf7", maxWidth:"1100px", borderRadius: "15px" }} className='mt-5 p-3'>
+  
+    <Container style={{ background: "#e8edf7", maxWidth: "1100px", borderRadius: "15px" }} className='mt-5 p-3'>
+  
+    
+
       <div className='p-3'>
         <Row >
           <Col xs={12} md={6} className="mb-3">

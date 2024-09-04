@@ -22,7 +22,7 @@ export function RequestTramite() {
       ...data
     }));
   };
-  
+
   //obtengo el tramite con el ID que pasa por la URL
   useEffect(() => {
     const fetchTramite = async () => {
@@ -65,8 +65,9 @@ export function RequestTramite() {
       {tramite?.requirement?.length > 1 ?
         <>
           {activeStep === 0 ? (
-            <REQTRAMITE_FirstStep 
-            onNextStep={() => setActiveStep(1)}
+            <REQTRAMITE_FirstStep
+              onNextStep={() => setActiveStep(1)}
+              tramite={tramite}
             />
           ) : activeStep === 1 ? (
             <REQTRAMITE_SecondStep
@@ -76,19 +77,19 @@ export function RequestTramite() {
             />
           ) : activeStep === 2 ? (
             <REQTRAMITE_ThirdStep
-            tramite={tramite}
+              tramite={tramite}
               onPreviousStep={() => setActiveStep(1)}
             />
           ) : null}
         </> :
         <>
           {activeStep === 0 ? (
-            <REQTRAMITE_FirstStep 
-            onNextStep={() => setActiveStep(1)} 
+            <REQTRAMITE_FirstStep
+              onNextStep={() => setActiveStep(1)}
             />
           ) : activeStep === 1 ? (
             <REQTRAMITE_ThirdStep
-            tramite={tramite}
+              tramite={tramite}
               onPreviousStep={() => setActiveStep(0)}
             />
           ) : null}

@@ -12,7 +12,9 @@ import {
 
 const ADMIN_Users = () => {
     const [users, setUsers] = useState([]);
+
     useEffect(() => {
+        
         const fetchUsers = async () => {
             try {
                 const response = await axios.get("http://localhost:8000/api/get-superusers/");
@@ -33,6 +35,26 @@ const ADMIN_Users = () => {
         if (!str) return ''; // Verifica si la cadena es nula o indefinida
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
+
+
+    const handleDelete = (userId) => {
+             if (window.confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+                 axios.delete(`http://localhost:8000/api/deleteUserPolicia/${userId}/`)
+                     .then(response => {
+                         if (response.status === 204) { // Status code for successful deletion without response body
+                             // Remove the deleted user from the state
+                             setUsers(users.filter(user => user.id !== userId));
+                         } else {
+                             console.error("Error al eliminar el usuario:", response.data);
+                         }
+                     })
+                     .catch(err => {
+                         console.error("Error al eliminar el usuario:", err);
+                     });
+             }
+         }
+    
+
 
     return (
         <div>
@@ -80,7 +102,8 @@ const ADMIN_Users = () => {
                             </Link>
                             </td>
                         <td>
-                            <MDBBtn color="danger" rounded size="sm" className="tableButton">
+                        
+                            <MDBBtn color="danger" rounded size="sm" className="tableButton" onClick={()=>handleDelete(user.id)} >
                                 <MDBIcon fas icon="trash-alt" size="1x" />
                                 <span className="mx-3">Dar de baja</span>
                             </MDBBtn>

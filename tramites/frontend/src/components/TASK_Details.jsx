@@ -10,6 +10,13 @@ import Col from "react-bootstrap/Col";
 import axios from "axios";
 import { toast } from "react-toastify";
 import {
+  MDBModal,
+  MDBModalBody,
+  MDBModalContent,
+  MDBModalFooter,
+  MDBModalDialog,
+  MDBModalHeader,
+  MDBModalTitle,
   MDBBtn,
   MDBIcon,
   MDBInput,
@@ -19,22 +26,52 @@ import {
 } from "mdb-react-ui-kit";
 
 const TASK_Details = ({ id, onBack }) => {
+  const userData = JSON.parse(localStorage.getItem("user_data"));
   const tramitesInfoFam = [2, 1];
-  const [casoRechazado, setCasoRechazado] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [openRechazo, setOpenRechazo] = useState(false);
+  const inputRef = useRef(null);
+  const [tramiteObservacion, setTramiteObservacion] = useState('');
   const [motivoRechazo, setMotivoRechazo] = useState("");
+  const [legajo, setLegajo] = useState("");
   const [tramite, setTramite] = useState({});
   const [data, setData] = useState({
+    id: "",
+    detalle: "",
     name: "",
     solicitante: "",
     year: "",
     dni: "",
     today: "",
     entity: "",
+    userDate: "",
+    birthdate: "",
+    ocupacion: "",
+    estado_civi: "",
+    direccion: "",
+    telefono: "",
+    ciudad:"",
+    observacion:"",
+    legajo:"",
+    firma:"",
+    direccion_actual:"",
+
   });
 
-  const handleRechazoClick = () => {
-    setCasoRechazado(true);
+ 
+  const toggleOpen = () => setOpenRechazo(!openRechazo);
+
+  const handleModalSubmit = () => {
+    generatePdf();
   };
+
+
+  useEffect(() => {
+    if (open) {
+      inputRef.current?.focus();
+    }
+  }, [open]);
+
 
   const handleConfirmacionRechazo = () => {
     axios
@@ -61,7 +98,15 @@ const TASK_Details = ({ id, onBack }) => {
   const generatePdf = async () => {
     const formData = new FormData();
     const normalizedDataName = data.name.toLowerCase();
-    console.log(normalizedDataName);
+    
+ 
+     // Agregar las observaciones a data
+      data.observacion = tramiteObservacion;
+      data.legajo = legajo;
+      data.firma = userData.firstname;
+      console.log(data);
+    
+ 
     if (normalizedDataName.includes("certificado de buena conducta")) {
       const blob = await pdf(<TRAMITE_BuenaConducta data={data} />).toBlob();
       formData.append("certificado", blob, `${data.name}.pdf`);
@@ -81,42 +126,63 @@ const TASK_Details = ({ id, onBack }) => {
         },
       })
       .then((response) => {
-        toast.success("Trámite aprobado exitosamente");
+        toast.success("Trámite aprobado exitosamente",{autoClose: 5000,});
+        setTimeout(() => {
+          window.location.reload();
+        }, 5000)
       })
       .catch((error) => {
         toast.danger("Error al aprobar el certificado");
+        setTimeout(() => {
+          window.location.reload();
+        }, 5000)
       });
   };
 
   useEffect(() => {
-    const fetchCase = (id) => {
-      axios
-        .get(`http://localhost:8000/api/get-case/${id}/`)
-        .then((response) => {
-          setTramite(response.data);
-          const today = new Date();
-          const year = today.getFullYear(); // Obtiene el año actual
-
-          // Formatea la fecha actual como "YYYY-MM-DD"
-          const formattedToday = today.toISOString().split("T")[0];
-
-          setData({
-            name: response.data.tramite.name,
-            solicitante: response.data.solicitante.name,
-            year: year,
-            dni: response.data.solicitante.number,
-            today: formattedToday,
-            entity: response.data.entidad_solicitante,
-          });
-          // console.log(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      console.log(tramite);
+    const fetchCase = async (id) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/get-case/${id}/`
+        );
+        setTramite(response.data);
+        console.log('EL TRAMITE ES EL N° ', response.data.id);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchCase(id);
-  }, []);
+  }, [id]);
+
+  useEffect(() => {
+    if (tramite && tramite.solicitante) {
+      const today = new Date();
+      const year = today.getFullYear();
+      const formattedToday = today.toISOString().split("T")[0];
+
+      setData({
+        id: tramite.id,
+        name: tramite.tramite.name,
+        solicitante: `${tramite.solicitante.firstname} ${tramite.solicitante.lastname}`,
+        year: year,
+        dni: tramite.solicitante.number,
+        today: formattedToday,
+        entity: tramite.entidad_solicitante,
+        userData: userData,
+        detalle: tramite.detalle_extravio,
+        birthdate: tramite.solicitante.birthdate,
+        ocupacion: tramite.ocupacion,
+        estado_civil: tramite.estado_civil,
+        direccion: `${tramite.solicitante.address} ${tramite.solicitante.address_number}`, 
+        telefono: `${tramite.solicitante.phone_area_code} ${tramite.solicitante.phone}`,
+        ciudad: tramite.residencia,
+        observacion: tramite.observacion,
+        legajo: tramite.legajo,
+        firma: tramite.firma,
+      });
+      //console.log(data);
+    }
+  }, [tramite]);
 
   return (
     <Container fluid>
@@ -412,6 +478,7 @@ const TASK_Details = ({ id, onBack }) => {
         className="mb-3"
         style={{ background: "#e8edf7", borderRadius: "10px" }}
       >
+        {/* MUESTRA EL COMPROBANTE DE PAGO */}
         <Row>
           <MDBAccordion borderless initialActive={0}>
             <MDBAccordionItem collapseId={1} headerTitle="Comprobante de pago">
@@ -423,33 +490,35 @@ const TASK_Details = ({ id, onBack }) => {
                   height: "100%",
                 }}
               >
-                <TRAMITE_Comprobante />
+                <TRAMITE_Comprobante tramiteId={tramite.id}/>
               </div>
             </MDBAccordionItem>
           </MDBAccordion>
         </Row>
-        </div>
-        
-        <Row className="p-3 my-3"
-         style={{ background: "#e8edf7", borderRadius: "10px"}} >
-          {tramite.archivo_pdf_url ? (
-          <Col md={6}>
-              <a
-                href={tramite.archivo_pdf_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span style={{ color: "black" }}>
-                  Ver Documentacion Adicional
-                </span>
-              </a>
-          </Col>
-        ): (
-          <div>No hay documentación adicional</div>
-        )} 
-        </Row>
-        
+      </div>
 
+      <Row
+        className="p-3 my-3"
+        style={{ background: "#e8edf7", borderRadius: "10px" }}
+      >
+        {tramite.archivo_pdf_url ? (
+          <Col md={6}>
+            <a
+              href={tramite.archivo_pdf_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span style={{ color: "black" }}>
+                Ver Documentacion Adicional
+              </span>
+            </a>
+          </Col>
+        ) : (
+          <div>No hay documentación adicional</div>
+        )}
+      </Row>
+
+    
       {tramite && tramite.status === "resuelto" ? (
         <PDFViewer
           style={{ width: "100%", height: "90vh", borderRadius: "10px" }}
@@ -461,38 +530,118 @@ const TASK_Details = ({ id, onBack }) => {
           <Row>
             <Col md={6} className="mb-3">
               <div className="d-grid gap-2">
-                <MDBBtn color="danger" onClick={handleRechazoClick}>
-                  Rechazar solicitud
+                <MDBBtn color="danger" onClick={toggleOpen}>
+                  RECHAZAR SOLICITUD
                 </MDBBtn>
 
-                {casoRechazado && (
-                  <Row>
-                    <Col>
-                      <h5>Indique el motivo de rechazo: </h5>
-                      <MDBInput
-                        value={motivoRechazo}
-                        onChange={(e) => setMotivoRechazo(e.target.value)}
-                        label="Motivo de rechazo"
-                        id="controlledValue"
-                        type="text"
-                      />
-                    </Col>
-                    <MDBBtn
-                      color="danger"
-                      className="my-3"
-                      onClick={handleConfirmacionRechazo}
-                    >
-                      Confirmar Rechazo
-                    </MDBBtn>
-                  </Row>
-                )}
+                <MDBModal open={openRechazo} onClose ={()=>setOpenRechazo(false)} tabIndex='-1'>
+                  <MDBModalDialog>
+                    <MDBModalContent>
+                      <MDBModalHeader>
+                        <MDBModalTitle>Motivo de Rechazo</MDBModalTitle>
+                        <MDBBtn
+                          className="btn-close"
+                          color="none"
+                          onClick={toggleOpen}
+                        ></MDBBtn>
+                      </MDBModalHeader>
+                      <MDBModalBody>
+                        <MDBInput
+                          ref={inputRef}
+                          value={motivoRechazo}
+                          onChange={(e) => setMotivoRechazo(e.target.value)}
+                          label="Motivo de rechazo"
+                          id="controlledValue"
+                          type="text"
+                        />
+                      </MDBModalBody>
+
+                      <MDBModalFooter>
+                        <MDBBtn
+                          type="button"
+                          color="info"
+                          onClick={toggleOpen}
+                        >
+                          Volver
+                        </MDBBtn>
+
+                        <MDBBtn
+                          type="button"
+                          color="danger"
+                          onClick={handleConfirmacionRechazo}
+                        >
+                          Confirmar Rechazo
+                        </MDBBtn>
+                      </MDBModalFooter>
+                    </MDBModalContent>
+                  </MDBModalDialog>
+                </MDBModal>
               </div>
             </Col>
             <Col md={6} className="mb-3">
+
               <div className="d-grid gap-2">
-                <MDBBtn color="success" onClick={generatePdf}>
+                <MDBBtn color="success" onClick={() => setOpen(!open)}>
                   Generar certificado
-                </MDBBtn>
+                </MDBBtn>               
+                {/* //modal para agregar observaciones */}
+ 
+                <MDBModal open={open} setOpen={setOpen} tabIndex={-1}>
+                  <MDBModalDialog>
+                    <MDBModalContent>
+                      <MDBModalHeader>
+                        <MDBModalTitle>Ingresar Observaciones</MDBModalTitle>
+                        <MDBBtn
+                          className="btn-close"
+                          color="none"
+                          onClick={() => setOpen(!open)}
+                        ></MDBBtn>
+                      </MDBModalHeader>
+                      <MDBModalBody>
+                        <div className="mb-3">
+                        <MDBInput
+                          ref={inputRef}
+                          value={tramiteObservacion}
+                          onChange={(e) => setTramiteObservacion(e.target.value)}
+                          label="Observaciones"
+                          id="controlledValue"
+                          type="text"
+                        />
+                        </div>
+                        <div>
+                        <MDBInput
+                          ref={inputRef}
+                          value={legajo}
+                          onChange={(e) => setLegajo(e.target.value)}
+                          label="legajo"
+                          id="controlledValue"
+                          type="text"
+                        />
+                        </div>
+                      </MDBModalBody>
+
+                      <MDBModalFooter>
+                        <MDBBtn
+                          type="button"
+                          color="info"
+                          onClick={() => setOpen(!open)}
+                        >
+                          Volver
+                        </MDBBtn>
+
+                        <MDBBtn
+                          type="button"
+                          color="success"
+                          onClick={handleModalSubmit}
+                        >
+                          Generar Certificado
+                        </MDBBtn>
+                      </MDBModalFooter>
+                    </MDBModalContent>
+                  </MDBModalDialog>
+                </MDBModal>
+
+
               </div>
             </Col>
           </Row>

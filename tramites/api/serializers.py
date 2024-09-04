@@ -11,10 +11,24 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from rest_framework.exceptions import ValidationError
 
+# class ListUsersSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Usuarios
+#         fields = '__all__'
+
+class DependenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dependence
+        fields = ['id ', 'name']
+
 class ListUsersSerializer(serializers.ModelSerializer):
+    dependence = serializers.SlugRelatedField(slug_field='name', queryset=Dependence.objects.all(), required=False)
+  # campo personalizado para manejar el nombre de la dependencia, en lugar del ID 
+
     class Meta:
         model = Usuarios
         fields = '__all__'
+
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=68, min_length=8, write_only=True)
@@ -261,6 +275,7 @@ class RequestTramiteSerializer(serializers.ModelSerializer):
         model = Cases
         fields = '__all__'
 
+    
 # Dependencias policiales
 class DependenceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -364,3 +379,18 @@ class UpdatePerfilImaglSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuarios
         fields = ['profile_imagen']  # Campo que se puede actualizar  
+
+# Serializable para actulizar la direccion de un usuario
+class UpdateAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuarios
+        fields = ['address', 'address_number', 'floor', 'apartment']    
+
+
+# Serializable para agregar el ID del caso al pago
+class UpdateCaseIdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PaymentTramite
+        fields = ['case_id']    
+
+

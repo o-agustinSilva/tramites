@@ -27,6 +27,7 @@ urlpatterns = [
     path('update-email/<int:pk>/', UpdateEmailView.as_view(), name='update_email'),
     path('update-perfil-imag/<int:pk>/', UpdateImagView.as_view(), name='update_ImagPerfil'),
     path('update-password/<int:pk>/', UpdatePasswordView.as_view(), name='update_password'),
+    path('update-address/<int:pk>/', UpdateAddressView.as_view(), name='update_address'),
     
     # ======================================
     #   Gestión de trámites y requisitos
@@ -74,5 +75,6 @@ urlpatterns = [
     #=======================================
     path('payment/', PaymentView.as_view(), name='payment'),
     path('list-payment/', ListPayment.as_view(), name='list-payment'),
-    path('get-payment/<int:pk>/', GetPayment.as_view(), name='get-payment')
+    path('get-payment/<int:case_id>/', GetPayment.as_view(), name='get-payment'),
+    path('update-caseId/<int:transaction_Id>/', UpdateCaseIdView.as_view(), name='update-caseId'),
 ]

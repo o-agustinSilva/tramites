@@ -10,15 +10,18 @@ const styles= StyleSheet.create({
 });
 
 
-function ComprobantePago(){
+function ComprobantePago({tramiteId}){
    const [transactionData, setTransactionData] = useState(null);
-   const user= JSON.parse(localStorage.getItem("user_data"));  
-
+   //const case_id= tramiteId.tramiteId;
+    
+  console.log('EL NUMERO DEL TRAMITEID ES', tramiteId);
+  
   useEffect(() => {
     const fetchTransactionData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/get-payment/${user.id}/`);
+        const response = await axios.get(`http://localhost:8000/api/get-payment/${tramiteId}/`);
         setTransactionData(response.data);
+        console.log(transactionData)
       } catch (error) {
         console.error('Error al obtener el número de transacción:', error);
       }

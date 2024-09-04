@@ -38,7 +38,8 @@ const TRAMITES_ListTramites = ({ status }) => {
 
         getTramites();
     }, []);
-
+   
+    console.log(tramites);
     return (
         <MDBTable  responsive align="middle">
             <MDBTableHead>
@@ -69,6 +70,7 @@ const TRAMITES_ListTramites = ({ status }) => {
                         </td>
                         <td>
                             <p className="fw-normal mb-1">{tramite.id}</p>
+                         
                         </td>
                         <td>
                             {tramite.status.charAt(0).toUpperCase() + tramite.status.slice(1) == 'Solicitado' &&

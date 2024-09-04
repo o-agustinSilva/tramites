@@ -45,7 +45,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     document_type = models.CharField(max_length=9, choices=DOCUMENT_TYPE, null=True,   blank=True)
     birthdate = models.DateField(default="2000-06-10")
     profile_imagen = models.ImageField(upload_to='profile_imagen/', null=True,   blank=True, verbose_name=("Profile picture"))
-    legajo_number = models.IntegerField()
+    legajo_number = models.IntegerField(null=True,   blank=True)
 
      # Campos adicionales para ciudadano
     address = models.CharField(max_length=60)
@@ -211,9 +211,10 @@ class Cases(models.Model):
     estado_civil        = models.CharField(max_length=100, blank=True, choices=ESTADO_CIVIL)
     residencia          = models.CharField(max_length=100, blank=True)
     detalle_extravio    = models.CharField(max_length=1024, blank=True)
+    observacion         = models.CharField(max_length=1024, blank=True)
 
     # Comprobante de pago y certificado
-    comprobante_pago    = models.FileField(upload_to='media/', null=True)
+    comprobante_pago    = models.FileField(upload_to='comprobantesPDF/', null=True)
     certificado         = models.FileField(upload_to='media/', null=True)
 
 
@@ -233,8 +234,8 @@ class OneTimePasswords(models.Model):
 
 # MODELO PARA ALMACENAR LOS PAGOS
 class PaymentTramite(models.Model):
-    user_id=models.IntegerField()
-    transaction_Id=models.CharField(max_length=100, unique=True,  default="0")
+    case_id=models.IntegerField(null=True)
+    transaction_Id=models.CharField(max_length=255, unique=True)
     transaction_Amount=models.DecimalField(max_digits=10, decimal_places=2,  default="0.0")
     currency_Id=models.CharField(max_length=10,  default="Unknown")
     status=models.CharField(max_length=50,  default="Unknown")

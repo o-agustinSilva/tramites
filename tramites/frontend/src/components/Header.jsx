@@ -86,7 +86,7 @@ function Header() {
       <MDBContainer fluid>
         <MDBNavbarBrand href="/">
           <img
-            src="https://policia.tierradelfuego.gob.ar/wp-content/uploads/2021/12/LOGO-POLICIA_GOBIERNO.png"
+            src="../../src/img/logoPDF.png"
             width="170px"
             height="70px"
           ></img>

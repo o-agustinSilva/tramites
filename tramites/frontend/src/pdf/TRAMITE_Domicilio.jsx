@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     indentedText: { textIndent: 40 },
 });
 
-const TRAMITE_Extravio = () => {
+const TRAMITE_Extravio = ({data}) => {
 
     return (
             <Document>
@@ -43,27 +43,30 @@ const TRAMITE_Extravio = () => {
 
                     <View style={[styles.body]}>
                         <Text style={[styles.underlinedText, styles.boldText, styles.center]}>
-                            CERTIFICADO DE DOMICILIO N° .../AÑO COMISARIA. U.-
+                            CERTIFICADO DE DOMICILIO N° {data.id}/ AÑO: {data.year} {data.userData.dependence} USHUAIA.-
                         </Text>
 
                         <Text style={{ marginTop: "10px" }}>
-                        En la Comisaría Tercera Ushuaia, Provincia de Tierra del Fuego, Antártida e Islas del Atlántico Sur, República Argentina, 
-                        el funcionario que suscribe. CERTIFICA QUE: El Sr./La Sra. CAMILA JESUS GAMARRA VARGAS, de 22 años de edad, 
-                        nacido/a el 22/05/2001, nacionalidad PERUANA, estado civil SOLTERO, de ocupación y/o profesión: ESTUDIANTE, 
-                        número telefónico Nº 2901-651020. DOCUMENTO NACIONAL DE IDENTIDAD Nº 94.821.273 (el cual exhibe y retiene para sí); 
-                        donde consta que vive y se domicilia en; MZO. 2, SECCION F LOTE 27, Bº LA BOLSITA, de esta ciudad.  
+                        En la {data.userData.dependence} Ushuaia, Provincia de Tierra del Fuego, Antártida e Islas del Atlántico Sur, República Argentina, 
+                        el funcionario que suscribe. CERTIFICA QUE: El Sr./La Sra. {data.solicitante}, 
+                        nacido/a el {data.birthdate},  estado civil {data.estado_civil}, de ocupación y/o profesión: {data.ocupacion}, 
+                        número telefónico Nº {data.telefono}. DOCUMENTO NACIONAL DE IDENTIDAD Nº {data.dni} (el cual exhibe y retiene para sí); 
+                        donde consta que vive y se domicilia en; {data.direccion}, de esta ciudad.  
                         Se expide el presente certificado a pedido del interesado para ser presentado ante: LAS AUTORIDADES QUE ASI LO REQUIERAN
                         </Text>
                         <Text>{"\n"}</Text>
-                        <Text><Text style={[styles.boldText, styles.underlinedText]}>COMISARIA TERCERA USHUAIA:</Text> 06 diciembre del 2.023.</Text>
+                        <Text><Text style={[styles.boldText, styles.underlinedText]}> LUGAR: {data.userData.dependence}:</Text>FECHA: {data.today}.</Text>
                     </View>
 
                     <View style={styles.footer}>
+                    <Text style={{ fontSize: "10px" }}>
+                            {data.firma} POLICIA PROVINCIAL
+                        </Text>
                         <Text style={{ fontSize: "10px" }}>
                             ...........................................................
                         </Text>
                         <Text style={{ fontSize: "8px" }}>
-                            FIRMA, ACLARACIÓN Y D.N.I
+                            FIRMA, ACLARACIÓN
                         </Text>
                         <Text style={{ fontSize: "8px", color: "gray", marginTop: "50px" }}>
                             “Las Islas Malvinas, Georgias y Sándwich del Sur son y serán argentinas”

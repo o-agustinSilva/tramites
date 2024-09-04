@@ -16,6 +16,7 @@ import {
   MDBCol,
 } from "mdb-react-ui-kit";
 import axios from "axios";
+import PROFILE_Adress from "./PROFILE_Adress";
 
 const PROFILE_Tabs = () => {
   const user = JSON.parse(localStorage.getItem("user_data"));
@@ -128,6 +129,7 @@ const PROFILE_Tabs = () => {
               <PROFILE_PersonalInfo user={userData} />
               <PROFILE_PhoneNumber user={userData} onReload={handleReload} />
               <PROFILE_Email user={userData} />
+              <PROFILE_Adress user={userData} />
             </MDBTabsPane>
             <MDBTabsPane open={verticalActive === "tab2"}>
               <PROFILE_Image user={userData} onReload={handleReload} />

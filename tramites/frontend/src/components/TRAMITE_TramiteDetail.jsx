@@ -130,7 +130,7 @@ const TRAMITES_TramiteDetail = ({ id }) => {
             />
           </Col>
         </Row>
-
+        
         <Row className="mt-4">
           <Col md={12}>
             <h6>Fotos del documento</h6>
@@ -138,7 +138,7 @@ const TRAMITES_TramiteDetail = ({ id }) => {
           </Col>
           <Col md={6} className="mb-3">
             <img
-              src={tramite?.dni_frente}
+              src={tramite.dni_frente}
               alt="DNI Frente"
               width="100%"
               height="300px"
@@ -147,7 +147,7 @@ const TRAMITES_TramiteDetail = ({ id }) => {
           </Col>
           <Col md={6} className="mb-3">
             <img
-              src={tramite?.dni_dorso}
+              src={tramite.dni_dorso}
               alt="DNI Dorso"
               width="100%"
               height="300px"
@@ -215,7 +215,7 @@ const TRAMITES_TramiteDetail = ({ id }) => {
         ) : (
           <Row className="mt-4">
             <Col md={12}>
-              <h6>Certificado y comprobante de pago</h6>
+              <h6>Certificado Generado PDF</h6>
               <hr style={{ color: "black" }} />
             </Col>
             <Col md={6} className="mb-3">

@@ -30,7 +30,7 @@ app.get("/", function (req, res) {
 
 app.post("/create_preference", async (req, res) => {
   try {
-    const user_id = req.body.user_id; // Obtén el ID del usuario del cuerpo del request
+    const { title, price, quantity } = req.body; 
 
     const body = {
       items: [
@@ -47,9 +47,9 @@ app.post("/create_preference", async (req, res) => {
         pending: "http://localhost:5173/dashboard",
       },
       auto_return: "approved",
-      notification_url: "https://98b2-168-226-67-185.ngrok-free.app/webhook",
+      notification_url: "https://21c9-179-62-75-20.ngrok-free.app/webhook",
       metadata: {
-        user_id: user_id // Incluye el ID del usuario en los metadatos
+        
       }
     };
 
@@ -66,42 +66,41 @@ app.post("/create_preference", async (req, res) => {
     });
   }
 });
+
+
 app.post("/webhook", async function (req, res) {
   const body = req.body;
 
-  console.log(body);
-  //console.log(body);
 
   if (body.data && body.data.id) {
     try {
       // Asegúrate de usar await aquí si .get() retorna una promesa
       const payment = await new Payment(client).get({ id: body.data.id });
-      console.log(payment);
+      //console.log(payment);
 
-      // Extraemos el ID del usuario desde los metadatos de la preferencia de pago
-      const user_id = payment.metadata.user_id;
+      
 
       // Extraemos los datos relevantes y los almacenamos en un objeto 'map'
       const paymentInfo = {
-        user_id: user_id,
-        transactionId: payment.id,
-        transactionAmount: payment.transaction_amount,
-        currencyId: payment.currency_id,
+        case_id: '0',
+        transaction_Id: payment.id,
+        transaction_Amount: payment.transaction_amount,
+        currency_Id: payment.currency_id,
         status: payment.status,
-        statusDetail: payment.status_detail,
-        dateApproved: payment.date_approved,
-        paymentMethodId: payment.payment_method_id,
-        cardholderName: payment.card.cardholder.name,
-        lastFourDigits: payment.card.last_four_digits,
-        payerEmail: payment.payer.email,
+        status_Detail: payment.status_detail,
+        date_Approved: payment.date_approved,
+        paymentMethod_Id: payment.payment_method_id,
+        cardholder_Name: payment.card.cardholder.name,
+        last_Four_Digits: payment.card.last_four_digits,
+        payer_Email: payment.payer.email,
         description: payment.description,
       };
 
       console.log(paymentInfo);
-      console.log(payment);
+      //console.log(payment);
 
       // Extraemos el ID del usuario desde los metadatos de la preferencia de pago
-      const userId = payment.metadata.user_id;
+      //const userId = payment.metadata.user_id;
 
 
       axios.post("http://127.0.0.1:8000/api/payment/", paymentInfo, {
@@ -110,7 +109,7 @@ app.post("/webhook", async function (req, res) {
         }
       })
       .then((response) => {
-        console.log("Pago registrado en Django:", response.data);
+        //console.log("Pago registrado en Django:", response.data);
       })
       .catch((error) => {
         console.error("Error al registrar el pago en Django:", error.response ? error.response.data : error.message);

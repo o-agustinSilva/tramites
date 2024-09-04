@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import { MDBIcon, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 
 export function PROFILE_PersonalInfo({ user }) {
+  
   const [inputValue, setInputValue] = useState('');
 
   const handleInput = (e) => {
@@ -77,22 +78,8 @@ export function PROFILE_PersonalInfo({ user }) {
               onChange={handleInput}
             />
 
-            {/* <Form.Select name="genre" className="mb-3" defaultValue={user.genre || ''}>
-              <option value="" disabled>
-                Género
-              </option>
-              <option value="male">Hombre</option>
-              <option value="female">Mujer</option>
-            </Form.Select> */}
           </Col>
 
-          {/* <Col md={4} xl={6}>
-            <div className="d-grid gap-2">
-              <MDBBtn type="submit" color="success">
-                Guardar cambios
-              </MDBBtn>
-            </div>
-          </Col> */}
         </Row>
 
       </div>

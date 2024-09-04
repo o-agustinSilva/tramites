@@ -17,6 +17,8 @@ const ADMIN_EditUser = ({ id }) => {
     email: "",
     role: "",
     document_type: "",
+    dependence:"",
+    hierarchy:"",
   });
 
   // Obtengo todas las dependencias para completar el dropdown
@@ -170,7 +172,7 @@ const ADMIN_EditUser = ({ id }) => {
                   onChange={handleFormData}
                 >
                   {dependences.map((dependence) => (
-                    <option key={dependence.id} value={dependence.id}>
+                    <option key={dependence.id} value={dependence.name}>
                       {dependence.name}
                     </option>
                   ))}
