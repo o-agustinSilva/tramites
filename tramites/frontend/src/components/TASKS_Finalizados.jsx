@@ -27,6 +27,7 @@ function TASKS_Finalizados({ tramites }) {
   };
 
   const handleComprobante = (id) => {
+    setCaseId(id);
     setShowPdfViewer(true);
   };
 
@@ -59,7 +60,7 @@ function TASKS_Finalizados({ tramites }) {
       {showPdfViewer ? (
         <>
           {/** ESTE PARTE ES PARA MOSTRAR EL PDF DEL COMPROBANTE */}
-          <TRAMITE_Comprobante />
+          <TRAMITE_Comprobante tramiteId={caseId}/>
           <MDBBtn color="info" onClick={() => setShowPdfViewer(false)}>
             Cerrar PDF
           </MDBBtn>
@@ -87,7 +88,7 @@ function TASKS_Finalizados({ tramites }) {
                   <td>{tramite.request_date}</td>
                   <td></td>
                   <th scope="col">
-                    <MDBBtn color="info" onClick={() => handleComprobante()}>
+                    <MDBBtn color="info" onClick={() => handleComprobante(tramite.id)}>
                       <MDBIcon far icon="eye" size="1.5x" className="me-2" />
                       Ver Comprobante
                     </MDBBtn>

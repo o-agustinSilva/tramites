@@ -28,6 +28,7 @@ const REQTRAMITE_SecondStep = (props) => {
         estado_civil: tramiteData?.family_data?.estado_civil || "",
         residencia: tramiteData?.family_data?.residencia || "",
         detalle_extravio: tramiteData?.family_data?.detalle_extravio || "",
+       domicilio: tramiteData?.family_data?.detalle_extravio || "",
     });
 
     const handleFormData = (e) => {
@@ -224,7 +225,7 @@ const REQTRAMITE_SecondStep = (props) => {
                         <>
                             <Col md={12} className='mb-3'>
                                 <MDBTextArea
-                                    label="Detalle del extravio"
+                                    label="brinde detalles del elemento extraviado (marca, modelo, nro de serie, etc...)"
                                     id="textAreaExample"
                                     rows={7}
                                     className='custom-input'
@@ -237,6 +238,8 @@ const REQTRAMITE_SecondStep = (props) => {
                         </>
                     }
                 </Row>
+
+
 
                 <Row>
                     <Col className="d-flex justify-content-start">

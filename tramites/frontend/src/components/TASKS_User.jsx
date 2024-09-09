@@ -75,7 +75,7 @@ function TASKS_User({ tramites, onVolver, onFinalizado }) {
                       color="info"
                       onClick={() => handleDetails(tramite.id)}
                     >
-                      <MDBIcon far icon="eye" size="1.5x" className="me-2" />
+                      <MDBIcon far icon="eye" size="1.3x" className="me-2" />
                       Ver detalle
                     </MDBBtn>
                   </th>
@@ -87,7 +87,7 @@ function TASKS_User({ tramites, onVolver, onFinalizado }) {
                         size="1.5x"
                         className="me-2"
                       />
-                      Desasignar caso
+                      Desasignar 
                     </MDBBtn>
                   </td>
                   <td>

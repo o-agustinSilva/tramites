@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import TRAMITE_Pdf from '../pdf/TRAMITE_Pdf';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import axios from 'axios';
 import {
@@ -38,7 +37,8 @@ const TRAMITES_ListTramites = ({ status }) => {
 
         getTramites();
     }, []);
-
+   
+    console.log(tramites);
     return (
         <MDBTable  responsive align="middle">
             <MDBTableHead>
@@ -69,6 +69,7 @@ const TRAMITES_ListTramites = ({ status }) => {
                         </td>
                         <td>
                             <p className="fw-normal mb-1">{tramite.id}</p>
+                         
                         </td>
                         <td>
                             {tramite.status.charAt(0).toUpperCase() + tramite.status.slice(1) == 'Solicitado' &&

@@ -7,6 +7,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from 'axios';
+
 import {
     MDBBtn,
     MDBIcon,
@@ -14,8 +15,7 @@ import {
 } from "mdb-react-ui-kit";
 
 const REQTRAMITE_ThirdStep = (props) => {
-    const {tramite}= props;
-    const user = JSON.parse(localStorage.getItem("user_data"));
+    const { tramite } = props;
     let { id } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [fieldsCompleted, setFieldsCompleted] = useState(false);
@@ -23,9 +23,10 @@ const REQTRAMITE_ThirdStep = (props) => {
     const [documentation, setDocumentation] = useState({
         frente: "",
         dorso: "",
-    }); 
-    const [preferenceId, setPreferenceId] = useState(null);
-    
+    });
+    const [preferenceId, setPreferenceId] = useState()
+
+
     useEffect(() => {
         const areFieldsCompleted = documentation.frente !== "" && documentation.dorso !== "";
 
@@ -33,7 +34,7 @@ const REQTRAMITE_ThirdStep = (props) => {
             handleSubmit();
             setFieldsCompleted(areFieldsCompleted);
         }
-        
+
     }, [documentation]);
 
     useEffect(() => {
@@ -53,8 +54,9 @@ const REQTRAMITE_ThirdStep = (props) => {
         setTramiteData((prevTramite) => ({
             ...prevTramite,
             documentation: documentation,
-            tramite: id // Asigna userData al estado user dentro de tramiteData
+
         }));
+
     }, [documentation]);
 
     const createPreference = async () => {
@@ -63,10 +65,11 @@ const REQTRAMITE_ThirdStep = (props) => {
                 title: tramite.name,
                 price: tramite.price,
                 quantity: 1,
-                user_id:user.id
+
             });
 
             const { id } = response.data;
+
             return id;
 
         } catch (error) {
@@ -88,12 +91,16 @@ const REQTRAMITE_ThirdStep = (props) => {
 
     const getDate = () => {
         const fecha = new Date();
-        const year = fecha.getFullYear();
-        const month = String(fecha.getMonth() + 1).padStart(2, '0'); // Agrega ceros iniciales si es necesario
-        const day = String(fecha.getDate()).padStart(2, '0'); // Agrega ceros iniciales si es necesario
+        const offset = fecha.getTimezoneOffset() * 60000;
+        const localDate = new Date(fecha.getTime() - offset);
+        const year = localDate.getFullYear();
+        const month = String(localDate.getMonth() + 1).padStart(2, '0');
+        const day = String(localDate.getDate()).padStart(2, '0');
 
+        console.log(`${year}-${month}-${day}`);
         return `${year}-${month}-${day}`;
-    }
+
+    };
 
     const handleSubmit = async () => {
         try {
@@ -116,18 +123,26 @@ const REQTRAMITE_ThirdStep = (props) => {
             formData.append('residencia', tramiteData.family_data.residencia);
             formData.append('detalle_extravio', tramiteData.family_data.detalle_extravio);
 
+
             // Imagenes
             formData.append('dni_frente', documentation.frente);
             formData.append('dni_dorso', documentation.dorso);
 
-            await axios.post('http://127.0.0.1:8000/api/request-tramite/', formData, {
+
+            // Imprimir el contenido de formData antes de enviarlo
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+
+            const response = await axios.post('http://127.0.0.1:8000/api/request-tramite/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
 
+
         } catch (error) {
-            console.error(error);
+            console.error('Error al crear el caso:', error);
         }
     }
 
@@ -179,10 +194,11 @@ const REQTRAMITE_ThirdStep = (props) => {
                         </MDBBtn>
                     </Col>
                     <Col md={6}>
-                        {fieldsCompleted && 
-                        <Wallet initialization={{ preferenceId: preferenceId, redirectMode: 'modal'}} />}                 
+                        {fieldsCompleted &&
+                            <Wallet initialization={{ preferenceId: preferenceId, redirectMode: 'modal' }} />}
                     </Col>
                 </Row>
+
             </div>
         </Container >
     );

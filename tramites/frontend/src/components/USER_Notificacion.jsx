@@ -52,10 +52,6 @@ const USER_Notificacion = () => {
 
 
 
-
-
-
-  console.log(userData);
   const fetchSolicitados = async () => {
     try {
       const response = await axios.get(

@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     header: { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "white", padding: "10px", color: "gray" },
     footer: { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "white", padding: "10px" },
     body: { display: "flex", flexDirection: "column", justifyContent: "center", padding: "80px", fontSize: "12px", textAlign: "justify", lineHeight: "2" },
-    image: { width: '200px', height: '70px' },
+    image: { width: '120px', height: '150px' },
     text: { fontSize: '10px', flexWrap: 'wrap' },
     underlinedText: { textDecoration: 'underline' },
     boldText: { fontFamily: 'RobotoFamily' },
@@ -21,13 +21,13 @@ const styles = StyleSheet.create({
     indentedText: { textIndent: 40 },
 });
 
-const TRAMITE_Extravio = () => {
+const TRAMITE_Extravio = ({data}) => {
 
     return (
             <Document>
                 <Page size="A4" style={styles.page}>
                     <View>
-                        <Image src="../../src/img/LogoPDF.png" style={styles.image} />
+                        <Image src="../../src/img/logoPolicia.jpg" style={styles.image} />
                     </View>
                     <View style={styles.header}>
                         <Text style={[styles.text, styles.underlinedText]}>
@@ -43,17 +43,15 @@ const TRAMITE_Extravio = () => {
 
                     <View style={[styles.body]}>
                         <Text style={[styles.underlinedText, styles.boldText, styles.center]}>
-                            EXTRAVIO N° ... / AÑO - COMISARIA ... USHUAIA
+                            EXTRAVIO N° {data.id} /{data.year} AÑO - COMISARIA {data.userData.dependence} USHUAIA
                         </Text>
 
                         <Text style={{ marginTop: "10px" }}>
-                            El que suscribe NOMBRE, de nacionalidad Argentina, Nacido/a el FECHA, de AÑOS de edad, de ocupación y/o profesión CHOFER,
-                            de estado civil ECIVIL, domiciliado en DIRECCIÓN TIRA DPTO CIUDAD Telefono N° NUM .- DOCUMENTO NACIONAL DE IDENTIDAD N°...
+                            El que suscribe {data.solicitante}, de nacionalidad Argentina, Nacido/a el {data.birthdate}, de ocupación y/o profesión {data.ocupacion},
+                            de estado civil {data.estado_civil}, domiciliado en {data.direccion}, {data.ciudad} Telefono N° {data.telefono} DOCUMENTO NACIONAL DE IDENTIDAD N°{data.dni}
                         </Text>
                         <Text><Text style={[styles.boldText, styles.underlinedText]}>SE PRESENTA ANTE ESTA AUTORIDAD Y MANIFESTA:</Text>
-                            <Text> QUE VIENE A REALIZAR UNA DENUNCIA POR EL <Text style={styles.boldText}>EXTRAVIO: </Text> DE UN (01) COMPROBANTE
-                                DE SALIDA DE ADUANA, DEL T RANSPORTE CON DOMINIO JVS-699, MARCA MERCEDES BENZ, DE EXOLGAN,
-                                NºONEU1202770, MIC Nº001TDF260003393----23001TRAS018421N, <Text style={styles.boldText}> PREGUNTADO SI TIENE ALGO MÁS QUE AGREGAR, RESPONDE: QUE NO.-</Text>
+                            <Text> QUE VIENE A REALIZAR UNA DENUNCIA POR EL <Text style={styles.boldText}>EXTRAVIO: </Text> {data.detalle}, <Text style={styles.boldText}> PREGUNTADO SI TIENE ALGO MÁS QUE AGREGAR, RESPONDE: QUE NO.-</Text>
                             </Text>
                             <Text>{"\n"}</Text>
                             <Text>La presente Declaración se brinda en forma voluntaria, libre y espontánea para ser presentada ante las autoridades

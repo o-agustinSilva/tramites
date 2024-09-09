@@ -1,9 +1,9 @@
 import React from 'react'
 import ComprobantePago from '../pdf/ComprobantePago'
 
-const TRAMITE_Comprobante = () => {
+const TRAMITE_Comprobante = ({tramiteId}) => {
   return (
-      <ComprobantePago/>
+      <ComprobantePago tramiteId={tramiteId}/>
   )
 }
 

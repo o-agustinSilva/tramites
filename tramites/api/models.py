@@ -45,7 +45,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     document_type = models.CharField(max_length=9, choices=DOCUMENT_TYPE, null=True,   blank=True)
     birthdate = models.DateField(default="2000-06-10")
     profile_imagen = models.ImageField(upload_to='profile_imagen/', null=True,   blank=True, verbose_name=("Profile picture"))
-    legajo_number = models.IntegerField()
+    legajo_number = models.IntegerField(null=True,   blank=True)
 
      # Campos adicionales para ciudadano
     address = models.CharField(max_length=60)
@@ -124,7 +124,8 @@ class Dependence(models.Model):
     address  = models.CharField(max_length=60, null=False)
     phone   = models.CharField(max_length=16, null=False) 
     tramite = models.ManyToManyField("Tramite", verbose_name="Lista de trámites")
-
+    imagen = models.ImageField(upload_to='imagenDependence/', null=True,   blank=True, verbose_name=("imagen-dependencia"))
+    
     def __str__(self):
         return self.name
 
@@ -193,6 +194,10 @@ class Cases(models.Model):
     # Permite la carga de documentos
     dni_frente  = models.ImageField(upload_to='media/', null=True)
     dni_dorso   = models.ImageField(upload_to='media/', null=True)
+    archivo_pdf = models.FileField(upload_to='documentoPDF/', null=True, blank=True)
+
+    # Nuevo campo para el motivo del rechazo
+    motivo_rechazo = models.TextField(blank=True, null=True)  
 
     # Atributos opcionales - solo para algunos trámites
     nombre_madre        = models.CharField(max_length=100, blank=True)
@@ -206,9 +211,10 @@ class Cases(models.Model):
     estado_civil        = models.CharField(max_length=100, blank=True, choices=ESTADO_CIVIL)
     residencia          = models.CharField(max_length=100, blank=True)
     detalle_extravio    = models.CharField(max_length=1024, blank=True)
+    observacion         = models.CharField(max_length=1024, blank=True)
 
     # Comprobante de pago y certificado
-    comprobante_pago    = models.FileField(upload_to='media/', null=True)
+    comprobante_pago    = models.FileField(upload_to='comprobantesPDF/', null=True)
     certificado         = models.FileField(upload_to='media/', null=True)
 
 
@@ -228,8 +234,8 @@ class OneTimePasswords(models.Model):
 
 # MODELO PARA ALMACENAR LOS PAGOS
 class PaymentTramite(models.Model):
-    user_id=models.IntegerField()
-    transaction_Id=models.CharField(max_length=100, unique=True,  default="0")
+    case_id=models.IntegerField(null=True)
+    transaction_Id=models.CharField(max_length=255, unique=True)
     transaction_Amount=models.DecimalField(max_digits=10, decimal_places=2,  default="0.0")
     currency_Id=models.CharField(max_length=10,  default="Unknown")
     status=models.CharField(max_length=50,  default="Unknown")

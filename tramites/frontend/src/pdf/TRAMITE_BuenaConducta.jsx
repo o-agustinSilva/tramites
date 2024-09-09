@@ -12,10 +12,10 @@ const styles = StyleSheet.create({
     header: { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "white", padding: "10px", color: "gray" },
     footer: { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "white", padding: "10px" },
     body: { display: "flex", flexDirection: "column", justifyContent: "center", padding: "80px", fontSize: "12px", textAlign: "justify", lineHeight: "1.5" },
-    image: { width: '200px', height: '70px' },
+    image: { width: '120px', height: '150px' },
     text: { fontSize: '10px', flexWrap: 'wrap' },
     underlinedText: { textDecoration: 'underline' },
-    boldText: { fontFamily: 'RobotoFamily' },
+    boldText: { fontFamily: 'RobotoFamily', fontWeight: 'bold' },
     titleHeader: { maxWidth: '265px', textAlign: 'center' },
     center: { display: 'flex', alignSelf: 'center' },
     indentedText: { textIndent: 40 },
@@ -27,7 +27,7 @@ const TRAMITE_BuenaConducta = ({ data }) => {
         <Document>
             <Page size="A4" style={styles.page}>
                 <View>
-                    <Image src="../../src/img/LogoPDF.png" style={styles.image} />
+                    <Image src="../../src/img/logoPolicia.jpg" style={styles.image} />
                 </View>
                 <View style={styles.header}>
                     <Text style={[styles.text, styles.underlinedText]}>
@@ -43,15 +43,15 @@ const TRAMITE_BuenaConducta = ({ data }) => {
 
                 <View style={[styles.body]}>
                     <Text style={[styles.underlinedText, styles.boldText, styles.center]}>
-                        CERTIFICADO DE BUENA CONDUCTA N°            /{data.year} D.D.I.P.U.
+                        CERTIFICADO DE BUENA CONDUCTA N° {data.id} /{data.year} D.D.I.P.U.
                     </Text>
 
                     <Text style={{ ...styles.indentedText, marginTop: "10px" }}>
                         La DIVISIÓN DOCUMENTACIÓN E IDENTIFICACIÓN POLICIAL USHUAIA,
                         <Text style={styles.boldText}>CERTIFICA</Text> que el/la Sr/a:
                         <Text style={styles.boldText}> {data.solicitante}</Text> del
-                        <Text style={styles.boldText}> D.N.I. N° M{data.dni}</Text> se halla identificado mediante
-                        <Text style={styles.boldText}> Legajo N° M{data.dni}</Text> solicita y presta consentimiento,
+                        <Text style={styles.boldText}> D.N.I. N° {data.dni}</Text> se halla identificado mediante
+                        <Text style={styles.boldText}> Legajo N° {data.legajo}</Text> solicita y presta consentimiento,
                         en los términos del Articulo 51 del Código Penal Argentino, para que esta dependencia informe respecto
                         de sus antecedentes penales (si los tuviere).
 
@@ -60,7 +60,7 @@ const TRAMITE_BuenaConducta = ({ data }) => {
                     <Text style={styles.indentedText}>Sin prejuicio de cualquier otra constancia que pueda obrar en el legajo de la mención, por este acto SE INFORMA respecto al pretensor, que:</Text>
 
                     <Text>{"\n"}</Text>
-                    <Text style={[styles.boldText, styles.indentedText]}> 1_ NO REGISTRA ANTECEDENTES PENALES, en esta policia al día de la fecha.</Text>
+                    <Text style={[styles.boldText, styles.indentedText]}> {data.observacion}.</Text>
 
                     <Text>{"\n"}</Text>
                     <Text style={styles.indentedText}>
@@ -78,11 +78,18 @@ const TRAMITE_BuenaConducta = ({ data }) => {
                 </View>
 
                 <View style={styles.footer}>
+
+                    <Text style={{ fontSize: "10px" }}>
+                        {data.firma} POLICIA PROVINCIAL
+                    </Text>
+
                     <Text style={{ fontSize: "10px" }}>
                         ...........................................................
                     </Text>
+
+
                     <Text style={{ fontSize: "8px" }}>
-                        FIRMA, ACLARACIÓN Y D.N.I
+                        FIRMA, ACLARACIÓN
                     </Text>
                     <Text style={{ fontSize: "8px", color: "gray", marginTop: "50px" }}>
                         “Las Islas Malvinas, Georgias y Sándwich del Sur son y serán argentinas”
