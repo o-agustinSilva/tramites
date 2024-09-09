@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     header: { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "white", padding: "10px", color: "gray" },
     footer: { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "white", padding: "10px" },
     body: { display: "flex", flexDirection: "column", justifyContent: "center", padding: "80px", fontSize: "12px", textAlign: "justify", lineHeight: "2" },
-    image: { width: '200px', height: '70px' },
+    image: { width: '120px', height: '150px' },
     text: { fontSize: '10px', flexWrap: 'wrap' },
     underlinedText: { textDecoration: 'underline' },
     boldText: { fontFamily: 'RobotoFamily' },
@@ -27,7 +27,7 @@ const TRAMITE_Extravio = ({data}) => {
             <Document>
                 <Page size="A4" style={styles.page}>
                     <View>
-                        <Image src="../../src/img/LogoPDF.png" style={styles.image} />
+                        <Image src="../../src/img/logoPolicia.jpg" style={styles.image} />
                     </View>
                     <View style={styles.header}>
                         <Text style={[styles.text, styles.underlinedText]}>
@@ -50,7 +50,7 @@ const TRAMITE_Extravio = ({data}) => {
                         En la {data.userData.dependence} Ushuaia, Provincia de Tierra del Fuego, Antártida e Islas del Atlántico Sur, República Argentina, 
                         el funcionario que suscribe. CERTIFICA QUE: El Sr./La Sra. {data.solicitante}, 
                         nacido/a el {data.birthdate},  estado civil {data.estado_civil}, de ocupación y/o profesión: {data.ocupacion}, 
-                        número telefónico Nº {data.telefono}. DOCUMENTO NACIONAL DE IDENTIDAD Nº {data.dni} (el cual exhibe y retiene para sí); 
+                        número telefónico Nº {data.telefono}. DOCUMENTO NACIONAL DE IDENTIDAD Nº {data.dni} ; 
                         donde consta que vive y se domicilia en; {data.direccion}, de esta ciudad.  
                         Se expide el presente certificado a pedido del interesado para ser presentado ante: LAS AUTORIDADES QUE ASI LO REQUIERAN
                         </Text>

@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     header: { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "white", padding: "10px", color: "gray" },
     footer: { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "white", padding: "10px" },
     body: { display: "flex", flexDirection: "column", justifyContent: "center", padding: "80px", fontSize: "12px", textAlign: "justify", lineHeight: "1.5" },
-    image: { width: '200px', height: '70px' },
+    image: { width: '120px', height: '150px' },
     text: { fontSize: '10px', flexWrap: 'wrap' },
     underlinedText: { textDecoration: 'underline' },
     boldText: { fontFamily: 'RobotoFamily', fontWeight: 'bold' },
@@ -27,7 +27,7 @@ const TRAMITE_BuenaConducta = ({ data }) => {
         <Document>
             <Page size="A4" style={styles.page}>
                 <View>
-                    <Image src="../../src/img/LogoPDF.png" style={styles.image} />
+                    <Image src="../../src/img/logoPolicia.jpg" style={styles.image} />
                 </View>
                 <View style={styles.header}>
                     <Text style={[styles.text, styles.underlinedText]}>

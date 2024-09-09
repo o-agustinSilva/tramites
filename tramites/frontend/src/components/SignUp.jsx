@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import { MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 function SignUp() {
@@ -32,6 +33,15 @@ function SignUp() {
     password_confirmation: "",
   });
 
+
+
+  useEffect(() => {
+    toast.info("Para registrarse en el sistema debe ser mayor de 18 años.", {
+      position: "top-center",
+      autoClose: 9000,});
+  }, [])
+
+
   const handleFormData = (e) => {
     setFormData({ ...formdata, [e.target.name]: e.target.value });
   };
@@ -39,14 +49,27 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formdata);
-    if (
-      !formdata.email ||
-      !formdata.lastname ||
-      !formdata.password ||
-      !formdata.password_confirmation
-    ) {
-      setError("Los campos son requeridos");
-      return;
+
+
+    const requiredFields = [
+      "email",
+      "firstname",
+      "lastname",
+      "document_type",
+      "number",
+      "genre",
+      "address",
+      "address_number",
+      "birthdate",
+      "password",
+      "password_confirmation",
+    ];
+
+    for (const field of requiredFields) {
+      if (!formdata[field]) {
+        toast.error("Todos los campos son requeridos.");
+        return;
+      }
     }
 
     try {

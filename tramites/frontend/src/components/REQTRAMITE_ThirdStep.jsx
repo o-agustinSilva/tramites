@@ -65,7 +65,7 @@ const REQTRAMITE_ThirdStep = (props) => {
                 title: tramite.name,
                 price: tramite.price,
                 quantity: 1,
-                
+
             });
 
             const { id } = response.data;
@@ -91,12 +91,16 @@ const REQTRAMITE_ThirdStep = (props) => {
 
     const getDate = () => {
         const fecha = new Date();
-        const year = fecha.getFullYear();
-        const month = String(fecha.getMonth() + 1).padStart(2, '0'); // Agrega ceros iniciales si es necesario
-        const day = String(fecha.getDate()).padStart(2, '0'); // Agrega ceros iniciales si es necesario
+        const offset = fecha.getTimezoneOffset() * 60000;
+        const localDate = new Date(fecha.getTime() - offset);
+        const year = localDate.getFullYear();
+        const month = String(localDate.getMonth() + 1).padStart(2, '0');
+        const day = String(localDate.getDate()).padStart(2, '0');
 
+        console.log(`${year}-${month}-${day}`);
         return `${year}-${month}-${day}`;
-    }
+
+    };
 
     const handleSubmit = async () => {
         try {
@@ -124,6 +128,11 @@ const REQTRAMITE_ThirdStep = (props) => {
             formData.append('dni_frente', documentation.frente);
             formData.append('dni_dorso', documentation.dorso);
 
+
+            // Imprimir el contenido de formData antes de enviarlo
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
 
             const response = await axios.post('http://127.0.0.1:8000/api/request-tramite/', formData, {
                 headers: {

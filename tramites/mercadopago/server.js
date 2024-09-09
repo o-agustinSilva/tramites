@@ -47,7 +47,7 @@ app.post("/create_preference", async (req, res) => {
         pending: "http://localhost:5173/dashboard",
       },
       auto_return: "approved",
-      notification_url: "https://21c9-179-62-75-20.ngrok-free.app/webhook",
+      notification_url: "https://e519-179-62-75-20.ngrok-free.app/webhook",
       metadata: {
         
       }

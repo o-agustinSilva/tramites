@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import TRAMITE_Pdf from '../pdf/TRAMITE_Pdf';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import axios from 'axios';
 import {

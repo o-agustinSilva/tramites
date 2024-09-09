@@ -3,6 +3,7 @@ import TRAMITE_Comprobante from "./TRAMITE_Comprobante";
 import TRAMITE_BuenaConducta from "../pdf/TRAMITE_BuenaConducta";
 import TRAMITE_Extravio from "../pdf/TRAMITE_Extravio";
 import TRAMITE_Domicilio from "../pdf/TRAMITE_Domicilio";
+import TRAMITE_Residencia from "../pdf/TRAMITE_Residencia";
 import { pdf } from "@react-pdf/renderer";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -115,6 +116,9 @@ const TASK_Details = ({ id, onBack }) => {
       formData.append("certificado", blob, `${data.name}.pdf`);
     } else if (normalizedDataName.includes("certificado de domicilio")) {
       const blob = await pdf(<TRAMITE_Domicilio data={data} />).toBlob();
+      formData.append("certificado", blob, `${data.name}.pdf`);
+    }else if (normalizedDataName.includes("certificado de residencia")) {
+      const blob = await pdf(<TRAMITE_Residencia data={data} />).toBlob();
       formData.append("certificado", blob, `${data.name}.pdf`);
     }
 

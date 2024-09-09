@@ -25,7 +25,8 @@ const REQTRAMITE_Success = () => {
                 ]);
 
                 if (casesResponse.data.length > 0) {
-                    setCaseID(casesResponse.data[0].id);
+                    const lastCase = casesResponse.data[casesResponse.data.length - 1];
+                    setCaseID(lastCase.id);
                 }
 
                 if (paymentsResponse.data.length > 0) {
