@@ -213,13 +213,6 @@ th {
       ESTILOS PARA EL CAMBIO DE CLAVE
 ========================================= */
 
-#forgetpassword-container {
-  background: linear-gradient(270deg, rgba(8, 107, 132, 1) 0%, rgba(11, 63, 77, 0.788) 100%);
-  background-color: rgba(8, 107, 132, 1);
-  height: 600px;
-  border-radius: 100% 0% 100% 0% / 0% 0% 100% 100%;
-}
-
 #forgetpassword-card {
   margin-top: 150px !important;
   background-color: #e8edf7;
@@ -228,6 +221,7 @@ th {
   margin: 30px;
   text-align: center;
   color: black;
+  box-shadow: 0 1px 40px rgba(0, 0, 0, 0.253);
 }
 
 /* ======================================
