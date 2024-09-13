@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import TRAMITE_Comprobante from "./TRAMITE_Comprobante";
+import ComprobantePago from "../pdf/ComprobantePago";
 import TRAMITE_BuenaConducta from "../pdf/TRAMITE_BuenaConducta";
 import TRAMITE_Extravio from "../pdf/TRAMITE_Extravio";
 import TRAMITE_Domicilio from "../pdf/TRAMITE_Domicilio";
@@ -36,6 +36,21 @@ const TASK_Details = ({ id, onBack }) => {
   const [motivoRechazo, setMotivoRechazo] = useState("");
   const [legajo, setLegajo] = useState("");
   const [tramite, setTramite] = useState({});
+  const [comprobanteData, setComprobanteData] = useState({
+    id: '',
+    case_id: '',
+    transaction_Id: '',
+    transaction_Amount: '',
+    currency_Id: '',
+    status: '',
+    status_Detail: '',
+    date_Approved: '',
+    paymentMethod_Id: '',
+    cardholder_Name: '',
+    last_Four_Digits: '',
+    payer_Email: '',
+    description: ''
+  });
   const [data, setData] = useState({
     id: "",
     detalle: "",
@@ -51,28 +66,24 @@ const TASK_Details = ({ id, onBack }) => {
     estado_civi: "",
     direccion: "",
     telefono: "",
-    ciudad:"",
-    observacion:"",
-    legajo:"",
-    firma:"",
-    direccion_actual:"",
-
+    ciudad: "",
+    observacion: "",
+    legajo: "",
+    firma: "",
+    direccion_actual: "",
   });
 
- 
   const toggleOpen = () => setOpenRechazo(!openRechazo);
 
   const handleModalSubmit = () => {
     generatePdf();
   };
 
-
   useEffect(() => {
     if (open) {
       inputRef.current?.focus();
     }
   }, [open]);
-
 
   const handleConfirmacionRechazo = () => {
     axios
@@ -99,15 +110,13 @@ const TASK_Details = ({ id, onBack }) => {
   const generatePdf = async () => {
     const formData = new FormData();
     const normalizedDataName = data.name.toLowerCase();
-    
- 
-     // Agregar las observaciones a data
-      data.observacion = tramiteObservacion;
-      data.legajo = legajo;
-      data.firma = userData.firstname;
-      console.log(data);
-    
- 
+
+    // Agregar las observaciones a data
+    data.observacion = tramiteObservacion;
+    data.legajo = legajo;
+    data.firma = userData.firstname;
+    console.log(data);
+
     if (normalizedDataName.includes("certificado de buena conducta")) {
       const blob = await pdf(<TRAMITE_BuenaConducta data={data} />).toBlob();
       formData.append("certificado", blob, `${data.name}.pdf`);
@@ -117,7 +126,7 @@ const TASK_Details = ({ id, onBack }) => {
     } else if (normalizedDataName.includes("certificado de domicilio")) {
       const blob = await pdf(<TRAMITE_Domicilio data={data} />).toBlob();
       formData.append("certificado", blob, `${data.name}.pdf`);
-    }else if (normalizedDataName.includes("certificado de residencia")) {
+    } else if (normalizedDataName.includes("certificado de residencia")) {
       const blob = await pdf(<TRAMITE_Residencia data={data} />).toBlob();
       formData.append("certificado", blob, `${data.name}.pdf`);
     }
@@ -130,7 +139,7 @@ const TASK_Details = ({ id, onBack }) => {
         },
       })
       .then((response) => {
-        toast.success("Trámite aprobado exitosamente",{autoClose: 5000,});
+        toast.success("Trámite aprobado exitosamente", { autoClose: 5000, });
         setTimeout(() => {
           window.location.reload();
         }, 5000)
@@ -144,18 +153,29 @@ const TASK_Details = ({ id, onBack }) => {
   };
 
   useEffect(() => {
-    const fetchCase = async (id) => {
+    const fetchTransactionData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/api/get-case/${id}/`
-        );
+        const response = await axios.get(`http://localhost:8000/api/get-payment/${id}/`);
+        const data = response.data;
+        setComprobanteData(data);
+      } catch (error) {
+        console.error('Error al obtener el número de transacción:', error);
+      }
+    };
+  
+    const fetchCase = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/get-case/${id}/`);
         setTramite(response.data);
-        console.log('EL TRAMITE ES EL N° ', response.data.id);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchCase(id);
+  
+    if (id) {
+      fetchCase();
+      fetchTransactionData();
+    }
   }, [id]);
 
   useEffect(() => {
@@ -177,14 +197,13 @@ const TASK_Details = ({ id, onBack }) => {
         birthdate: tramite.solicitante.birthdate,
         ocupacion: tramite.ocupacion,
         estado_civil: tramite.estado_civil,
-        direccion: `${tramite.solicitante.address} ${tramite.solicitante.address_number}`, 
+        direccion: `${tramite.solicitante.address} ${tramite.solicitante.address_number}`,
         telefono: `${tramite.solicitante.phone_area_code} ${tramite.solicitante.phone}`,
         ciudad: tramite.residencia,
         observacion: tramite.observacion,
         legajo: tramite.legajo,
         firma: tramite.firma,
       });
-      //console.log(data);
     }
   }, [tramite]);
 
@@ -243,7 +262,7 @@ const TASK_Details = ({ id, onBack }) => {
               value={
                 tramite?.status
                   ? tramite.status.charAt(0).toUpperCase() +
-                    tramite.status.slice(1)
+                  tramite.status.slice(1)
                   : ""
               }
               name="status"
@@ -264,8 +283,8 @@ const TASK_Details = ({ id, onBack }) => {
               className="custom-input"
               value={
                 tramite?.solicitante?.firstname +
-                  " " +
-                  tramite?.solicitante?.lastname || ""
+                " " +
+                tramite?.solicitante?.lastname || ""
               }
               name="name"
               readOnly
@@ -303,8 +322,8 @@ const TASK_Details = ({ id, onBack }) => {
                 tramite?.solicitante?.genre === "male"
                   ? "Masculino"
                   : tramite?.solicitante?.genre === "female"
-                  ? "Femenino"
-                  : ""
+                    ? "Femenino"
+                    : ""
               }
               name="status"
               readOnly
@@ -340,8 +359,8 @@ const TASK_Details = ({ id, onBack }) => {
               className="custom-input"
               value={
                 tramite?.solicitante?.address +
-                  " " +
-                  tramite?.solicitante?.address_number || ""
+                " " +
+                tramite?.solicitante?.address_number || ""
               }
               name="status"
               readOnly
@@ -494,35 +513,36 @@ const TASK_Details = ({ id, onBack }) => {
                   height: "100%",
                 }}
               >
-                <TRAMITE_Comprobante tramiteId={tramite.id}/>
+                <ComprobantePago comprobanteData={comprobanteData} />
               </div>
             </MDBAccordionItem>
           </MDBAccordion>
         </Row>
       </div>
 
-      <Row
-        className="p-3 my-3"
+      <div
+        className="my-3 p-3"
         style={{ background: "#e8edf7", borderRadius: "10px" }}
       >
-        {tramite.archivo_pdf_url ? (
-          <Col md={6}>
-            <a
-              href={tramite.archivo_pdf_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span style={{ color: "black" }}>
-                Ver Documentacion Adicional
-              </span>
-            </a>
-          </Col>
-        ) : (
-          <div>No hay documentación adicional</div>
-        )}
-      </Row>
+        <Row>
+          {tramite.archivo_pdf_url ? (
+            <Col md={6}>
+              <a
+                href={tramite.archivo_pdf_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span style={{ color: "black" }}>
+                  Ver Documentacion Adicional
+                </span>
+              </a>
+            </Col>
+          ) : (
+            <div>No hay documentación adicional</div>
+          )}
+        </Row>
+      </div>
 
-    
       {tramite && tramite.status === "resuelto" ? (
         <PDFViewer
           style={{ width: "100%", height: "90vh", borderRadius: "10px" }}
@@ -538,7 +558,7 @@ const TASK_Details = ({ id, onBack }) => {
                   RECHAZAR SOLICITUD
                 </MDBBtn>
 
-                <MDBModal open={openRechazo} onClose ={()=>setOpenRechazo(false)} tabIndex='-1'>
+                <MDBModal open={openRechazo} onClose={() => setOpenRechazo(false)} tabIndex='-1'>
                   <MDBModalDialog>
                     <MDBModalContent>
                       <MDBModalHeader>
@@ -574,7 +594,7 @@ const TASK_Details = ({ id, onBack }) => {
                           color="danger"
                           onClick={handleConfirmacionRechazo}
                         >
-                          Confirmar Rechazo
+                          Confirmar rechazo
                         </MDBBtn>
                       </MDBModalFooter>
                     </MDBModalContent>
@@ -587,9 +607,9 @@ const TASK_Details = ({ id, onBack }) => {
               <div className="d-grid gap-2">
                 <MDBBtn color="success" onClick={() => setOpen(!open)}>
                   Generar certificado
-                </MDBBtn>               
+                </MDBBtn>
                 {/* //modal para agregar observaciones */}
- 
+
                 <MDBModal open={open} setOpen={setOpen} tabIndex={-1}>
                   <MDBModalDialog>
                     <MDBModalContent>
@@ -603,24 +623,24 @@ const TASK_Details = ({ id, onBack }) => {
                       </MDBModalHeader>
                       <MDBModalBody>
                         <div className="mb-3">
-                        <MDBInput
-                          ref={inputRef}
-                          value={tramiteObservacion}
-                          onChange={(e) => setTramiteObservacion(e.target.value)}
-                          label="Observaciones"
-                          id="controlledValue"
-                          type="text"
-                        />
+                          <MDBInput
+                            ref={inputRef}
+                            value={tramiteObservacion}
+                            onChange={(e) => setTramiteObservacion(e.target.value)}
+                            label="Observaciones"
+                            id="controlledValue"
+                            type="text"
+                          />
                         </div>
                         <div>
-                        <MDBInput
-                          ref={inputRef}
-                          value={legajo}
-                          onChange={(e) => setLegajo(e.target.value)}
-                          label="legajo"
-                          id="controlledValue"
-                          type="text"
-                        />
+                          <MDBInput
+                            ref={inputRef}
+                            value={legajo}
+                            onChange={(e) => setLegajo(e.target.value)}
+                            label="legajo"
+                            id="controlledValue"
+                            type="text"
+                          />
                         </div>
                       </MDBModalBody>
 
@@ -644,8 +664,6 @@ const TASK_Details = ({ id, onBack }) => {
                     </MDBModalContent>
                   </MDBModalDialog>
                 </MDBModal>
-
-
               </div>
             </Col>
           </Row>
