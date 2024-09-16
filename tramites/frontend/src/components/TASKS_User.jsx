@@ -90,15 +90,6 @@ function TASKS_User({ tramites, onVolver, onFinalizado }) {
                       Desasignar 
                     </MDBBtn>
                   </td>
-                  <td>
-                    <MDBBtn
-                      color="success"
-                      onClick={() => onFinalizado(tramite.id)}
-                    >
-                      <MDBIcon fas icon="check" size="1.5x" className="me-2" />
-                      Caso Finalizado
-                    </MDBBtn>
-                  </td>
                 </tr>
               </React.Fragment>
             ))}

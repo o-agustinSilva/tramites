@@ -29,17 +29,26 @@ axiosInstance.interceptors.request.use(async (req) => {
 
     if (!isExpired) return req;
 
-    const res = await axios.post(`${baseURL}/token/refresh/`, {
-      refresh: refresh_token,
-    });
+    try {
+      const res = await axios.post(`${baseURL}/token/refresh/`, {
+        refresh: refresh_token,
+      });
 
-    localStorage.setItem("token", JSON.stringify(res.data.access));
-    req.headers.Authorization = `Bearer ${res.data.access}`;
-    return req;
+      localStorage.setItem("token", JSON.stringify(res.data.access));
+      req.headers.Authorization = `Bearer ${res.data.access}`;
+      return req;
+    } catch (error) {
+      // Si hay un error al refrescar el token, desloguear al usuario
+      console.error("Error refreshing token: ", error);
+      localStorage.removeItem("token");
+      localStorage.removeItem("refresh_token");
+      window.location.href = "/login"; // Redirigir a la página de login
+      return Promise.reject(error);
+    }
   } else {
     req.headers.Authorization = localStorage.getItem("token")
       ? `Bearer ${JSON.parse(localStorage.getItem("token"))}`
-      : " ";
+      : "";
     return req;
   }
 });

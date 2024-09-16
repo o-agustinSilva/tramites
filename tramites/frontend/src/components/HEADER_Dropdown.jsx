@@ -11,14 +11,8 @@ const HEADER_Dropdown = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     const handleLogout = async () => {
-        const res = await axiosInstance.post("/logout/", {
-            refresh_token: refresh,
-        });
-
-        if (res.status === 200) {
-            logout();
-            navigate("/login");
-        }
+        logout();
+        navigate("/login");
     };
 
     return (
