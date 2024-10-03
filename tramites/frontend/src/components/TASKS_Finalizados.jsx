@@ -60,7 +60,7 @@ function TASKS_Finalizados({ tramites }) {
       {showPdfViewer ? (
         <>
           {/** ESTE PARTE ES PARA MOSTRAR EL PDF DEL COMPROBANTE */}
-          <TRAMITE_Comprobante tramiteId={caseId}/>
+          {/* <TRAMITE_Comprobante tramiteId={caseId}/> */}
           <MDBBtn color="info" onClick={() => setShowPdfViewer(false)}>
             Cerrar PDF
           </MDBBtn>

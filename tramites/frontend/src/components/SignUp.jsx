@@ -121,7 +121,7 @@ function SignUp() {
               <h6>Datos personales</h6>
               <hr style={{ color: "black" }} />
             </Col>
-            <Col md="6" className="mb-3">
+            <Col md={6} className="mb-3">
               <MDBInput
                 label="Nombre"
                 id="nombre"
@@ -160,6 +160,7 @@ function SignUp() {
                 <option value="TWO">PASAPORTE</option>
               </Form.Select>
             </Col>
+
             <Col md="6" className="mb-3">
               <MDBInput
                 label="Número"

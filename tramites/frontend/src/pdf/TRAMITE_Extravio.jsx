@@ -27,7 +27,7 @@ const TRAMITE_Extravio = ({data}) => {
             <Document>
                 <Page size="A4" style={styles.page}>
                     <View>
-                        <Image src="../../src/img/logoPolicia.jpg" style={styles.image} />
+                        <Image src="../../src/img/logoPoliciaNoOficial.jpg" style={styles.image} />
                     </View>
                     <View style={styles.header}>
                         <Text style={[styles.text, styles.underlinedText]}>
