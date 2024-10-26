@@ -293,12 +293,13 @@ class GetSuperusersSerializer(serializers.ModelSerializer):
 class UserPoliRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=68, min_length=8, write_only=True)
     password_confirmation = serializers.CharField(max_length=68, min_length=8, write_only=True)
+    role = serializers.CharField(default="police", required=False)  # No requerido y con valor por defecto
     is_verified = serializers.BooleanField(default=True)  # Agregar el valor predeterminado aquí
 
 
     class Meta:
         model = Usuarios
-        fields = ['email', 'number', 'firstname', 'lastname', 'legajo_number','password', 'password_confirmation', 'role', 'address', 'address_number', 'apartment', 'hierarchy', 'dependence', 'is_verified', 'profile_imagen']
+        fields = ['email', 'number', 'firstname', 'lastname', 'legajo_number','password', 'password_confirmation', 'role', 'address', 'phone', 'phone_area_code', 'address_number', 'apartment', 'hierarchy', 'dependence', 'is_verified', 'profile_imagen']
                        
     def validate(self, attrs):
         password = attrs.get('password', '')
@@ -307,6 +308,8 @@ class UserPoliRegisterSerializer(serializers.ModelSerializer):
         # Corrobora que las dos contraseñas (pw and confirm pw) coincidan
         if password != password_confirmation:
             raise serializers.ValidationError("Las contraseñas deben coincidir")
+        
+       
         
         return attrs
     
@@ -318,6 +321,8 @@ class UserPoliRegisterSerializer(serializers.ModelSerializer):
             lastname=validated_data.get('lastname'),
             number=validated_data.get('number'),
             role=validated_data.get('role'),
+            phone=validated_data.get('phone'),
+            phone_area_code=validated_data.get('phone_area_code'),
             password=validated_data.get('password'),
             legajo_number=validated_data.get('legajo_number'),
             address=validated_data.get('address'),

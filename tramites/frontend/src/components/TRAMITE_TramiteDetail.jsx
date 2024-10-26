@@ -130,6 +130,29 @@ const TRAMITES_TramiteDetail = ({ id }) => {
             />
           </Col>
         </Row>
+
+        <Row className='mt-4'>
+          {tramite?.detalle_extravio && (
+            <>
+              <Col md={12}>
+                <h6>Detalle del elemento extraviado</h6>
+                <hr style={{ color: 'black' }} />
+              </Col>
+
+              <Col md={12}>
+                <MDBInput
+                  type="text"
+                  label="Detalle Extravio"
+                  className="custom-input"
+                  value={
+                    tramite?.detalle_extravio
+                  }
+
+                />
+              </Col>
+            </>
+          )}
+        </Row>
         
         <Row className="mt-4">
           <Col md={12}>

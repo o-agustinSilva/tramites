@@ -44,7 +44,7 @@ class UserManager(BaseUserManager):
         return citizen
     
 
-    def create_police(self, email, firstname, lastname, role, password, legajo_number, address, address_number, apartment, number, hierarchy, dependence, is_verified, profile_imagen):
+    def create_police(self, email, firstname, lastname, role, password, legajo_number, phone, phone_area_code,address, address_number, apartment, number, hierarchy, dependence, is_verified, profile_imagen):
         if email:
             email = self.normalize_email(email)
             self.email_validator(email)
@@ -65,6 +65,8 @@ class UserManager(BaseUserManager):
             address_number=address_number,
             apartment=apartment,
             number=number,
+            phone=phone,
+            phone_area_code=phone_area_code,
             hierarchy=hierarchy,
             dependence=dependence,
             is_verified=is_verified,

@@ -15,7 +15,7 @@ export function SignupPolice() {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm();  // Valor por defecto para el campo "Rol"); //LLAMO A LAS PROPIEDADES DE LA LIBRERIA
+  } = useForm();  //LLAMO A LAS PROPIEDADES DE LA LIBRERIA
 
   // Obtengo todas las dependencias para completar el dropdown
   useEffect(() => {
@@ -72,7 +72,12 @@ export function SignupPolice() {
             </Row>
 
             <Row className="my-4">
-              <Col>
+            <Col md={12}> 
+               <h6>Datos Personales</h6> 
+               <hr style={{color:'black'}}/>
+            </Col>
+        
+              <Col md={6}>
                 <MDBInput
                   className="custom-input"
                   label="Nombre"
@@ -81,7 +86,7 @@ export function SignupPolice() {
                 />
                 {errors.firstname && <small className="alertTitle">El campo no puede estar vacio</small>}
               </Col>
-              <Col>
+              <Col md={6}>
                 <MDBInput
                   className="custom-input"
                   label="Apellido"
@@ -94,7 +99,7 @@ export function SignupPolice() {
               </Col>
             </Row>
             <Row className="my-4">
-              <Col>
+              <Col md={6}>
                 <MDBInput
                   className="custom-input"
                   label="Dni N°"
@@ -108,7 +113,7 @@ export function SignupPolice() {
                   <small className="alertTitle">Ingrese la cantidad de caracteres validos (08)</small>
                 )}
               </Col>
-              <Col>
+              <Col md={6}>
                 <MDBInput
                   className="custom-input"
                   label="Legajo N°"
@@ -122,7 +127,7 @@ export function SignupPolice() {
                   <small className="alertTitle">Ingrese la cantidad de caracteres validos (05)</small>
                 )}
               </Col>
-              <Col>
+              {/* <Col>
                 <MDBInput
                   className="custom-input"
                   label="Rol"
@@ -130,55 +135,26 @@ export function SignupPolice() {
                   type="text"
                   {...register("role", { required: true, value: 'police'})}
                 />
-              </Col>
+              </Col> */}
             </Row>
 
-            <Row className="my-4">
-              <Col xl={8}>
-                <MDBInput
-                  className="custom-input"
-                  label="Direccion - Calle"
-                  type="text"
-                  {...register("address", { required: true })}
-                />
-                {errors.address?.type === "required" && (
-                  <small className="alertTitle">El campo no puede estar vacio</small>
-                )}
-              </Col>
-              <Col xl={2}>
-                <MDBInput
-                  className="custom-input"
-                  label="Numero"
-                  type="text"
-                  {...register("address_number", { required: true })}
-                />
-                {errors.address_number?.type === "required" && (
-                  <small className="alertTitle">El campo no puede estar vacio</small>
-                )}
-              </Col>
-              <Col xl={2}>
-                <MDBInput
-                  className="custom-input"
-                  label="Piso-Dpto"
-                  type="text"
-                  {...register("floor")}
-                />
-              </Col>
-            </Row>
-
-            <Row className="my-4">
-              <Col>
-                <MDBInput
-                  className="custom-input"
-                  label="Telefono N°"
-                  type="text"
-                  {...register("phone", { required: true })}
-                />
-                {errors.phone?.type === "required" && (
-                  <small className="alertTitle">El campo no puede estar vacio</small>
-                )}
-              </Col>
-              <Col>
+            <Row>
+            {/* <Col md={6} className="mb-3">
+              <Form.Select
+                name="genre"
+                // value={formdata.genre}
+                // onChange={handleFormData}
+                {...register("genre", { required: true })}
+              >
+                <option value="" disabled>
+                  Género
+                </option>
+                <option value="male">Hombre</option>
+                <option value="female">Mujer</option>
+              </Form.Select>
+            </Col> */}
+            
+            <Col md={6}>
                 <MDBInput
                   className="custom-input"
                   label="Fecha de Nacimiento"
@@ -189,9 +165,53 @@ export function SignupPolice() {
                 {errors.birthdate?.type === "required" && (
                   <small className="alertTitle">El campo no puede estar vacio</small>
                 )}
+              </Col>          
+            </Row>
+
+          <Row className="my-4">
+          <Col md={12}> 
+               <h6>Domicilio</h6> 
+               <hr style={{color:'black'}}/>
+            </Col>
+
+              <Col md={6}>
+                <MDBInput
+                  className="custom-input"
+                  label="Direccion - Calle"
+                  type="text"
+                  {...register("address", { required: true })}
+                />
+                {errors.address?.type === "required" && (
+                  <small className="alertTitle">El campo no puede estar vacio</small>
+                )}
+              </Col>
+              <Col md={3}>
+                <MDBInput
+                  className="custom-input"
+                  label="Numero"
+                  type="text"
+                  {...register("address_number", { required: true })}
+                />
+                {errors.address_number?.type === "required" && (
+                  <small className="alertTitle">El campo no puede estar vacio</small>
+                )}
+              </Col>
+              <Col md={3}>
+                <MDBInput
+                  className="custom-input"
+                  label="Piso-Dpto"
+                  type="text"
+                  {...register("floor")}
+                />
               </Col>
             </Row>
+            
             <Row className="my-4">
+            <Col md={12}> 
+               <h6>Datos Laborales</h6> 
+               <hr style={{color:'black'}}/>
+            </Col>
+
               <Col>
                 <select className="form-select" aria-label="Default select example" {...register("hierarchy", { required: true })}>
                   <option value="ayudante">Ayudante</option>
@@ -215,8 +235,13 @@ export function SignupPolice() {
                 </select>
               </Col>
             </Row>
-            <Row className="my-4">
-              <Col>
+
+            <Row className="my-3">
+            <Col md={12}> 
+               <h6>Datos de Contacto</h6> 
+               <hr style={{color:'black'}}/>
+            </Col>
+              <Col md={12}>
                 <MDBInputGroup noWrap textBefore="@">
                   <input
                     className="form-control"
@@ -227,6 +252,33 @@ export function SignupPolice() {
                   {errors.email?.type === 'required' && <small className="alertTitle">El campo no puede estar vacio</small>}
                 </MDBInputGroup>
               </Col>
+              
+              <Row className="my-3">
+              <Col md={6} >
+                <MDBInput
+                  className="custom-input"
+                  label="Codigo Area"
+                  type="text"
+                  {...register("phone_area_code", { required: true })}
+                />
+                {errors.phone?.type === "required" && (
+                  <small className="alertTitle">El campo no puede estar vacio</small>
+                )}
+              </Col>
+        
+              <Col md={6}>
+                <MDBInput
+                  className="custom-input"
+                  label="Telefono N°"
+                  type="text"
+                  {...register("phone", { required: true })}
+                />
+                {errors.phone?.type === "required" && (
+                  <small className="alertTitle">El campo no puede estar vacio</small>
+                )}
+              </Col>
+             </Row>
+
             </Row>
 
             <Row>

@@ -75,6 +75,7 @@ const TASK_Details = ({ id, onBack }) => {
 
   const toggleOpen = () => setOpenRechazo(!openRechazo);
 
+
   const handleModalSubmit = () => {
     generatePdf();
   };
@@ -162,7 +163,7 @@ const TASK_Details = ({ id, onBack }) => {
         console.error('Error al obtener el número de transacción:', error);
       }
     };
-  
+
     const fetchCase = async () => {
       try {
         const response = await axios.get(`http://localhost:8000/api/get-case/${id}/`);
@@ -171,7 +172,7 @@ const TASK_Details = ({ id, onBack }) => {
         console.log(error);
       }
     };
-  
+
     if (id) {
       fetchCase();
       fetchTransactionData();
@@ -467,6 +468,29 @@ const TASK_Details = ({ id, onBack }) => {
           </>
         )}
 
+        <Row className='mt-4'>
+          {tramite?.detalle_extravio && (
+            <>
+              <Col md={12}>
+                <h6>Detalle del elemento extraviado</h6>
+                <hr style={{ color: 'black' }} />
+              </Col>
+
+              <Col md={12}>
+                <MDBInput
+                  type="text"
+                  label="Detalle Extravio"
+                  className="custom-input"
+                  value={
+                    tramite?.detalle_extravio
+                  }
+
+                />
+              </Col>
+            </>
+          )}
+        </Row>
+        
         <Row className="mt-4">
           <Col md={12}>
             <h6>Fotos del documento</h6>
