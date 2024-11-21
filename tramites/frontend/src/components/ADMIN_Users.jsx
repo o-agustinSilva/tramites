@@ -54,8 +54,6 @@ const ADMIN_Users = () => {
              }
          }
     
-
-
     return (
         <div>
             <MDBTable responsive align="middle">

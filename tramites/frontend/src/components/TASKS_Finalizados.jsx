@@ -3,14 +3,29 @@ import Container from "react-bootstrap/esm/Container";
 import { MDBTable, MDBTableHead, MDBTableBody } from "mdb-react-ui-kit";
 import { MDBBtn, MDBIcon } from "mdb-react-ui-kit";
 import TASK_Details from "./TASK_Details";
-import TRAMITE_Comprobante from "./TRAMITE_Comprobante";
+import ComprobantePago from "../pdf/ComprobantePago";
 import FILTER_Tramites from "./FILTER_Tramites";
-
+import axios from "axios";
 
 function TASKS_Finalizados({ tramites }) {
   const [showDetails, setShowDetails] = useState(true);
   const [showPdfViewer, setShowPdfViewer] = useState(false);
   const [caseId, setCaseId] = useState(null);
+  const [comprobanteData, setComprobanteData] = useState({
+    id: '',
+    case_id: '',
+    transaction_Id: '',
+    transaction_Amount: '',
+    currency_Id: '',
+    status: '',
+    status_Detail: '',
+    date_Approved: '',
+    paymentMethod_Id: '',
+    cardholder_Name: '',
+    last_Four_Digits: '',
+    payer_Email: '',
+    description: ''
+  });
 
   //ESTADOS PARA EL COMPONENTE BUSCAR
   const [filter, setFilter] = useState("");
@@ -27,6 +42,16 @@ function TASKS_Finalizados({ tramites }) {
   };
 
   const handleComprobante = (id) => {
+    const fetchTransactionData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/get-payment/${id}/`);
+        const data = response.data;
+        setComprobanteData(data);
+      } catch (error) {
+        console.error('Error al obtener el número de transacción:', error);
+      }
+    };
+    fetchTransactionData();
     setCaseId(id);
     setShowPdfViewer(true);
   };
@@ -55,12 +80,12 @@ function TASKS_Finalizados({ tramites }) {
 
 
   return (
-    <Container fluid>
+    <Container fluid className="p-3">
         {/* LLAMA AL COMPONENTE PARA BUSCAR TRAMITES */ }
       {showPdfViewer ? (
         <>
           {/** ESTE PARTE ES PARA MOSTRAR EL PDF DEL COMPROBANTE */}
-          {/* <TRAMITE_Comprobante tramiteId={caseId}/> */}
+          <ComprobantePago comprobanteData={comprobanteData} />
           <MDBBtn color="info" onClick={() => setShowPdfViewer(false)}>
             Cerrar PDF
           </MDBBtn>
