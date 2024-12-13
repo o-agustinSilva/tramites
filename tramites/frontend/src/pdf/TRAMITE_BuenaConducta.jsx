@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
 });
 
 const TRAMITE_BuenaConducta = ({ data }) => {
-
     return (
         <Document>
             <Page size="A4" style={styles.page}>

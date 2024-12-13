@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     header: { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "white", padding: "10px", color: "gray" },
     footer: { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "white", padding: "10px"},
     body: { display: "flex", flexDirection: "column", justifyContent: "center", padding: "80px", fontSize: "12px", textAlign:"justify"},
-    image: { width: '120px', height: '150px' },
+    image: { width: '80px', height: '150px' },
     text: { fontSize: '10px', flexWrap: 'wrap' },
     underlinedText: { textDecoration: 'underline' },
     boldText: { fontFamily:'RobotoFamily' },

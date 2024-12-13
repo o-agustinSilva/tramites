@@ -13,7 +13,7 @@ const ComprobantePago = ({comprobanteData}) => {
   return(
     <PDFViewer style={{ width: '100%', height: '550px', borderRadius: '10px' }}>
        <Document>
-          <Page size={{ width: 600, height: 350 }}>
+          <Page size={{width:600, height:350}}>
             <View style={{...styles.heade, backgroundColor:'#0894c4'}}>
               <Text style={{...styles.text, paddingRight:'50px', paddingTop: '50px'}}>
                   COMPROBANTE DE PAGO

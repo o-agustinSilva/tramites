@@ -39,7 +39,7 @@ const REQTRAMITE_ThirdStep = (props) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            initMercadoPago("TEST-8dd16f5f-25c7-4d8c-b2ed-cba4e2242fe4", {
+            initMercadoPago("APP_USR-81f7b1db-5aaa-4e2c-958f-7cb010c04dca", {
                 locale: "es-AR",
             });
 
