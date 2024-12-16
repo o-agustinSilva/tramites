@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const REQTRAMITE_Success = () => {
     const navigate = useNavigate();
-    const [seconds, setSeconds] = useState(10);
+    const [seconds, setSeconds] = useState(5);
     const [caseID, setCaseID] = useState(null);
     const [payment, setPayment] = useState(null);
 
@@ -99,7 +99,7 @@ const REQTRAMITE_Success = () => {
                     </Col>
                     <Col md={12} lg={8} className="d-flex justify-content-center align-items-center">
                         <h3 style={{ color: "black", marginTop: "10px" }}>¡Tu trámite fue procesado de manera correcta!
-                            Recibirás el certificado correspondiente por medio de tu correo electrónico</h3>
+                            Recibirás el certificado correspondiente por esta plataforma</h3>
                     </Col>
                 </Row>
             </Container>
